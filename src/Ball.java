@@ -40,5 +40,22 @@ public class Ball {
 		movement[2] = z ;
 		
 	}
+	
+	private double getX(){
+		
+		return coordinates[0] ;
+	}
+	
+	private double getY(){
+		
+		return coordinates[1] ;
+		
+	}
+	
+	private double getZ(){
+		
+		return coordinates[2] ;
+		
+	}
 
 }

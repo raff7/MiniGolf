@@ -106,4 +106,55 @@ public class Cube implements Obstacle {
 		
 	}
 
+	@Override
+	public double[][] getSide1(double[] corner1, double[] corner2) {
+		double[][] temp = new double[2][3] ;
+		temp[0][0] = corner1[0] ;
+		temp[0][1] = corner1[1] ;
+		temp[0][2] = corner1[2] ;
+		temp[1][0] = corner2[0] ;
+		temp[1][1] = corner2[1] ;
+		temp[1][2] = corner2[2] ;
+		return temp ;
+	}
+
+	@Override
+	public double[][] getside2(double[] corner2, double[] corner3) {
+		// TODO Auto-generated method stub
+		double[][] temp = new double[2][3] ;
+		temp[0][0] = corner2[0] ;
+		temp[0][1] = corner2[1] ;
+		temp[0][2] = corner2[2] ;
+		temp[1][0] = corner3[0] ;
+		temp[1][1] = corner3[1] ;
+		temp[1][2] = corner3[2] ;
+		return temp ;
+	}
+
+	@Override
+	public double[][] getSide3(double[] corner3, double[] corner4) {
+		// TODO Auto-generated method stub
+		double[][] temp = new double[2][3] ;
+		temp[0][0] = corner3[0] ;
+		temp[0][1] = corner3[1] ;
+		temp[0][2] = corner3[2] ;
+		temp[1][0] = corner4[0] ;
+		temp[1][1] = corner4[1] ;
+		temp[1][2] = corner4[2] ;
+		return temp ;
+	}
+
+	@Override
+	public double[][] getSide4(double[] corner4, double[] corner1) {
+		// TODO Auto-generated method stub
+		double[][] temp = new double[2][3] ; 
+		temp[0][0] = corner4[0] ;
+		temp[0][1] = corner4[1] ;
+		temp[0][2] = corner4[2] ;
+		temp[1][0] = corner1[0] ;
+		temp[1][1] = corner1[1] ;
+		temp[1][2] = corner1[2] ;
+		return temp ;
+	}
+
 }
