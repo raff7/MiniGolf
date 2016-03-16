@@ -7,7 +7,7 @@ public class Ball {
 	 * or is static.
 	 */
 	double[] movement= new double[3];
-	double radius = 1;
+	double radius = 0.02;
 	//friction with the ground
 	
 	public Ball(double[] c, double[] m){
