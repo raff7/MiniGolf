@@ -44,22 +44,19 @@ public class Cube implements Obstacle {
 
 	@Override
 	public void setLocation(double x, double y, double z) {
-		// TODO Auto-generated method stub
-		location[0] = x ;
-		location[1] = y ;
-		location[2] = z ;
+		location= new Point(x,y,z);
 		 
 
 	}
 
 	@Override
-	public double[] getLocation() {
+	public Point getLocation() {
 		// TODO Auto-generated method stub
 		return location ;
 	}
 
 	
-	public ArrayList<double[]> getVertices() {
+	public ArrayList<Point> getVertices() {
 		return vertices;
 	}
 
