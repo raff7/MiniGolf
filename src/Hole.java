@@ -1,23 +1,20 @@
 
 public class Hole {
-	
-	double[] coordinates = new double[3] ;
-	double radius = 0.06 ;
-	
-	public Hole(int x, int y, int z){
+	double[] coordinates;
+	double radius;
+	public Hole(double x, double y, double z, double radius){
+		coordinates = new double[]{x,y,z};
 		
-		coordinates[0] = x ;
-		coordinates[1] = y ;
-		coordinates[2] = z ;
-				
+	}
+	public double getX(){
+		return coordinates[0];
 	}
 	
-	/*public void gravity(Hole hole, Ball ball ){
-		
-	}*/
+	public double getY(){
+		return coordinates[1];
+	}
 	
-	
-	
-	
-
+	public double getZ(){
+		return coordinates[2];
+	}
 }
