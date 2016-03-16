@@ -77,8 +77,23 @@ public class Ball {
 			movement[1]=d[1];
 			movement[2]=d[2];
 		}
+		
+		public double getMovement0(){
+			return movement[0] ;
+		}
+		
+		public double getMovement1(){
+			return movement[1] ;
+		}
 	
-	
+		public double getMovement2(){
+			return movement[2] ;
+		}
+		public void computeSpeed(){
+			
+			speed = Math.abs(Math.sqrt(Math.pow(getMovement0(), 2) + Math.pow(getMovement1(), 2) + Math.pow(getMovement2(), 2))) ;
+			
+		}
 	
 	
 	
