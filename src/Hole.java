@@ -1,8 +1,10 @@
 
 public class Hole {
+	
 	double[] coordinates;
-	double radius;
-	public Hole(double x, double y, double z, double radius){
+	double radius = 0.06 ;
+	
+	public Hole(double x, double y, double z){
 		coordinates = new double[]{x,y,z};
 	}
 	
