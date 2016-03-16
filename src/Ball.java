@@ -24,6 +24,7 @@ public class Ball {
 		}
 		
 		public double getSpeed(){
+			computeSpeed() ;
 			return speed;
 		}
 		
@@ -68,10 +69,6 @@ public class Ball {
 			coordinates[2] =z;
 		}
 		
-		public void setSpeed(double s){
-			speed =s;
-		}
-		
 		public void setMovement(double[] d){
 			movement[0]=d[0];
 			movement[1]=d[1];
@@ -89,10 +86,8 @@ public class Ball {
 		public double getMovement2(){
 			return movement[2] ;
 		}
-		public void computeSpeed(){
-			
-			speed = Math.abs(Math.sqrt(Math.pow(getMovement0(), 2) + Math.pow(getMovement1(), 2) + Math.pow(getMovement2(), 2))) ;
-			
+		public void computeSpeed(){	
+			speed = Math.abs(Math.sqrt(Math.pow(getMovement0(), 2) + Math.pow(getMovement1(), 2) + Math.pow(getMovement2(), 2))) ;	
 		}
 	
 	

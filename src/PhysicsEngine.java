@@ -42,19 +42,18 @@ public class PhysicsEngine {
 		if(isInHole == true){
 			putting() ;
 		}
-		if(ball.movement[0] == 0 && ball.movement[1] == 0 && ball.movement[2] == 0){
-			return;
+		if(ball.movement[0] <= u && ball.movement[1] <= u && ball.movement[2] <= u){
+			double[] end = new double[3] ;
+			for(int i = 0 ; i < end.length ; i++){
+				end[i] = 0 ;
+			}
+			ball.setMovement(end);
 		}else{
 			collisionHandler.checkWallCollision();
 			}
 			ball.setMovement(ball.getMovement());
-		}
-	
-	public void frictionEffect(){
-		for(int i=0; i<ball.movement.length; i++)
-			ball.movement[i]=ball.movement[i]-u;
 	}
-	
+		
 	public void checkIfInHole(){
 		
 		if(Math.pow((ball.getX()-hole.getX()),2) + Math.pow((ball.getZ()-hole.getZ()),2) < Math.pow(hole.radius,2)){
@@ -92,6 +91,11 @@ public class PhysicsEngine {
 			return ;
 		}
 		
+	}
+	
+	public void frictionEffect(){
+		for(int i=0; i<ball.movement.length; i++)
+			ball.movement[i] = ball.movement[i] * 0.95 ;
 	}
 	
 	public void gravityEffect(){
