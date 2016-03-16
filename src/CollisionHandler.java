@@ -13,11 +13,11 @@ public class CollisionHandler {
 	}
 	
 	public void checkWallCollision(){
-		double[] startPoint;
-		double[] endPoint;
+		Point startPoint;
+		Point endPoint;
 		for(int n = 0; n<obstacles.size(); n++){
 			for(int i = 0; i<obstacles.get(n).getVertices().size(); i++){
-				if(i < obstacles.get(n).getVertices.size() - 1){
+				if(i < obstacles.get(n).getVertices().size() - 1){
 					startPoint = obstacles.get(n).getVertices().get(i);
 					endPoint = obstacles.get(n).getVertices().get(i+1);
 				}else{
@@ -25,13 +25,13 @@ public class CollisionHandler {
 					endPoint = obstacles.get(n).getVertices().get(0);
 				}
 			//Looking for the ortho proj of the center onto the wall (Technique found online)
-			double[] wallVector = new double[]{ startPoint[0]-endPoint[0],startPoint[1]-endPoint[1], startPoint[2]-endPoint[2]};
-			double numerator = wallVector[0]*(ball.getX()- startPoint[0]) + wallVector[1]*(ball.getY()- startPoint[1]) + wallVector[2]*(ball.getZ()- startPoint[2]);
+			double[] wallVector = new double[]{ startPoint.getX()-endPoint.getX(),startPoint.getY()-endPoint.getY(), startPoint.getZ()-endPoint.getZ()};
+			double numerator = wallVector[0]*(ball.getX()- startPoint.getX()) + wallVector[1]*(ball.getY()- startPoint.getY()) + wallVector[2]*(ball.getZ()- startPoint.getZ());
 			double denominator = Math.pow(wallVector[0],2)+Math.pow(wallVector[1],2)+Math.pow(wallVector[2],2);
 			double k = numerator/denominator;
-			double x = startPoint[0]+k*wallVector[0];
-			double y = startPoint[1]+k*wallVector[1];
-			double z = startPoint[2]+k*wallVector[2];
+			double x = startPoint.getX()+k*wallVector[0];
+			double y = startPoint.getY()+k*wallVector[1];
+			double z = startPoint.getZ()+k*wallVector[2];
 			double[] orthoProj = new double[]{x,y,z};
 			
 			//Check if the distance between the ball is small enough
@@ -40,10 +40,10 @@ public class CollisionHandler {
 			
 			if(normalDistance - ball.radius < movementLength/delay){
 				//now have to check if the ball is indeed in between those 2 vertices and not beside (again technique found online)
-				double[] vector = new double[]{startPoint[0]-ball.getX(),startPoint[1]-ball.getY(),startPoint[2]-ball.getZ()};//Vector from startPoint to center
+				double[] vector = new double[]{startPoint.getX()-ball.getX(),startPoint.getY()-ball.getY(),startPoint.getZ()-ball.getZ()};//Vector from startPoint to center
 				double dotProduct = vector[0]*wallVector[0]+vector[1]*wallVector[1]+vector[2]*wallVector[2];
 				double lineVectorLength = Math.sqrt(Math.pow(wallVector[0], 2) + Math.pow(wallVector[1], 2) + Math.pow(wallVector[2], 2));
-				double untilProjectLength = Math.sqrt(Math.pow(orthoProj[0]-startPoint[0], 2) + Math.pow(orthoProj[1]-startPoint[1], 2) + Math.pow(orthoProj[2]-startPoint[2], 2));;
+				double untilProjectLength = Math.sqrt(Math.pow(orthoProj[0]-startPoint.getX(), 2) + Math.pow(orthoProj[1]-startPoint.getY(), 2) + Math.pow(orthoProj[2]-startPoint.getZ(), 2));
 				if(dotProduct > 0 && untilProjectLength < lineVectorLength){
 					//We have indeed a real collision
 					ball.setMovement(getNewVectorAfterCollision(startPoint, endPoint, orthoProj));
@@ -53,16 +53,16 @@ public class CollisionHandler {
 		}
 	}
 	
-	public double[] getNewVectorAfterCollision(double[] point1, double[] point2, double[] collisionPoint){
+	public double[] getNewVectorAfterCollision(Point point1, Point point2, double[] collisionPoint){
 		//Finding the orthogonal projection of the incomingPoint on the wall the ball just hit
 		double[] incomingPoint = new double[]{ball.getX()-ball.movement[0],ball.getY()-ball.movement[1],ball.getZ()-ball.movement[2]};
-		double[] wallVector = new double[]{ point1[0]-point2[0],point1[1]-point2[1], point1[2]-point2[2]};
-		double numerator = wallVector[0]*(incomingPoint[0]- point1[0]) + wallVector[1]*(incomingPoint[1]- point1[1]) + wallVector[2]*(incomingPoint[2]- point1[2]);
+		double[] wallVector = new double[]{ point1.getX()-point2.getX(),point1.getY()-point2.getY(), point1.getZ()-point2.getZ()};
+		double numerator = wallVector[0]*(incomingPoint[0]- point1.getX()) + wallVector[1]*(incomingPoint[1]- point1.getY()) + wallVector[2]*(incomingPoint[2]- point1.getZ());
 		double denominator = Math.pow(wallVector[0],2)+Math.pow(wallVector[1],2)+Math.pow(wallVector[2],2);
 		double k = numerator/denominator;
-		double x = point1[0]+k*wallVector[0];
-		double y = point1[1]+k*wallVector[1];
-		double z = point1[2]+k*wallVector[2];
+		double x = point1.getX()+k*wallVector[0];
+		double y = point1.getY()+k*wallVector[1];
+		double z = point1.getZ()+k*wallVector[2];
 		
 		//Ortho projection of the center onto the wall
 		double[] orthoProj = new double[]{x,y,z};
