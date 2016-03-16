@@ -6,6 +6,6 @@ public interface Obstacle {
 	public double getBouncyness() ;
 	public void setLocation(double x, double y, double z) ;
 	public double[] getLocation() ;
-	public ArrayList<double[]> getVertices();
+	public ArrayList<Point> getVertices();
 
 }

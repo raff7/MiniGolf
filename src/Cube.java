@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Cube implements Obstacle {
 
-	private double[] location = new double[3] ;
-	private ArrayList<double[]> vertices;
+	private Point location;
+	private ArrayList<Point> vertices;
 	private double width ;
 	private double height ;
 	private double depth ;
@@ -12,22 +12,20 @@ public class Cube implements Obstacle {
 	
 	public Cube(double x, double y, double z, double width, double height, double depth, double bouncyness){
 		
-		location[0] = x ;
-		location[1] = y ;
-		location[2] = z ;
+		location.setX(x);
+		location.setY(y);
+		location.setZ(z);
 		this.width = width ;
 		this.height = height ;
 		this.depth = depth ;
 		this.bouncyness = bouncyness ;
-		corner2[0] = location[0] + width ;
-		corner2[1] = location[1] ;
-		corner2[2] = location[2] ;
-		corner3[0] = corner2[0] ;
-		corner3[1] = corner2[1] ;
-		corner3[2] = corner2[2] + depth ;
-		corner4[0] = corner3[0] - width ;
-		corner4[1] = corner3[1] ;
-		corner4[2] = corner3[2] ;
+		vertices.add(new Point(x,y,z));
+		Point corner2 = new Point(location.getX() + width, location.getY(), location.getZ()); 
+		vertices.add(corner2) ;
+		Point corner3 = new Point(location.getX()+width, location.getY(), location.getZ()+depth);
+		vertices.add(corner3);
+		Point corner4 = new Point(location.getX(),location.getY(),location.getZ()+depth);
+		vertices.add(corner4);
 		
 	}
 	
