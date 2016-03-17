@@ -1,5 +1,6 @@
+package physic;
+
 public class Ball {
-	double speed;
 	double mass;
 	double[] coordinates = new double[3];
 	/*Allows us to know in which direction the ball is going
@@ -21,10 +22,6 @@ public class Ball {
 		
 		public double getRadius(){
 			return radius;
-		}
-		
-		public double getSpeed(){
-			return speed;
 		}
 		
 		public double[] getMovement(){
@@ -66,10 +63,6 @@ public class Ball {
 		
 		public void setZ(double z){
 			coordinates[2] =z;
-		}
-		
-		public void setSpeed(double s){
-			speed =s;
 		}
 		
 		public void setMovement(double[] d){

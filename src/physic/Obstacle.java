@@ -1,3 +1,5 @@
+package physic;
+
 import java.util.ArrayList;
 
 public interface Obstacle {
@@ -7,5 +9,6 @@ public interface Obstacle {
 	public void setLocation(double x, double y, double z) ;
 	public Point getLocation() ;
 	public ArrayList<Point> getVertices();
+	public int getID();
 
 }

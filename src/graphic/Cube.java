@@ -1,4 +1,9 @@
+package graphic;
+
 import java.util.ArrayList;
+
+import physic.Obstacle;
+import physic.Point;
 
 public class Cube implements Obstacle {
 
@@ -7,19 +12,21 @@ public class Cube implements Obstacle {
 	private double width ;
 	private double height ;
 	private double depth ;
-	private double bouncyness ;
+	private int ID;
+	//private double bouncyness ;
 	
 	
-	public Cube(double x, double y, double z, double width, double height, double depth, double bouncyness){
+	public Cube(double x, /*no needed for 2d double y,*/ double z, double width, double height, double depth/*not implemented double bouncyness*/,int ID){
 		
 		location.setX(x);
-		location.setY(y);
+		// 2d location.setY(y);
 		location.setZ(z);
+		this.ID=ID;
 		this.width = width ;
 		this.height = height ;
 		this.depth = depth ;
-		this.bouncyness = bouncyness ;
-		vertices.add(new Point(x,y,z));
+		// this.bouncyness = bouncyness ;
+		vertices.add(new Point(x,0/*y*/,z));
 		Point corner2 = new Point(location.getX() + width, location.getY(), location.getZ()); 
 		vertices.add(corner2) ;
 		Point corner3 = new Point(location.getX()+width, location.getY(), location.getZ()+depth);
@@ -32,17 +39,17 @@ public class Cube implements Obstacle {
 	@Override
 	public void setBounceyness(double x) {
 		// TODO Auto-generated method stub
-		bouncyness = x ;
+		//bouncyness = x ;
 
 	}
 
 	@Override
 	public double getBouncyness() {
 		// TODO Auto-generated method stub
-		return bouncyness ;
+		return 0;//bouncyness ;
 	}
 
-	@Override
+	
 	public void setLocation(double x, double y, double z) {
 		location= new Point(x,y,z);
 		 
@@ -58,6 +65,12 @@ public class Cube implements Obstacle {
 	
 	public ArrayList<Point> getVertices() {
 		return vertices;
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
 	}
 
 }
