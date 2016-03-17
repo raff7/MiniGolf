@@ -1,7 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -9,7 +8,7 @@ public class PhysicsEngine {
 	//gravitational constant
 	final double g = 9.81;
 	//friction's coefficient
-	final double u = 0.01;
+	final double u = 0;
 	Ball ball;
 	Hole hole;
 	//List storing the borders of the course and all the obstacle objects. Each of them has list containing their vertices
@@ -17,7 +16,7 @@ public class PhysicsEngine {
 	int delay = 17;
 	Timer timer;
 	CollisionHandler collisionHandler;
-	private boolean isInHole = false ;
+	
 	final static boolean DEBUG = true;
 	
 	public PhysicsEngine(Ball ball, ArrayList<Obstacle> obstacles ){
@@ -25,83 +24,62 @@ public class PhysicsEngine {
 		this.obstacles = obstacles;
 		this.collisionHandler = new CollisionHandler(ball,obstacles);
 		
-		ActionListener moveBall = new ActionListener(){
+		/*ActionListener moveBall = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				ball.setX(ball.getX()+ball.movement[0]/delay);
-				ball.setY(ball.getY()+ball.movement[1]/delay);
-				ball.setZ(ball.getZ()+ball.movement[2]/delay);
+				ball.setX(ball.getX()+ball.movement[0]/59);
+				ball.setY(ball.getY()+ball.movement[1]/59);
+				ball.setZ(ball.getZ()+ball.movement[2]/59);
 			}
 		};
 		timer = new Timer(delay,moveBall);
+		timer.start();*/
 	}
 	
 	public void updateGameState(){
+		//ball.setCoordinates(ball.movement);
+		//System.out.println("real movement "+ball.movement[0]+" "+ball.movement[1]+" "+ball.movement[2]);
+		ball.setX(ball.getX()+ball.movement[0]);
+		ball.setY(ball.getY()+ball.movement[1]);
+		ball.setZ(ball.getZ()+ball.movement[2]);
+		//System.out.println("physics x and z "+ball.getX()+" "+ball.getY()+" "+ball.getZ());
 		frictionEffect();
-		gravityEffect();
-		checkIfInHole() ;
-		if(isInHole == true){
-			putting() ;
-		}
-		if(ball.movement[0] <= u && ball.movement[1] <= u && ball.movement[2] <= u){
-			double[] end = new double[3] ;
-			for(int i = 0 ; i < end.length ; i++){
-				end[i] = 0 ;
-			}
-			ball.setMovement(end);
+		//gravityEffect();
+		if(ball.movement[0] == 0 && ball.movement[1] == 0 && ball.movement[2] == 0){
+			return;
 		}else{
+			/*if(!ball.collision){
+				System.out.println(ball.collision);
+				collisionHandler.checkWallCollision();
+			}
+			ball.setCoordinates(ball.movement);
+		*/
 			collisionHandler.checkWallCollision();
 			}
-			ball.setMovement(ball.getMovement());
-	}
-		
-	public void checkIfInHole(){
-		
-		if(Math.pow((ball.getX()-hole.getX()),2) + Math.pow((ball.getZ()-hole.getZ()),2) < Math.pow(hole.radius,2)){
-			isInHole = true ;
+			
+			//ball.setMovement(ball.getMovement());
 		}
-		else{
-			isInHole = false ;
-		}
-	}
-	
-	public void putting(){
-		
-		if(ball.getSpeed() < 2 ){
-			double[] endSpeed = new double[3] ;
-			for(int i = 0 ; i < endSpeed.length ; i++){
-				endSpeed[i] = 0 ;
-			}
-			ball.setMovement(endSpeed);
-		}
-		else if(ball.getSpeed() >= 2 && ball.getSpeed() <= 10){
-			Random rn = new Random() ;
-			int number = rn.nextInt(10 - 1 + 1) + 1 ;
-			if(number <= 3){
-				double[] endSpeed = new double[3] ;
-				for(int i = 0 ; i < endSpeed.length ; i++){
-					endSpeed[i] = 0 ;
-				}
-				ball.setMovement(endSpeed);
-			}
-			else{
-				return ;
-			}
-		}
-		else{
-			return ;
-		}
-		
-	}
 	
 	public void frictionEffect(){
-		for(int i=0; i<ball.movement.length; i++)
-			ball.movement[i] = ball.movement[i] * 0.95 ;
-	}
-	
-	public void gravityEffect(){
-		//Checking if the center of the ball is actually inside the circle determining the hole in the XZ plan
-		if(Math.pow((ball.getX()-hole.getX()),2) + Math.pow((ball.getZ()-hole.getZ()),2) < Math.pow(hole.radius,2)){
-			ball.setY(ball.getY()-g/delay);
+		for(int i=0; i<ball.movement.length; i++){
+			if(ball.movement[i] > 0){
+				if(ball.movement[i]-u > 0)
+					ball.movement[i] = ball.movement[i]-u;
+				else
+					ball.movement[i] = 0;
+			}else{
+				if(ball.movement[i]+u < 0)
+					ball.movement[i] += u;
+				else
+					ball.movement[i]=0;
+			}
 		}
 	}
+	
+	/*public void gravityEffect(){
+		//Checking if the center of the ball is actually inside the circle determining the hole in the XZ plan
+		if(Math.pow((ball.getX()-hole.getX()),2) + Math.pow((ball.getZ()-hole.getZ()),2) < Math.pow(hole.radius,2)){
+			if(ball.)
+			ball.setY(ball.getY()-g/59);
+		}
+	}*/
 }

@@ -89,6 +89,11 @@ public class Ball {
 		public void computeSpeed(){	
 			speed = Math.abs(Math.sqrt(Math.pow(getMovement0(), 2) + Math.pow(getMovement1(), 2) + Math.pow(getMovement2(), 2))) ;	
 		}
+		
+		public void setCoordinates(double[] movement){
+			for(int i=0; i<coordinates.length; i++)
+				coordinates[i]+=movement[i];
+		}
 	
 	
 	
