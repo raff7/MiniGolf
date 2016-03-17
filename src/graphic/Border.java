@@ -1,4 +1,4 @@
-package graphic;
+/*package graphic;
 
 import java.util.ArrayList;
 
@@ -48,5 +48,10 @@ public class Border implements Obstacle{
 		// TODO Auto-generated method stub
 		return ID;
 	}
+	@Override
+	public void rescale() {
+		// TODO Auto-generated method stub
+		
+	}
 
-}
+}*/

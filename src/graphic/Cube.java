@@ -79,4 +79,13 @@ public class Cube implements Obstacle {
 		return ID;
 	}
 
+	@Override
+	public void rescale() {
+		width = width*2.74;
+		height = height*2.74;
+		depth = depth*2.74;
+		this.setLocation((this.getLocation().getX()-50)*2.74, this.getLocation().getY()*2.74,  this.getLocation().getZ()*2.74);
+		
+	}
+
 }

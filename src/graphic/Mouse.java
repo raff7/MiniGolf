@@ -1,24 +1,33 @@
 package graphic;
 
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
+import physic.Ball;
 import physic.Hole;
 import physic.Obstacle;
+import physic.Point;
  
 public class Mouse implements MouseListener {
  
-    private static final double WIDTH = 100;
-	private static final double HEIGHT = 100;
-	private static final double DEPTH = 100;
-	private static final double RADIUS = 30;
+    private static final double WIDTH = 50;
+	private static final double HEIGHT = 50;
+	private static final double DEPTH = 50;
 	private int x ;
     private int z ;
+    private int firstX,firstZ;
+    private ArrayList<Line> borders;
     private int buttonPressed;
     private int obstacleID;
 	private Course map;
 	private int timeToPress;
     private int timePressed;
+	private int secondX=-1;
+	private int secondZ=-1;
+	private int evenX;
+	private int evenZ;
     public void setButtonPressed(int buttonPressed){
     	this.buttonPressed = buttonPressed;
     }
@@ -48,23 +57,43 @@ public class Mouse implements MouseListener {
         	buttonPressed=0;
         }else if(buttonPressed==2){
         	 System.out.println(x +" "+ z+" pressed 2");
-        	 Hole hole = new Hole(x,0,z,RADIUS);
+        	 Hole hole = new Hole(new Point(x,0,z));
         	 map.setHole(hole);
         	 buttonPressed=0;
         }else if(buttonPressed==3){
         	 System.out.println(x +" "+ z+" pressed 3");
+        	 Ball ball = new Ball(new Point(x,0,z),new double[]{0,0,0});
+        	 map.setBall(ball);
         	 buttonPressed=0;
         } else if(buttonPressed==4){
         	 System.out.println(x +" "+ z+" pressed 4");
-        	 
+        	 if(timePressed==0){
+        		  borders = new ArrayList<Line>();
+        		  firstX=x;
+        		  firstZ=z;
+        	 }
+        	 if(timePressed%2 ==0){
+        		 evenX=x;
+        		 evenZ=z;
+        		 if(secondX!=-1 && secondZ!=-1){
+        			 borders.add(new Line(new Point(secondX,0,secondZ),new Point(evenX,0,evenZ)));
+        		 }
+        	 }else if(timePressed%2==1){
+        		secondX=x;
+        		secondZ=z;
+        		 borders.add(new Line(new Point(evenX,0,evenZ), new Point(secondX,0,secondZ)));
+        	  }
         	 if(timePressed>=timeToPress-1){
         	 	buttonPressed=0;
         	 	timePressed=0;
         	 	timeToPress=0;
-        	 }
-        	 else
+        	 	borders.add(new Line(new Point(firstX,0,firstZ),new Point(secondX,0,secondZ)));
+        	 	for(int i=0;i<borders.size();i++)
+        	 		map.addBorder(borders.get(i));
+        	 }else
         		 timePressed++;
         }
+        
         map.repaint();
     }
  
@@ -100,7 +129,7 @@ public class Mouse implements MouseListener {
         return z ;
     }
 	public void setNextID(int i) {
-		this.obstacleID = 0;
+		this.obstacleID = i;
 	}
 }
  

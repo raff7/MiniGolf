@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -52,9 +53,10 @@ public class CourseMaker extends JPanel{
 		deleteObstacles.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("delete obstacle" + mouse.getLastID());
-				map.deleteObstacle(mouse.getLastID());
+				if(map.deleteObstacle(mouse.getLastID()))
+					mouse.setNextID(mouse.getLastID());
 				map.repaint();
-				mouse.setNextID(mouse.getLastID());
+				
 			}
 			
 		});
@@ -90,7 +92,21 @@ public class CourseMaker extends JPanel{
 		settings.add(numberVertecis);
 		settings.add(addBorder);
 		JButton start = new JButton("START");
-		//start.addActionListener(actionlistener that make a new curse with all the actual impostations and put it in to the mail fraim);
+		start.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame gameFrame = new JFrame();
+				Course gameCourse = map;
+				gameCourse.buildField(0, 0, 1920, 1080);
+				gameCourse.rescale();
+				gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				gameFrame.setUndecorated(true);
+				gameFrame.add(gameCourse);
+				gameFrame.setVisible(true);
+			}
+			
+		});
 		settings.add(start);
 	}
 	

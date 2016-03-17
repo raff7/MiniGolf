@@ -10,5 +10,6 @@ public interface Obstacle {
 	public Point getLocation() ;
 	public ArrayList<Point> getVertices();
 	public int getID();
+	public void rescale();
 
 }

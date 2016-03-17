@@ -2,24 +2,29 @@ package physic;
 
 
 public class Hole {
-	private double[] coordinates;
-	private double radius;
-	public Hole(double x, double y, double z, double radius){
-		coordinates = new double[]{x,y,z};
+	private Point coordinates;
+	private  double  radius=12;
+	public Hole(Point p){
+		coordinates = p;
 		
 	}
 	public double getRadius(){
 		return radius;
 	}
 	public double getX(){
-		return coordinates[0];
+		return coordinates.getX();
 	}
 	
 	public double getY(){
-		return coordinates[1];
+		return coordinates.getY();
 	}
 	
 	public double getZ(){
-		return coordinates[2];
+		return coordinates.getZ();
+	}
+	public void rescale(){
+		radius = radius*2.74;
+		coordinates.setX((coordinates.getX()-50)*2.74);
+		coordinates.setZ(coordinates.getZ()*2.74);
 	}
 }
