@@ -18,14 +18,13 @@ public class Cube implements Obstacle {
 	
 	public Cube(double x, /*no needed for 2d double y,*/ double z, double width, double height, double depth/*not implemented double bouncyness*/,int ID){
 		
-		location.setX(x);
-		// 2d location.setY(y);
-		location.setZ(z);
+		location = new Point(x,0,z);
 		this.ID=ID;
 		this.width = width ;
 		this.height = height ;
 		this.depth = depth ;
 		// this.bouncyness = bouncyness ;
+		vertices = new ArrayList<Point>();
 		vertices.add(new Point(x,0/*y*/,z));
 		Point corner2 = new Point(location.getX() + width, location.getY(), location.getZ()); 
 		vertices.add(corner2) ;
@@ -52,7 +51,14 @@ public class Cube implements Obstacle {
 	
 	public void setLocation(double x, double y, double z) {
 		location= new Point(x,y,z);
-		 
+		vertices.clear();
+		vertices.add(new Point(x,0/*y*/,z));
+		Point corner2 = new Point(location.getX() + width, location.getY(), location.getZ()); 
+		vertices.add(corner2) ;
+		Point corner3 = new Point(location.getX()+width, location.getY(), location.getZ()+depth);
+		vertices.add(corner3);
+		Point corner4 = new Point(location.getX(),location.getY(),location.getZ()+depth);
+		vertices.add(corner4);
 
 	}
 

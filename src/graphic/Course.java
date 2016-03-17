@@ -20,11 +20,14 @@ public class Course extends JPanel{
 	private ArrayList<physic.Obstacle> obstacles;
 	ArrayList<Polygon> list;
 	private Polygon field;
-	private Ball ball=null;
-	private Hole hole=null;
+	private Ball ball;
+	private Hole hole;
 
 	public Course(){
 		obstacles = new ArrayList<physic.Obstacle>();
+		list = new ArrayList<Polygon>();
+		ball= null;
+		hole= null;
 		
 	}
 	public ArrayList<physic.Obstacle> getObstacles() {
@@ -32,11 +35,23 @@ public class Course extends JPanel{
 	}
 	public void addObstacles(physic.Obstacle obstacle) {
 		this.obstacles.add(obstacle);
+		for(int i=0;i<obstacles.size();i++){
+			//create polygon and add it to list.
+			ArrayList<Point> points = obstacles.get(i).getVertices();
+			list.add(i,new Polygon());
+			list.get(i).addPoint((int) points.get(0).getX(), (int) points.get(0).getZ());
+			list.get(i).addPoint((int) points.get(1).getX(), (int) points.get(1).getZ());
+			list.get(i).addPoint((int) points.get(2).getX(), (int) points.get(2).getZ());
+			list.get(i).addPoint((int) points.get(3).getX(), (int) points.get(3).getZ());
+			
+		}
+		
 	}
 	public void deleteObstacle(int obstacleID){
 		for(int i = 0; i<obstacles.size(); i++){
 			if(obstacles.get(i).getID()==obstacleID){
 				obstacles.remove(i);
+				list.remove(i);
 			}
 		}
 	}
@@ -60,15 +75,6 @@ public class Course extends JPanel{
 		field.addPoint(xField+width, zField);
 		field.addPoint(xField+width, zField+heigth);
 		field.addPoint(xField, zField+heigth);
-		list = new ArrayList<Polygon>();
-		for(int i=0;i<obstacles.size();i++){
-			ArrayList<Point> points = obstacles.get(i).getVertices();
-			list.get(i).addPoint((int) points.get(0).getX(), (int) points.get(0).getZ());
-			list.get(i).addPoint((int) points.get(1).getX(), (int) points.get(1).getZ());
-			list.get(i).addPoint((int) points.get(2).getX(), (int) points.get(2).getZ());
-			list.get(i).addPoint((int) points.get(3).getX(), (int) points.get(3).getZ());
-			
-		}
 		
 	}
 	public void paint(Graphics g){

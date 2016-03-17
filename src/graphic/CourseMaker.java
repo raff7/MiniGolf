@@ -2,6 +2,8 @@ package graphic;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -10,12 +12,13 @@ import javax.swing.JTextField;
 public class CourseMaker extends JPanel{
 	private JPanel  settings, dimention;
 	private Course map;
+	private Mouse mouse;
 	public CourseMaker(){
 		super();
 		map = new Course();
 		map.setPreferredSize(new Dimension(900,500));
 		map.buildField(50,0,700,400);
-		Mouse mouse = new Mouse();
+		mouse = new Mouse(map);
 		map.addMouseListener(mouse);
 		this.setLayout(new BorderLayout());
 		this.add(map,BorderLayout.CENTER);
@@ -36,17 +39,54 @@ public class CourseMaker extends JPanel{
 		//buttonListener listener = new ButtonListener();
 
 		JButton addObstacle = new JButton("Add Obstacle");
-		addObstacle.addActionListener(null);//button listener that trigger an actionlistener that cet thecoordinates of the point where you click and make a new obstacle in there. new buttonListener());
+		addObstacle.addActionListener(new ActionListener(){
+
+			
+			public void actionPerformed(ActionEvent arg0) {
+				mouse.setButtonPressed(1);
+			}
+			
+		});
 		settings.add(addObstacle);
+		JButton deleteObstacles = new JButton("CLEAR OBSTACLES");
+		deleteObstacles.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("delete obstacle" + mouse.getLastID());
+				map.deleteObstacle(mouse.getLastID());
+				map.repaint();
+				mouse.setNextID(mouse.getLastID());
+			}
+			
+		});
+		settings.add(deleteObstacles);
 		JButton addHole = new JButton("Add Hole");
-		//addHole.addActionListener(similar to the button before but with a hole);
+		addHole.addActionListener(new ActionListener(){
+
+			
+			public void actionPerformed(ActionEvent arg0) {
+				mouse.setButtonPressed(2);
+			}
+		});
 		settings.add(addHole);
 		JButton addBall = new JButton("Add Ball");
-		//addBall.addActionListener(same as above, with the ball);
+		addBall.addActionListener(new ActionListener(){
+
+			
+			public void actionPerformed(ActionEvent arg0) {
+				mouse.setButtonPressed(3);
+			}
+		});
 		settings.add(addBall);
 		JButton addBorder = new JButton("Add border");
 		JTextField numberVertecis = new JTextField("Number of verticis");
-		//addBorder.addActionListener(an action listener that see the number of verdices in the fieldtext and make you click in every vertices to create the borders);
+		addBorder.addActionListener(new ActionListener(){
+
+			
+			public void actionPerformed(ActionEvent arg0) {
+				mouse.setButtonPressed(4);
+				mouse.setTimeToPress(Integer.parseInt(numberVertecis.getText()));
+			}
+		});
 		settings.add(numberVertecis);
 		settings.add(addBorder);
 		JButton start = new JButton("START");
