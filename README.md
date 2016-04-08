@@ -1,0 +1,1 @@
+# If you have not Windows you need to change the native path for the light weight java game library (lwjgl) with the one of your operation system.
