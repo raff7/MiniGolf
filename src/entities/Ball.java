@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
+import textures.ModelTexture;
 
 public class Ball extends Entity{
 	private static final float RUN_SPEED = 50;
@@ -23,7 +24,6 @@ public class Ball extends Entity{
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
 	}
-	
 	public void move(Terrain terrain){
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
@@ -33,7 +33,11 @@ public class Ball extends Entity{
 		super.increasePosition(dx, 0, dz);
 		upwardSpeed+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(0, upwardSpeed*DisplayManager.getFrameTimeSeconds(), 0);
-		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+		float terrainHeight;
+		if(terrain != null)
+			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+		else
+			terrainHeight = 0;
 		if(super.getPosition().y<terrainHeight){
 			isInAir=false;
 			upwardSpeed = 0;

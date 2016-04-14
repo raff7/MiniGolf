@@ -11,8 +11,8 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class DisplayManager {
 	
-	private static final int WIDTH = 1920;
-	private static final int HEIGHT = 1080;
+	private static  int WIDTH = 1920;
+	private static  int HEIGHT = 1080;
 	private static final int FPS_CAP = 120;
 	
 	private static long lastFrameTime;
@@ -57,5 +57,21 @@ public class DisplayManager {
 	private static long getCurrentTime(){
 		return Sys.getTime()*1000/Sys.getTimerResolution();
 	}
+
+	public static int getWidth() {
+		return WIDTH;
+	}
+
+	public static void setWidth(int wIDTH) {
+		WIDTH = wIDTH;
+	}
+
+	public static void setHeight(int hEIGHT) {
+		HEIGHT = hEIGHT;
+	}
+
+	public static int getHeight() {
+		return HEIGHT;	}
+	
 
 }

@@ -6,12 +6,12 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private static final float Y_OFFSET = 35;
-	private float distanceFromBall = 130;
+	private static final float Y_OFFSET = 10;
+	private float distanceFromBall = 70;
 	private float angleAroundBall = 0;
 	
 	private Vector3f position= new Vector3f(0,5,0); 
-	private float pitch = 30;
+	private float pitch = 5;
 	private float yaw ;
 	private float roll;
 	private Ball ball;

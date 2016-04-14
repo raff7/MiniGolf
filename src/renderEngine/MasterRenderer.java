@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import shaders.StaticShader;
 import shaders.TerrainShader;
+import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import entities.Camera;
 import entities.Entity;
@@ -22,13 +23,13 @@ public class MasterRenderer {
 	
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000;
+	private static final float FAR_PLANE = 1420;
 	
-	private static final float RED= 0.49f;
-	private static final float GREEN= 0.89f;
-	private static final float BLUE= 0.98f;
-	private static final float FOG_DENSITY=0.002f;
-	private static final float FOG_GRADIENT=6f;
+	private static final float RED= 0.1f;//for day/clowdy 0.5444f;
+	private static final float GREEN= 0f;//for day/clowdy0.62f;
+	private static final float BLUE= 0.2f;//for day/clowdy0.69f;
+	private static final float FOG_DENSITY=0.0015f;
+	private static final float FOG_GRADIENT=5f;
 
 	
 	private Matrix4f projectionMatrix;
@@ -43,35 +44,40 @@ public class MasterRenderer {
 	private Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	
-	public MasterRenderer(){
+	private SkyboxRenderer skyboxRenderer;
+	
+	public MasterRenderer(Loader loader){
 		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRenderer(shader,projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader,projectionMatrix);
+		skyboxRenderer = new  SkyboxRenderer(loader, projectionMatrix);
 	}
 	
-	public void render(Light sun,Camera camera){
+	public void render(List<Light> lights,Camera camera){
 		prepare();
 		shader.start();
 		shader.loadSkyColor(RED, GREEN, BLUE);
 		shader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
-		shader.loadLight(sun);
+		shader.loadLights(lights);
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
 		shader.stop();
 		terrainShader.start();
 		terrainShader.loadSkyColor(RED,GREEN,BLUE);
 		terrainShader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
-		terrainShader.loadLight(sun);
+		terrainShader.loadLights(lights);
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
+		skyboxRenderer.render(camera,RED,GREEN,BLUE);
 		terrains.clear();
 		entities.clear();
 	}
 	
 	public void processTerrain(Terrain terrain){
-		terrains.add(terrain);
+			terrains.add(terrain);
+		
 	}
 	
 	public void processEntity(Entity entity){

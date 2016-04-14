@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public abstract class ShaderProgram {
+
 	
 	private int programID;
 	private int vertexShaderID;
@@ -64,6 +65,9 @@ public abstract class ShaderProgram {
 	protected void loadFloat(int location, float value){
 		GL20.glUniform1f(location, value);
 	}
+	public void loadInt(int location, int value) {
+		GL20.glUniform1i(location, value);
+	}
 	
 	protected void loadVector(int location, Vector3f vector){
 		GL20.glUniform3f(location,vector.x,vector.y,vector.z);
@@ -109,5 +113,7 @@ public abstract class ShaderProgram {
 		}
 		return shaderID;
 	}
+
+	
 
 }
