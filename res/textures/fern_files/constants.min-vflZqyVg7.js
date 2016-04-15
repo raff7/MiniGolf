@@ -1,0 +1,1 @@
+(function(){define([],function(){var E;return E={},E.ActionTypes={RECEIVE_PRESENCE_DATA:"RECEIVE_PRESENCE_DATA",UPDATE_SEEN_STATES:"UPDATE_SEEN_STATES"},E})}).call(this);

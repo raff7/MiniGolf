@@ -1,0 +1,1 @@
+(function(){define(["modules/clean/flux/dispatcher"],function(n){return n})}).call(this);
