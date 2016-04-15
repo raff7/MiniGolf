@@ -90,7 +90,9 @@ public class OBJLoader {
 		for(int i=0;i<indices.size();i++){
 			indicesArray[i] = indices.get(i);
 		}
-		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
+		RawModel model = loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
+		model.serVertices(vertices);
+		return model;
 
 	}
 

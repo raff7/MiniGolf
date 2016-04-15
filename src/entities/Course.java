@@ -49,17 +49,20 @@ public class Course {
 		this.ball = ball;
 	}
 	public Terrain getCurrentTerrain() {
+		Terrain terrain= null;
 		float x = ball.getPosition().x;
 		float z = ball.getPosition().z;
 		float terrainMaxX,terrainMaxZ,terrainMinX,terrainMinZ = 0;
 		for(int i=0;i<terrains.size();i++)
 		{
-			terrainMaxX=terrains.get(i).getX();
-			terrainMaxZ=terrains.get(i).getZ();
-			terrainMinX=terrains.get(i).getX()+terrains.get(i).getSize();
-			terrainMinX=terrains.get(i).getZ()+terrains.get(i).getSize();
-
-			if(ball.getPosition().x>terrainMinX && ball.getPosition().x <terrainMaxX && ball.getPosition().z > terrainMinZ && ball.getPosition().z < terrainMaxZ){
+			terrain = terrains.get(i);
+			terrainMaxX=terrain.getX()+terrain.getSize();
+			terrainMaxZ=terrain.getZ()+terrain.getSize();
+			terrainMinX=terrain.getX();
+			terrainMinZ=terrain.getZ();
+//			System.out.println("x: min: "+terrainMinX +" Max: "+ terrainMaxX);
+//			System.out.println("z: "+terrainMinZ + terrainMaxZ);
+			if(x>terrainMinX && x <terrainMaxX && z > terrainMinZ && z < terrainMaxZ){
 				return terrains.get(i);
 			}
 		}

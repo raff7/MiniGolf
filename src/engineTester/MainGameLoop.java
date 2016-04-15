@@ -114,7 +114,7 @@ public class MainGameLoop {
 		GuiTexture backGround = new GuiTexture(loader.loadTexture("flat"),new Vector2f (0,0),new Vector2f(1f,1f));
 //		GuiTexture title = new GuiTexture(loader.loadTexture("white"),new Vector2f (0,0),new Vector2f(1f,1f));
 		Button singlePlayer = new Button(loader.loadTexture("singlePlayer"),loader.loadTexture("singlePlayerSel"),new Vector2f (0.02f,0.1f),new Vector2f(0.2f,0.1f));
-		Button multyPlayer = new Button(loader.loadTexture("multyPlayer"),loader.loadTexture("multyPlayerSel"),new Vector2f (0.02f,-0.1f),new Vector2f(0.2f,0.1f));
+		Button multiPlayer = new Button(loader.loadTexture("multiPlayer"),loader.loadTexture("multiPlayerSel"),new Vector2f (0.02f,-0.1f),new Vector2f(0.2f,0.1f));
 		Button editCourse = new Button(loader.loadTexture("editCourse"),loader.loadTexture("editCourseSel"),new Vector2f (0.02f,-0.3f),new Vector2f(0.2f,0.1f));
 		Button option = new Button(loader.loadTexture("options"),loader.loadTexture("optionsSel"),new Vector2f (0.085f,-0.5f),new Vector2f(0.2f,0.1f));	
 		Button quit = new 	Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.11f,0.09f));
@@ -124,7 +124,7 @@ public class MainGameLoop {
 		
 		menuGuis.add(backGround);
 		menuButtons.add(singlePlayer);
-		menuButtons.add(multyPlayer);
+		menuButtons.add(multiPlayer);
 		menuButtons.add(editCourse);
 		menuButtons.add(option);
 		menuButtons.add(quit);
@@ -162,11 +162,11 @@ public class MainGameLoop {
 			menuButtons.get(0).setSel(false);
 		}
 		
-		//MultyPlayer
+		//MultiPlayer
 		if((y > -68) && (y < -13) && (x > -162) && (x < 178)){
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				return 2;//go to MultyPlayer menu
+				return 2;//go to MultiPlayer menu
 			}
 		}else{
 			menuButtons.get(1).setSel(false);
@@ -175,7 +175,7 @@ public class MainGameLoop {
 				if((y > -175) && (y < -123) && (x > -162) && (x < 178)){
 					menuButtons.get(2).setSel(true);
 					if(Mouse.isButtonDown(0)){
-						return 2;//go to MultyPlayer menu
+						return 2;//go to MultiPlayer menu
 					}
 				}else{
 					menuButtons.get(2).setSel(false);
