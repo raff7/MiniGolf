@@ -10,6 +10,7 @@ import models.TexturedModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import shaders.StaticShader;
 import shaders.TerrainShader;
@@ -25,9 +26,13 @@ public class MasterRenderer {
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1420;
 	
-	private static final float RED= 0.1f;//for day/clowdy 0.5444f;
-	private static final float GREEN= 0f;//for day/clowdy0.62f;
-	private static final float BLUE= 0.2f;//for day/clowdy0.69f;
+	private static Vector3f skyColor= new Vector3f(0.1f,0,0.2f);
+	private static  float SKY1_RED=0.5444f;
+	private static  float SKY1_GREEN= 0.62f;
+	private static  float SKY1_BLUE= 0.69f;
+	private static  float SKY2_RED= 0.1f;
+	private static  float SKY2_GREEN= 0f;
+	private static  float SKY2_BLUE= 0.2f;
 	private static final float FOG_DENSITY=0.0015f;
 	private static final float FOG_GRADIENT=5f;
 
@@ -57,20 +62,20 @@ public class MasterRenderer {
 	public void render(List<Light> lights,Camera camera){
 		prepare();
 		shader.start();
-		shader.loadSkyColor(RED, GREEN, BLUE);
+		shader.loadSkyColor(skyColor.x, skyColor.y, skyColor.z);
 		shader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
 		shader.loadLights(lights);
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
 		shader.stop();
 		terrainShader.start();
-		terrainShader.loadSkyColor(RED,GREEN,BLUE);
+		terrainShader.loadSkyColor(skyColor.x,skyColor.y,skyColor.z);
 		terrainShader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
 		terrainShader.loadLights(lights);
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		skyboxRenderer.render(camera,RED,GREEN,BLUE);
+		skyboxRenderer.render(camera,skyColor.x,skyColor.y,skyColor.z);
 		terrains.clear();
 		entities.clear();
 	}
@@ -107,7 +112,7 @@ public class MasterRenderer {
 	public void prepare() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(RED, GREEN, BLUE, 1);
+		GL11.glClearColor(skyColor.x, skyColor.y, skyColor.z, 1);
 	}
 	
 	private void createProjectionMatrix() {
@@ -124,6 +129,20 @@ public class MasterRenderer {
 		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
 		projectionMatrix.m33 = 0;
 	}
+	public static void changeSkyColor(float gradient){
+		
+		float variationBlue= SKY2_BLUE-SKY1_BLUE;
+		float variationGreen= SKY2_GREEN-SKY1_GREEN;
+		float variationRed= SKY2_RED-SKY1_RED;
+		skyColor.z = variationBlue * gradient + SKY1_BLUE;
+		skyColor.y = variationGreen * gradient + SKY1_GREEN;
+		skyColor.x = variationRed * gradient + SKY1_RED;	
+	}
+
+	public Matrix4f getProjectionMatrix() {
+		return projectionMatrix;
+	}
+	
 	
 
 }

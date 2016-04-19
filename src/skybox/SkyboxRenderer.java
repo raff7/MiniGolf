@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import entities.Camera;
 import models.RawModel;
 import renderEngine.Loader;
+import renderEngine.MasterRenderer;
 
 public class SkyboxRenderer {
 	
@@ -99,7 +100,8 @@ public class SkyboxRenderer {
 		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture);
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, secondTexture);
-		float blendFactor = 1f;
+		float blendFactor = 0f;
+		MasterRenderer.changeSkyColor(blendFactor);
 		shader.loadBlendFactor(blendFactor);
 	}
 	

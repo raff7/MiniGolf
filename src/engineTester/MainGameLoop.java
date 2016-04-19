@@ -22,6 +22,7 @@ import renderEngine.OBJLoader;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import textures.ModelTexture;
+import toolbox.MousePicker;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
@@ -106,6 +107,7 @@ public class MainGameLoop {
 		}
 		
 	}
+	
 	private static void startMainMenuGui() {
 		menuGuis=null;
 		menuGuis = new ArrayList<GuiTexture>();
@@ -141,14 +143,77 @@ public class MainGameLoop {
 		if(exitLoop==1){
 			startSinglePlayerMenu();
 		}else if(exitLoop==2){
-			//startSinglePlayerMenu();
+			//startMultiPlayerMenu();
 		}else if(exitLoop==3){
-			//startSinglePlayerMenu();
+			//startCourseDesignerMenu();
+			startCourseDesignerMenu();
 		}else if(exitLoop==4){
-			//startSinglePlayerMenu();
+			//quit();
 		}
 		quit();
 	}
+	
+	private static void startSinglePlayerMenu(){
+		generateManualWorld();
+		actualGameLoop();
+	}
+	
+	private static void startMultyPlayerMenu(){}
+	
+	private static void courseDesignerLoop(){
+		loader = null;
+		renderer = null;
+		guiRenderer = null;
+		loader = new Loader();
+		renderer = new MasterRenderer(loader);
+		guiRenderer = new GuiRenderer(loader);
+				
+		List<Light> lights = course.getLights();
+		List<Entity> entities = course.getEntities();
+		RawModel model = OBJLoader.loadObjModel("grassModel", loader);
+		
+		Ball ball = new Ball(new TexturedModel(model,new ModelTexture(loader.loadTexture("invisible"))),course.getStartingPosition(),0,0,0,1);
+		ball.setPosition(new Vector3f(course.getBall().getPosition().x,course.getBall().getPosition().y,course.getBall().getPosition().z));
+		course.setBall(ball);
+		Camera camera = new Camera(ball);
+		camera.setFreeCamera(true);
+		
+		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
+		
+		List<Terrain> terrains = course.getTerrains();
+		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
+		
+		int exitLoop=0;
+		while(!(Display.isCloseRequested() || exitLoop != 0)){
+			exitLoop = checkActualGameImputs();
+			ball.move();
+			camera.move();
+			
+			picker.update();
+			System.out.println(picker.getCurrentRay());
+			
+			renderer.processEntity(ball);
+			for(Terrain terrain:terrains)
+			renderer.processTerrain(terrain);
+			
+			for(Entity entity:entities){
+				renderer.processEntity(entity);
+			}
+			renderer.render(lights, camera);
+			guiRenderer.render(inGameGuis);
+			DisplayManager.updateDisplay();
+		}		
+		if(exitLoop == 1){
+			pauseMenu();
+		}
+		quit();
+	}
+	
+	private static void startCourseDesignerMenu(){
+		generateManualWorld();
+		courseDesignerLoop();
+	}
+	
 	private static int checkMainMenuImputs() {
 		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
 		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
@@ -175,7 +240,7 @@ public class MainGameLoop {
 				if((y > -175) && (y < -123) && (x > -162) && (x < 178)){
 					menuButtons.get(2).setSel(true);
 					if(Mouse.isButtonDown(0)){
-						return 2;//go to MultiPlayer menu
+						return 3;//go to MultiPlayer menu
 					}
 				}else{
 					menuButtons.get(2).setSel(false);
@@ -204,10 +269,6 @@ public class MainGameLoop {
 			
 		
 		return 0;
-	}
-	private static void startSinglePlayerMenu(){
-		generateManualWorld();
-		actualGameLoop();
 	}
 	private static int checkActualGameImputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
@@ -301,7 +362,7 @@ public class MainGameLoop {
 		course.addLight(lamp.getLight());
 		course.addLight(lamp1.getLight());
 		course.addLight(lamp2.getLight());
-		Light sun = new Light(new Vector3f(20000,20000,2000),new Vector3f(0.3f,0.2f,0.5f));
+		Light sun = new Light(new Vector3f(20000,20000,2000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
 	}

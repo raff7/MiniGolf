@@ -3,6 +3,8 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import terrains.Terrain;
 
 public class Course {
@@ -10,7 +12,8 @@ public class Course {
 	private List<Entity> entities;
 	private List<Light> lights;
 	private List<Terrain> terrains;
-	private Ball ball;	
+	private Ball ball;
+	private Vector3f startingPosition;	
 	
 	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains, Ball ball) {
 		this.entities = entities;
@@ -74,6 +77,10 @@ public class Course {
 			return getCurrentTerrain().getHeightOfTerrain(x, z);
 		else
 			return 0;
+	}
+	public Vector3f getStartingPosition() {
+
+		return startingPosition;
 	}
 	
 }

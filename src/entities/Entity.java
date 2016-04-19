@@ -40,6 +40,7 @@ public class Entity {
 		int row = textureIndex/model.getTexture().getNumberOfRows();
 		return (float) row/(float)model.getTexture().getNumberOfRows();
 	}
+	
 	public void increasePosition(float dx, float dy, float dz) {
 		this.position.x += dx;
 		this.position.y += dy;

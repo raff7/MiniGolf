@@ -15,20 +15,23 @@ public class Camera {
 	private float yaw ;
 	private float roll;
 	private Ball ball;
+	private boolean freeCamera;
 	
 	public Camera(Ball ball){
 	this.ball = ball;
 	}
+
 	
 	public void move(){
 		
-		calculateZoom();
-		calculatePitch();
-		calculateAngleAroundBall();
-		float horizontalDistance = calculateHorizontalDistance();
-		float verticalDistance = calculateVerticalDistance();
-		calculateCameraPosition(horizontalDistance,verticalDistance);
-		this.yaw = 180-(ball.getRotY()+angleAroundBall);
+			calculateZoom();
+			calculatePitch();
+			calculateAngleAroundBall();
+			float horizontalDistance = calculateHorizontalDistance();
+			float verticalDistance = calculateVerticalDistance();
+			calculateCameraPosition(horizontalDistance,verticalDistance);
+			this.yaw = 180-(ball.getRotY()+angleAroundBall);
+		
 	}
 
 	public Vector3f getPosition() {
@@ -66,17 +69,28 @@ public class Camera {
 		distanceFromBall = Math.min(Math.max(distanceFromBall-zoomLevel,50),400);
 	}
 	private void calculatePitch(){
-		if(Mouse.isButtonDown(1)){
+		if(Mouse.isButtonDown(1)|| freeCamera){
 			float pitchChange = Mouse.getDY()*0.1f;
 			pitch = Math.min(Math.max(pitch-pitchChange,5),80);
 		}
 	}
 	private void calculateAngleAroundBall(){
-		if(Mouse.isButtonDown(0)){
+		if(freeCamera){
+			float angleChange = Mouse.getDX()*0.3f;
+			ball.increaseRotation(0, angleChange, 0);
+		}
+		else if(Mouse.isButtonDown(0) ){
 			float angleChange = Mouse.getDX()*0.3f;
 			angleAroundBall -=angleChange;
 		}
 	}
+
+
+	public void setFreeCamera(boolean freeCamera) {
+		this.freeCamera = freeCamera;
+	}
+	
+	
 	
 
 }
