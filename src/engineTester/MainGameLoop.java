@@ -157,13 +157,13 @@ public class MainGameLoop {
 		menuGuis = new ArrayList<GuiTexture>();
 		menuButtons = null;
 		menuButtons = new ArrayList<Button>();
-		GuiTexture backGround = new GuiTexture(loader.loadTexture("flat"),new Vector2f (0,0),new Vector2f(1f,1f));
-//		GuiTexture title = new GuiTexture(loader.loadTexture("white"),new Vector2f (0,0),new Vector2f(1f,1f));
-		Button singlePlayer = new Button(loader.loadTexture("singlePlayer"),loader.loadTexture("singlePlayerSel"),new Vector2f (0.02f,0.1f),new Vector2f(0.2f,0.1f));
-		Button multiPlayer = new Button(loader.loadTexture("multiPlayer"),loader.loadTexture("multiPlayerSel"),new Vector2f (0.02f,-0.1f),new Vector2f(0.2f,0.1f));
-		Button editCourse = new Button(loader.loadTexture("editCourse"),loader.loadTexture("editCourseSel"),new Vector2f (0.02f,-0.3f),new Vector2f(0.2f,0.1f));
-		Button option = new Button(loader.loadTexture("options"),loader.loadTexture("optionsSel"),new Vector2f (0.085f,-0.5f),new Vector2f(0.2f,0.1f));	
-		Button quit = new 	Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.11f,0.09f));
+		GuiTexture backGround = new GuiTexture(loader.loadTexture("backGround"),new Vector2f (0,-1f),new Vector2f(1.35f,2f));
+		GuiTexture title = new GuiTexture(loader.loadTexture("title"),new Vector2f (0,0.5f),new Vector2f(0.75f,0.75f));
+		Button singlePlayer = new Button(loader.loadTexture("singlePlayer"),loader.loadTexture("singlePlayerSel"),new Vector2f (0.02f,0.1f),new Vector2f(0.3f,0.15f));
+		Button multiPlayer = new Button(loader.loadTexture("multiPlayer"),loader.loadTexture("multiPlayerSel"),new Vector2f (0.02f,-0.1f),new Vector2f(0.3f,0.15f));
+		Button editCourse = new Button(loader.loadTexture("editCourse"),loader.loadTexture("editCourseSel"),new Vector2f (0.02f,-0.3f),new Vector2f(0.3f,0.15f));
+		Button option = new Button(loader.loadTexture("options"),loader.loadTexture("optionsSel"),new Vector2f (0.1f,-0.5f),new Vector2f(0.3f,0.15f));
+		Button quit = new 	Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.3f,0.15f));
 		
 		
 		
@@ -174,7 +174,7 @@ public class MainGameLoop {
 		menuButtons.add(editCourse);
 		menuButtons.add(option);
 		menuButtons.add(quit);
-//		menuGuis.add(title);
+		menuGuis.add(title);
 		
 		
 		//menu start
@@ -189,12 +189,67 @@ public class MainGameLoop {
 		}else if(exitLoop==2){
 			//startMultiPlayerMenu();
 		}else if(exitLoop==3){
-			//startCourseDesignerMenu();
 			startCourseDesignerMenu();
 		}else if(exitLoop==4){
-			//quit();
+			//startSettingMenu();
 		}
 		clean();
+	}
+	private static int checkMainMenuImputs() {
+		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
+		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
+		//SinglePlayer
+		if((y > 20) && (y < 150) && (x > -243) && (x < 270)){
+			menuButtons.get(0).setSel(true);
+			if(Mouse.isButtonDown(0)){
+				return 1;//go to singlePlayer menu
+			}
+		}else{
+			menuButtons.get(0).setSel(false);
+		}
+		
+		//MultiPlayer
+		if((y > -102) && (y < -10) && (x > -245) && (x < 260)){
+			menuButtons.get(1).setSel(true);
+			if(Mouse.isButtonDown(0)){
+				return 2;//go to MultiPlayer menu
+			}
+		}else{
+			menuButtons.get(1).setSel(false);
+		}
+		//EditCourse
+				if((y > -200) && (y < -110) && (x > -243) && (x < 260)){
+					menuButtons.get(2).setSel(true);
+					if(Mouse.isButtonDown(0)){
+						return 3;//go to courseDesigner menu
+					}
+				}else{
+					menuButtons.get(2).setSel(false);
+				}
+		
+		//options
+		if((y > -278) && (y < -210) && (x > -178) && (x < 150)){
+			menuButtons.get(3).setSel(true);
+			if(Mouse.isButtonDown(0)){
+				return 4;//go to Options menu
+			}
+		}else{
+			menuButtons.get(3).setSel(false);
+		}
+		//quit
+		if((y > -400) && (y < -280) && (x > -99) && (x < 87)){
+			menuButtons.get(4).setSel(true);
+			if(Mouse.isButtonDown(0)){
+				clean();
+			}
+		}else{
+			menuButtons.get(4).setSel(false);
+		}
+
+
+			
+		
+		return 0;
 	}
 	
 	private static void startSinglePlayerMenu(){
@@ -213,6 +268,7 @@ public class MainGameLoop {
 		guiRenderer = new GuiRenderer(loader);
 				
 		List<Light> lights = course.getLights();
+		List<WaterTile> waters = course.getWaters();
 		List<Entity> entities = course.getEntities();
 		RawModel model = OBJLoader.loadObjModel("grassModel", loader);
 		
@@ -227,6 +283,15 @@ public class MainGameLoop {
 		List<Terrain> terrains = course.getTerrains();
 		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
 		
+		//**** WATER ***
+		
+		WaterShader waterShader = new WaterShader();
+		WaterFrameBuffers buffers = new WaterFrameBuffers();
+		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+						
+		
+		//***************
+		
 		int exitLoop=0;
 		while(!(Display.isCloseRequested() || exitLoop != 0)){
 			exitLoop = checkActualGameImputs();
@@ -236,9 +301,26 @@ public class MainGameLoop {
 			picker.update();
 
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-
-			renderer.renderScene(entities, terrains, lights, camera);
 			
+			for(WaterTile water:waters){
+				//render reflection on water texture
+				buffers.bindReflectionFrameBuffer();
+				float distance = 2*(camera.getPosition().y-water.getHeight());
+				camera.getPosition().y -= distance;
+				camera.invertPitch();
+				renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()));
+				camera.getPosition().y += distance;
+				camera.invertPitch();
+				
+				//render refraction on water texture
+				buffers.bindRefractionFrameBuffer();
+				renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,-1,0,water.getHeight()));
+			}
+			//render to screen
+			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+			buffers.unbindCurrentFrameBuffer();
+			renderer.renderScene(entities,terrains,lights,camera, new Vector4f(0,-1,0,150000));
+			waterRenderer.render(waters, camera);
 			guiRenderer.render(inGameGuis);
 			DisplayManager.updateDisplay();
 		}		
@@ -253,62 +335,7 @@ public class MainGameLoop {
 		courseDesignerLoop();
 	}
 	
-	private static int checkMainMenuImputs() {
-		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
-		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
-		//SinglePlayer
-		if((y > 40) && (y < 100) && (x > -162) && (x < 180)){
-			menuButtons.get(0).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 1;//go to singlePlayer menu
-			}
-		}else{
-			menuButtons.get(0).setSel(false);
-		}
-		
-		//MultiPlayer
-		if((y > -68) && (y < -13) && (x > -162) && (x < 178)){
-			menuButtons.get(1).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 2;//go to MultiPlayer menu
-			}
-		}else{
-			menuButtons.get(1).setSel(false);
-		}
-		//EditCourse
-				if((y > -175) && (y < -123) && (x > -162) && (x < 178)){
-					menuButtons.get(2).setSel(true);
-					if(Mouse.isButtonDown(0)){
-						return 3;//go to MultiPlayer menu
-					}
-				}else{
-					menuButtons.get(2).setSel(false);
-				}
-		
-		//options
-		if((y > -278) && (y < -229) && (x > -103) && (x < 100)){
-			menuButtons.get(3).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 4;//go to Options menu
-			}
-		}else{
-			menuButtons.get(3).setSel(false);
-		}
-		//options
-		if((y > -385) && (y < -342) && (x > -66) && (x < 58)){
-			menuButtons.get(4).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				clean();
-			}
-		}else{
-			menuButtons.get(4).setSel(false);
-		}
-
-
-			
-		
-		return 0;
-	}
+	
 	private static int checkActualGameImputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
 			return 1;
