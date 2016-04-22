@@ -15,7 +15,6 @@ public class Camera {
 	private float yaw ;
 	private float roll;
 	private Ball ball;
-	private boolean freeCamera;
 	
 	public Camera(Ball ball){
 	this.ball = ball;
@@ -69,28 +68,20 @@ public class Camera {
 		distanceFromBall = Math.min(Math.max(distanceFromBall-zoomLevel,50),400);
 	}
 	private void calculatePitch(){
-		if(Mouse.isButtonDown(1)|| freeCamera){
+		if(Mouse.isButtonDown(1)){
 			float pitchChange = Mouse.getDY()*0.1f;
-			pitch = Math.min(Math.max(pitch-pitchChange,5),80);
+			pitch -= pitchChange;//to put limits			pitch = Math.min(Math.max(pitch-pitchChange,5),80);
 		}
 	}
 	private void calculateAngleAroundBall(){
-		if(freeCamera){
+		if(Mouse.isButtonDown(1) ){
 			float angleChange = Mouse.getDX()*0.3f;
-			ball.increaseRotation(0, angleChange, 0);
-		}
-		else if(Mouse.isButtonDown(0) ){
-			float angleChange = Mouse.getDX()*0.3f;
-			angleAroundBall -=angleChange;
+			ball.increaseRotation(0, -angleChange, 0);
 		}
 	}
 
 
-	public void setFreeCamera(boolean freeCamera) {
-		this.freeCamera = freeCamera;
+	public void invertPitch() {
+		this.pitch = -this.pitch;
 	}
-	
-	
-	
-
 }

@@ -6,25 +6,29 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 
 import terrains.Terrain;
+import water.WaterTile;
 
 public class Course {
 	
 	private List<Entity> entities;
 	private List<Light> lights;
 	private List<Terrain> terrains;
+	private List<WaterTile> waters;
 	private Ball ball;
 	private Vector3f startingPosition;	
 	
-	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains, Ball ball) {
+	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains,List<WaterTile> waters, Ball ball) {
 		this.entities = entities;
 		this.lights = lights;
 		this.terrains = terrains;
+		this.waters = waters;
 		this.ball = ball;
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
+		waters = new ArrayList<WaterTile>();
 
 	}
 	public List<Entity> getEntities() {
@@ -44,6 +48,12 @@ public class Course {
 	}
 	public void addTerrain(Terrain terrain) {
 		this.terrains.add(terrain);
+	}
+	public List<WaterTile> getWaters(){
+		return this.waters;
+	}
+	public void addWater(WaterTile water) {
+		this.waters.add(water);
 	}
 	public Ball getBall() {
 		return ball;

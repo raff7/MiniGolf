@@ -32,10 +32,10 @@ public class Ball extends Entity{
 	public void move(){
 		checkFreeCameraInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
-		float distance = currentSpeed.length() * DisplayManager.getFrameTimeSeconds();
-		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
-		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-		super.increasePosition(dx, currentSpeed.y*DisplayManager.getFrameTimeSeconds(), dz);
+		float dx = currentSpeed.x * DisplayManager.getFrameTimeSeconds();
+		float dz = currentSpeed.z * DisplayManager.getFrameTimeSeconds();
+		float dy = currentSpeed.y*DisplayManager.getFrameTimeSeconds();
+		super.increasePosition(dx, dy, dz);
 	}
 	
 	public void move(Terrain terrain){
@@ -112,8 +112,9 @@ public class Ball extends Entity{
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.currentSpeed.x = (float) -(RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.currentSpeed.z = (float) -(RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));			
+			this.currentSpeed.x = (float) (-RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
+			this.currentSpeed.z = (float) (-RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+		
 			}else{
 			this.currentSpeed.x=0;
 			this.currentSpeed.z=0;

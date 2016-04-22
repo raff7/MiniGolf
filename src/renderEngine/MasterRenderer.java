@@ -11,6 +11,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import shaders.StaticShader;
 import shaders.TerrainShader;
@@ -24,7 +25,7 @@ public class MasterRenderer {
 	
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1420;
+	private static final float FAR_PLANE = 1600;
 	
 	private static Vector3f skyColor= new Vector3f(0.1f,0,0.2f);
 	private static  float SKY1_RED=0.5444f;
@@ -59,9 +60,10 @@ public class MasterRenderer {
 		skyboxRenderer = new  SkyboxRenderer(loader, projectionMatrix);
 	}
 	
-	public void render(List<Light> lights,Camera camera){
+	public void render(List<Light> lights,Camera camera, Vector4f clipPlane){
 		prepare();
 		shader.start();
+		shader.loadClipPlane(clipPlane);
 		shader.loadSkyColor(skyColor.x, skyColor.y, skyColor.z);
 		shader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
 		shader.loadLights(lights);
@@ -69,6 +71,7 @@ public class MasterRenderer {
 		renderer.render(entities);
 		shader.stop();
 		terrainShader.start();
+		terrainShader.loadClipPlane(clipPlane);
 		terrainShader.loadSkyColor(skyColor.x,skyColor.y,skyColor.z);
 		terrainShader.loadFogAtributes(FOG_DENSITY, FOG_GRADIENT);
 		terrainShader.loadLights(lights);
@@ -142,7 +145,14 @@ public class MasterRenderer {
 	public Matrix4f getProjectionMatrix() {
 		return projectionMatrix;
 	}
-	
-	
 
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera, Vector4f clipPlane) {
+		for(Terrain terrain:terrains)
+		processTerrain(terrain);
+		
+		for(Entity entity:entities){
+			processEntity(entity);
+		}
+		render(lights, camera, clipPlane);
+	}
 }

@@ -12,8 +12,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -23,6 +26,10 @@ import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import textures.ModelTexture;
 import toolbox.MousePicker;
+import water.WaterFrameBuffers;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
@@ -38,6 +45,8 @@ public class MainGameLoop {
 	private static Loader loader;
 	private static MasterRenderer renderer;
 	private static GuiRenderer guiRenderer;
+	private static WaterRenderer waterRenderer;
+	private static WaterShader waterShader;
 	private static List<GuiTexture> pauseMenuGuis;
 	private static List<Button> pauseMenuButtons;
 	private static List<GuiTexture> menuGuis;
@@ -57,47 +66,82 @@ public class MainGameLoop {
 		//actualGameLoop();	//
 		startMainMenuGui();
 
-		quit();
+		clean();
 
 	}
 
 
 
 	private static void actualGameLoop(){
+	
 		loader = null;
 		renderer = null;
 		guiRenderer = null;
+		waterShader = null;
+		waterRenderer = null;
+		
+		
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
+		
 		List<Light> lights = course.getLights();
 		List<Entity> entities = course.getEntities();
-		Ball ball = course.getBall();
-		Camera camera = new Camera(ball);	
+		List<WaterTile> waters = course.getWaters();
 		List<Terrain> terrains = course.getTerrains();
+
+		Ball ball = course.getBall();
+		Camera camera = new Camera(ball);
+		entities.add(ball);
+		
 		GuiTexture gui = new GuiTexture(loader.loadTexture("exampleGUI"),new Vector2f (-0.9f,0.9f),new Vector2f(0.1f,0.15f));
 		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
 		inGameGuis.add(gui);
+		//**** WATER ***
+		
+				WaterShader waterShader = new WaterShader();
+				WaterFrameBuffers buffers = new WaterFrameBuffers();
+				waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+								
+				
+		//***************
+
+		
+//							****GAME LOOP****		
 		int exitLoop=0;
 		while(!(Display.isCloseRequested() || exitLoop != 0)){
 			exitLoop = checkActualGameImputs();
 			ball.move(course.getCurrentTerrain());
 			camera.move();
-			renderer.processEntity(ball);
-			for(Terrain terrain:terrains)
-			renderer.processTerrain(terrain);
 			
-			for(Entity entity:entities){
-				renderer.processEntity(entity);
+			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+			
+			for(WaterTile water:waters){
+				//render reflection on water texture
+				buffers.bindReflectionFrameBuffer();
+				float distance = 2*(camera.getPosition().y-water.getHeight());
+				camera.getPosition().y -= distance;
+				camera.invertPitch();
+				renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()));
+				camera.getPosition().y += distance;
+				camera.invertPitch();
+				
+				//render refraction on water texture
+				buffers.bindRefractionFrameBuffer();
+				renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,-1,0,water.getHeight()));
 			}
-			renderer.render(lights, camera);
+			//render to screen
+			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+			buffers.unbindCurrentFrameBuffer();
+			renderer.renderScene(entities,terrains,lights,camera, new Vector4f(0,-1,0,150000));
+			waterRenderer.render(waters, camera);
 			guiRenderer.render(inGameGuis);
 			DisplayManager.updateDisplay();
 		}		
 		if(exitLoop == 1){
 			pauseMenu();
 		}
-		quit();
+		clean();
 	}
 
 	private static void pauseMenu() {
@@ -150,7 +194,7 @@ public class MainGameLoop {
 		}else if(exitLoop==4){
 			//quit();
 		}
-		quit();
+		clean();
 	}
 	
 	private static void startSinglePlayerMenu(){
@@ -176,7 +220,7 @@ public class MainGameLoop {
 		ball.setPosition(new Vector3f(course.getBall().getPosition().x,course.getBall().getPosition().y,course.getBall().getPosition().z));
 		course.setBall(ball);
 		Camera camera = new Camera(ball);
-		camera.setFreeCamera(true);
+		entities.add(ball);
 		
 		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
 		
@@ -190,23 +234,18 @@ public class MainGameLoop {
 			camera.move();
 			
 			picker.update();
-			System.out.println(picker.getCurrentRay());
+
+			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+
+			renderer.renderScene(entities, terrains, lights, camera);
 			
-			renderer.processEntity(ball);
-			for(Terrain terrain:terrains)
-			renderer.processTerrain(terrain);
-			
-			for(Entity entity:entities){
-				renderer.processEntity(entity);
-			}
-			renderer.render(lights, camera);
 			guiRenderer.render(inGameGuis);
 			DisplayManager.updateDisplay();
 		}		
 		if(exitLoop == 1){
 			pauseMenu();
 		}
-		quit();
+		clean();
 	}
 	
 	private static void startCourseDesignerMenu(){
@@ -259,7 +298,7 @@ public class MainGameLoop {
 		if((y > -385) && (y < -342) && (x > -66) && (x < 58)){
 			menuButtons.get(4).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				quit();
+				clean();
 			}
 		}else{
 			menuButtons.get(4).setSel(false);
@@ -281,6 +320,7 @@ public class MainGameLoop {
 		course = new Course();
 		course.addTerrain(new Terrain(0,0,loader,new ModelTexture(loader.loadTexture("grass")),"heightMap"));
 		
+		course.addWater(new WaterTile(400,360,-5));
 		
 		RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
 		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
@@ -293,7 +333,7 @@ public class MainGameLoop {
 		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(400,0,360),0,0,0,1));
 		float yball = (float) course.getHeightOfTerrain(400, 360);
 		course.getBall().setPosition(new Vector3f(course.getBall().getPosition().x,yball,course.getBall().getPosition().z));
-
+		
 		TexturedModel staticDragonModel = new TexturedModel(dragonModel,new ModelTexture(loader.loadTexture("gold")));
 		staticDragonModel.getTexture().setReflectivity(0.7f);
 		staticDragonModel.getTexture().setShineDamper(5);
@@ -366,10 +406,15 @@ public class MainGameLoop {
 		course.addLight(sun);
 		
 	}
-	private static void quit(){
-		guiRenderer.cleanUp();
-		renderer.cleanUp();
-		loader.cleanUp();
+	private static void clean(){
+		if(loader!=null)
+			loader.cleanUp();
+		if(renderer!=null)
+			renderer.cleanUp();
+		if(guiRenderer!=null)
+			guiRenderer.cleanUp();
+		if(waterShader!=null)
+			waterShader.cleanUp();
 		DisplayManager.closeDisplay();
 		System.exit(0);
 	}
