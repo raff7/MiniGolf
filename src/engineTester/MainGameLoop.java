@@ -81,6 +81,7 @@ public class MainGameLoop {
 		waterRenderer = null;
 		
 		
+		
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
@@ -93,6 +94,7 @@ public class MainGameLoop {
 		Ball ball = course.getBall();
 		Camera camera = new Camera(ball);
 		entities.add(ball);
+		MousePicker mouse = new MousePicker(camera , renderer.getProjectionMatrix()) ; //might need to be removed, only for testing..
 		
 		GuiTexture gui = new GuiTexture(loader.loadTexture("exampleGUI"),new Vector2f (-0.9f,0.9f),new Vector2f(0.1f,0.15f));
 		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
@@ -137,6 +139,7 @@ public class MainGameLoop {
 			waterRenderer.render(waters, camera);
 			guiRenderer.render(inGameGuis);
 			DisplayManager.updateDisplay();
+			mouse.update() ;
 		}		
 		if(exitLoop == 1){
 			pauseMenu();

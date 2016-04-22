@@ -15,6 +15,8 @@ public class MousePicker {
 	private Matrix4f projectionMatrix;
 	private Matrix4f viewMatrix;
 	private Camera camera;
+	int counter ;
+	
 	
 	public MousePicker(Camera camera, Matrix4f projection)
 	{
@@ -28,6 +30,11 @@ public class MousePicker {
 	public void update(){
 		viewMatrix = Maths.createViewMatrix(camera);
 		currentRay = calculateMouseRay();
+		counter++ ;
+		if(counter >= 10){
+			System.out.println(currentRay) ;
+			counter = 0 ;
+		}
 	}
 	
 	private Vector3f calculateMouseRay(){
