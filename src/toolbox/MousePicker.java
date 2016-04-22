@@ -11,7 +11,6 @@ import entities.Camera;
 
 public class MousePicker {
 	private Vector3f currentRay;
-	
 	private Matrix4f projectionMatrix;
 	private Matrix4f viewMatrix;
 	private Camera camera;
@@ -61,8 +60,8 @@ public class MousePicker {
 		return new Vector4f (eyeCoords.x,eyeCoords.y,-1f,0f);
 	}
 	private Vector2f getNormalizedDeviceCoords(float mouseX, float mouseY){
-		float x = (2*mouseX)/Display.getWidth();
-		float y = (2f*mouseY)/ Display.getHeight();
+		float x = (2f*mouseX)/Display.getWidth() - 1;
+		float y = (2f*mouseY)/ Display.getHeight() - 1f;
 		return new Vector2f(x,y);
 	}
 }
