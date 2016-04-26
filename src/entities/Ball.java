@@ -21,6 +21,12 @@ public class Ball extends Entity{
 	private float currentTurnSpeed = 0;
 	
 	private boolean isInAir=false;
+	
+	private static Vector3f velocity;
+	private static Vector3f position;
+	private static Vector3f radius;
+	private static Vector3f eRadius;
+	
 
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
@@ -141,6 +147,24 @@ public class Ball extends Entity{
 
 		}
 		
+	}
+	public static Vector3f getVelocity() {
+		return velocity;
+	}
+	public static void setVelocity(Vector3f velocity) {
+		Ball.velocity = velocity;
+	}
+	public static Vector3f getRadius() {
+		return radius;
+	}
+	public static void setRadius(Vector3f radius) {
+		Ball.radius = radius;
+	}
+	public static Vector3f geteRadius() {
+		return eRadius;
+	}
+	public static void seteRadius(Vector3f eRadius) {
+		Ball.eRadius = eRadius;
 	}
 	
 	
