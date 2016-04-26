@@ -11,8 +11,8 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class DisplayManager {
 	
-	private static  int WIDTH = 1920;
-	private static  int HEIGHT = 1080;
+	private static  int WIDTH = 1300;
+	private static  int HEIGHT = 800;
 	private static final int FPS_CAP = 120;
 	
 	private static long lastFrameTime;
