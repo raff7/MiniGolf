@@ -4,6 +4,8 @@ import models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.BoundingBox;
+
 public class Entity {
 
 	private TexturedModel model;
@@ -12,6 +14,8 @@ public class Entity {
 	private float scale;
 	
 	private int textureIndex = 0;
+	
+	private BoundingBox box;
 
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -21,6 +25,7 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		box= new BoundingBox(model);
 	}
 	public Entity(TexturedModel model,int index, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -99,6 +104,10 @@ public class Entity {
 
 	public void setScale(float scale) {
 		this.scale = scale;
+	}
+	
+	public BoundingBox getBox(){
+		return box;
 	}
 
 }
