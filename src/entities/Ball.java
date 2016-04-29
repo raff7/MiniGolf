@@ -1,8 +1,14 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.CollisionHandler;
+import collision.CollisionInfo;
+import collision.ResponseStep;
+import collision.Triangle;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
@@ -23,14 +29,16 @@ public class Ball extends Entity{
 	private boolean isInAir=false;
 	
 	private static Vector3f velocity;
-	private static Vector3f position;
 	private static Vector3f radius;
 	private static Vector3f eRadius;
+	
+	CollisionInfo colInfo;
 	
 
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
 		currentSpeed = new Vector3f(0,0,0);
+		colInfo = new CollisionInfo();
 	}
 	/*
 	 * move as a free camera
@@ -45,6 +53,14 @@ public class Ball extends Entity{
 	}
 	
 	public void move(Terrain terrain){
+		ArrayList<Triangle> trianglesList = terrain.getModel().getTriangles();
+		int i=0;
+		while(this.colInfo.foundCollision == false){
+			Triangle triangle = trianglesList.get(i);
+			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			i++;
+		}
+		ResponseStep.collideAndSlide(this,colInfo,getVelocity(),new Vector3f(0,0,0));
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = currentSpeed.x * DisplayManager.getFrameTimeSeconds();
