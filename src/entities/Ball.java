@@ -23,7 +23,6 @@ public class Ball extends Entity{
 	private boolean isInAir=false;
 	
 	private static Vector3f velocity;
-	private static Vector3f position;
 	private static Vector3f radius;
 	private static Vector3f eRadius;
 	

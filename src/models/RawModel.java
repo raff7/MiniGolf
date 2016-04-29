@@ -10,6 +10,7 @@ public class RawModel {
 	private int vaoID;
 	private int vertexCount;
 	private List<Vector3f> vertices;
+	private List<List<Vector3f>> triangles;
 	
 	public RawModel(int vaoID, int vertexCount){
 		this.vaoID = vaoID;
@@ -30,7 +31,8 @@ public class RawModel {
 	public List<Vector3f> getVertices() {
 		return vertices;	
 	}
-	
-	
 
+	public void setVertices(List<Vector3f> vertices) {
+		this.vertices = vertices;
+	}
 }
