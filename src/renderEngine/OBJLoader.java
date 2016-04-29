@@ -71,12 +71,14 @@ public class OBJLoader {
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
 				
+				
 				processVertex(vertex1,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex2,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex3,indices,textures,normals,textureArray,normalsArray);
 				
-				Triangle t = new Triangle(vertices.get(Integer.parseInt(vertex1[0])),vertices.get(Integer.parseInt(vertex2[0])),vertices.get(Integer.parseInt(vertex3[0])));
+				Triangle t = new Triangle(vertices.get(Integer.parseInt(vertex1[0])-1),vertices.get(Integer.parseInt(vertex2[0])-1),vertices.get(Integer.parseInt(vertex3[0])-1));
 				triangles.add(t);
+				
 				line = reader.readLine();
 			}
 			reader.close();
