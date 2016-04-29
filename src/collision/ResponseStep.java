@@ -5,9 +5,9 @@ import org.lwjgl.util.vector.Vector3f;
 import entities.Ball;
 
 public class ResponseStep{
-	int collisionRecursionDepth;
+	static int collisionRecursionDepth;
 	
-	public void collideAndSlide(Ball ball, CollisionInfo colInfo,Vector3f velocity, Vector3f gravity){
+	public static void collideAndSlide(Ball ball, CollisionInfo colInfo,Vector3f velocity, Vector3f gravity){
 	// Do collision detection:
 	colInfo.R3Position = ball.getPosition();
 	colInfo.R3Velocity = ball.getVelocity();
@@ -40,8 +40,8 @@ public class ResponseStep{
 	
 	
 	// Set this to match application scale..
-	float unitsPerMeter = 100.0f;
-	public Vector3f collideWithWorld(CollisionInfo colInfo,Vector3f position,Vector3f velocity){
+	static float unitsPerMeter = 100.0f;
+	public static Vector3f collideWithWorld(CollisionInfo colInfo,Vector3f position,Vector3f velocity){
 	// All hard-coded distances in this function is
 	// scaled to fit the setting above..
 	float unitScale = unitsPerMeter / 100.0f;
@@ -57,13 +57,13 @@ public class ResponseStep{
 	velocity.normalise(colInfo.normalizedVelocity);
 	
 	colInfo.basePoint = position;
-	colInfo.foundCollision = false;
+	colInfo.setFoundCollision(false);
 	// Check for collision (calls the collision routines)
 	// Application specific!!
 ////////	world->checkCollision(colInfo); \\\\\\\
 	
 	// If no collision we just move along the velocity
-	if (colInfo.foundCollision == false) {
+	if (colInfo.isFoundCollision() == false) {
 		return Operation.add(position,velocity);
 	}
 	

@@ -17,11 +17,19 @@ public class CollisionInfo {
 	Vector3f basePoint;
 
 	//Hit information
-	boolean foundCollision;
+	private boolean foundCollision;
 	double nearestDistance;
 	Vector3f intersectionPoint;
 
 	public CollisionInfo(){
+	}
+
+	public boolean isFoundCollision() {
+		return foundCollision;
+	}
+
+	public void setFoundCollision(boolean foundCollision) {
+		this.foundCollision = foundCollision;
 	}
 }
 /* Add this to ball class

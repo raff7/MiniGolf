@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class CollisionHandler {
 
 	// Assumes: p1,p2 and p3 are given in ellipsoid space:
-	public void checkTriangle(CollisionInfo colInfo, Vector3f p1, Vector3f p2, Vector3f p3){
+	public static void checkTriangle(CollisionInfo colInfo, Vector3f p1, Vector3f p2, Vector3f p3){
 		// Make the plane containing this triangle.
 		Plane trianglePlane = new Plane(p1,p2,p3);
 
@@ -196,11 +196,11 @@ public class CollisionHandler {
 			double distToCollision = t*colInfo.velocity.length();
 			// Does this triangle qualify for the closest hit?
 			// it does if it’s the first hit or the closest
-			if (colInfo.foundCollision == false || distToCollision < colInfo.nearestDistance) {
+			if (colInfo.isFoundCollision() == false || distToCollision < colInfo.nearestDistance) {
 				// Collision information necessary for sliding
 				colInfo.nearestDistance = distToCollision;
 				colInfo.intersectionPoint=collisionPoint;
-				colInfo.foundCollision = true;
+				colInfo.setFoundCollision(true);
 		}
 		}
 		} // if not backface

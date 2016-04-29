@@ -1,8 +1,14 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.CollisionHandler;
+import collision.CollisionInfo;
+import collision.ResponseStep;
+import collision.Triangle;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
@@ -17,19 +23,21 @@ public class Ball extends Entity{
 	private static final float MAX_RUN_SPEED = 100;
 	
 
-	private Vector3f currentSpeed;
 	private float currentTurnSpeed = 0;
 	
 	private boolean isInAir=false;
 	
-	private static Vector3f velocity;
+	private  Vector3f velocity;
+	private CollisionInfo colInfo;
 	private static Vector3f radius;
 	private static Vector3f eRadius;
+	 
 	
 
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
-		currentSpeed = new Vector3f(0,0,0);
+		velocity = new Vector3f(0,0,0);
+		colInfo = new CollisionInfo();
 	}
 	/*
 	 * move as a free camera
@@ -37,19 +45,28 @@ public class Ball extends Entity{
 	public void move(){
 		checkFreeCameraInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
-		float dx = currentSpeed.x * DisplayManager.getFrameTimeSeconds();
-		float dz = currentSpeed.z * DisplayManager.getFrameTimeSeconds();
-		float dy = currentSpeed.y*DisplayManager.getFrameTimeSeconds();
+		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
+		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
+		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	}
 	
 	public void move(Terrain terrain){
+		ArrayList<Triangle> trianglesList = terrain.getModel().getTriangles();
+		int i=0;
+		while(this.colInfo.isFoundCollision() == false){
+		
+			Triangle triangle = trianglesList.get(i);
+			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			i++;
+		}
+		ResponseStep.collideAndSlide(this,colInfo,getVelocity(),new Vector3f(0,0,0));
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
-		float dx = currentSpeed.x * DisplayManager.getFrameTimeSeconds();
-		float dz = currentSpeed.z * DisplayManager.getFrameTimeSeconds();
-		currentSpeed.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
-		float dy = currentSpeed.y*DisplayManager.getFrameTimeSeconds();
+		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
+		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
+		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 		float terrainHeight;
 		if(terrain != null)
@@ -58,37 +75,37 @@ public class Ball extends Entity{
 			terrainHeight = 0;
 		if(super.getPosition().y<terrainHeight){
 			isInAir=false;
-			currentSpeed.y = 0;//-currentSpeed.y*0.8f;
+			velocity.y = 0;//-velocity.y*0.8f;
 			super.getPosition().y=terrainHeight;
 		}
 	}
 	private void jump(){
 		if(!isInAir){
-			this.currentSpeed.y=JUMP_POWER;
+			this.velocity.y=JUMP_POWER;
 			isInAir=true;
 		}
 	}
 	private void checkInputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			this.currentSpeed.x += RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
-			this.currentSpeed.z += RUN_SPEED*Math.cos(Math.toRadians(getRotY()));		
+			this.velocity.x += RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
+			this.velocity.z += RUN_SPEED*Math.cos(Math.toRadians(getRotY()));		
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.currentSpeed.x -= RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
-			this.currentSpeed.z -= RUN_SPEED*Math.cos(Math.toRadians(getRotY()));			
+			this.velocity.x -= RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
+			this.velocity.z -= RUN_SPEED*Math.cos(Math.toRadians(getRotY()));			
 			}else{
-				float temp = this.currentSpeed.y;
-				this.currentSpeed.scale(FRICTION);
-				this.currentSpeed.y=temp;
-//				if(this.currentSpeed.x>0)
-//					this.currentSpeed.x=Math.max(this.currentSpeed.x-FRICTION, 0);
+				float temp = this.velocity.y;
+				this.velocity.scale(FRICTION);
+				this.velocity.y=temp;
+//				if(this.velocity.x>0)
+//					this.velocity.x=Math.max(this.velocity.x-FRICTION, 0);
 //				else
-//					this.currentSpeed.x=Math.min(this.currentSpeed.x+FRICTION, 0);
-//				if(this.currentSpeed.z>0)
-//					this.currentSpeed.z=Math.max(this.currentSpeed.z-FRICTION, 0);
+//					this.velocity.x=Math.min(this.velocity.x+FRICTION, 0);
+//				if(this.velocity.z>0)
+//					this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
 //				else
-//					this.currentSpeed.z=Math.min(this.currentSpeed.z+FRICTION, 0);
+//					this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);
 
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
@@ -104,25 +121,25 @@ public class Ball extends Entity{
 			jump();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			currentSpeed.x = (float) (MAX_RUN_SPEED*Math.sin(Math.toRadians(getRotY())));
-			currentSpeed.z = (float) (MAX_RUN_SPEED*Math.cos(Math.toRadians(getRotY())));
+			velocity.x = (float) (MAX_RUN_SPEED*Math.sin(Math.toRadians(getRotY())));
+			velocity.z = (float) (MAX_RUN_SPEED*Math.cos(Math.toRadians(getRotY())));
 
 		}
 		
 	}
 	private void checkFreeCameraInputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			this.currentSpeed.x = (float) (RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.currentSpeed.z = (float) (RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.currentSpeed.x = (float) (-RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.currentSpeed.z = (float) (-RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (-RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (-RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
 		
 			}else{
-			this.currentSpeed.x=0;
-			this.currentSpeed.z=0;
+			this.velocity.x=0;
+			this.velocity.z=0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			this.currentTurnSpeed = -TURN_SPEED;
@@ -133,25 +150,25 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			currentSpeed.y=-GRAVITY*1.5f;
+			velocity.y=-GRAVITY*1.5f;
 		}else if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
-			currentSpeed.y=GRAVITY*1.5f;
+			velocity.y=GRAVITY*1.5f;
 		}else{
-			currentSpeed.y=0;
+			velocity.y=0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			currentSpeed.x *= 1.5f;
-			currentSpeed.y *= 1.5f;
-			currentSpeed.z *= 1.5f;
+			velocity.x *= 1.5f;
+			velocity.y *= 1.5f;
+			velocity.z *= 1.5f;
 
 		}
 		
 	}
-	public static Vector3f getVelocity() {
+	public  Vector3f getVelocity() {
 		return velocity;
 	}
-	public static void setVelocity(Vector3f velocity) {
-		Ball.velocity = velocity;
+	public  void setVelocity(Vector3f velocity) {
+		this.velocity = velocity;
 	}
 	public static Vector3f getRadius() {
 		return radius;

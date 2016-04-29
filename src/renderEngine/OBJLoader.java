@@ -30,7 +30,7 @@ public class OBJLoader {
 		List<Vector2f> textures = new ArrayList<Vector2f>();
 		List<Vector3f> normals = new ArrayList<Vector3f>();
 		List<Integer> indices = new ArrayList<Integer>();
-		List<Triangle> triangles = new ArrayList<Triangle>();
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 
 		float[] verticesArray = null;
 		float[] normalsArray = null;
