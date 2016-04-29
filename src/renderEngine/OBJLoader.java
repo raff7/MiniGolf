@@ -12,6 +12,8 @@ import models.RawModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.Triangle;
+
 public class OBJLoader {
 
 	public static RawModel loadObjModel(String fileName, Loader loader) {

@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.Triangle;
+
 public class RawModel {
 	
 	private int vaoID;
 	private int vertexCount;
 	private List<Vector3f> vertices;
-	private List<List<Vector3f>> triangles;
+	private List<Triangle> triangles;
 	
 	public RawModel(int vaoID, int vertexCount){
 		this.vaoID = vaoID;
@@ -34,5 +36,13 @@ public class RawModel {
 
 	public void setVertices(List<Vector3f> vertices) {
 		this.vertices = vertices;
+	}
+
+	public List<Triangle> getTriangles() {
+		return triangles;
+	}
+
+	public void setTriangles(List<Triangle> triangles) {
+		this.triangles = triangles;
 	}
 }
