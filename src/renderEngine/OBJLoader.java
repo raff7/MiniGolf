@@ -12,6 +12,8 @@ import models.RawModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.Triangle;
+
 public class OBJLoader {
 
 	public static RawModel loadObjModel(String fileName, Loader loader) {
@@ -28,6 +30,8 @@ public class OBJLoader {
 		List<Vector2f> textures = new ArrayList<Vector2f>();
 		List<Vector3f> normals = new ArrayList<Vector3f>();
 		List<Integer> indices = new ArrayList<Integer>();
+		List<Triangle> triangles = new ArrayList<Triangle>();
+
 		float[] verticesArray = null;
 		float[] normalsArray = null;
 		float[] textureArray = null;
@@ -55,6 +59,7 @@ public class OBJLoader {
 					break;
 				}
 			}
+			
 
 			while (line != null) {
 				if (!line.startsWith("f ")) {
@@ -66,9 +71,14 @@ public class OBJLoader {
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
 				
+				
 				processVertex(vertex1,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex2,indices,textures,normals,textureArray,normalsArray);
 				processVertex(vertex3,indices,textures,normals,textureArray,normalsArray);
+				
+				Triangle t = new Triangle(vertices.get(Integer.parseInt(vertex1[0])-1),vertices.get(Integer.parseInt(vertex2[0])-1),vertices.get(Integer.parseInt(vertex3[0])-1));
+				triangles.add(t);
+				
 				line = reader.readLine();
 			}
 			reader.close();
@@ -92,6 +102,7 @@ public class OBJLoader {
 		}
 		RawModel model = loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 		model.serVertices(vertices);
+		model.setTriangles(triangles);
 		return model;
 
 	}
@@ -109,5 +120,4 @@ public class OBJLoader {
 		normalsArray[currentVertexPointer*3+1] = currentNorm.y;
 		normalsArray[currentVertexPointer*3+2] = currentNorm.z;	
 	}
-
 }

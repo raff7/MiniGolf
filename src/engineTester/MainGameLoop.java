@@ -389,7 +389,7 @@ public class MainGameLoop {
 			
 			
 		for(int i=0;i<300;i++){
-			if(i%20 == 0){
+			if(i%100 == 0){
 				float x =random.nextFloat()*800;
 				float z = random.nextFloat() * 800;
 				float y = course.getHeightOfTerrain(x, z);
