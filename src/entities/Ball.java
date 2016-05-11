@@ -1,12 +1,16 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.BoundingBox;
+import collision.CheckCollision;
 import collision.CollisionHandler;
 import collision.CollisionInfo;
+import collision.Operation;
 import collision.ResponseStep;
 import collision.Triangle;
 import models.TexturedModel;
@@ -27,17 +31,18 @@ public class Ball extends Entity{
 	
 	private boolean isInAir=false;
 	
-	private  Vector3f velocity;
+	private Vector3f velocity;
 	private CollisionInfo colInfo;
-	private static Vector3f radius;
-	private static Vector3f eRadius;
-	 
+	private Vector3f radius;
+	private Vector3f eRadius;
+	
+	private boolean debug=false;
 	
 
-	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
-		colInfo = new CollisionInfo();
+		colInfo = new CollisionInfo(new Vector3f(5,10,5),velocity,getPosition());
 	}
 	/*
 	 * move as a free camera
@@ -51,23 +56,52 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	}
 	
-	public void move(Terrain terrain){
-		ArrayList<Triangle> trianglesList = terrain.getModel().getTriangles();
-		int i=0;
-		while(this.colInfo.isFoundCollision() == false){
+	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
+		System.out.println("ball: "+getPosition());
+		/*BoundingBox box = entitiesList.get(0).getBox();
+		if(Math.abs(this.getBox().getMaxZ() - box.getMaxX() ) <= 1)
+			setVelocity(new Vector3f(0,0,0));*/
 		
+		//get the coordinates of the velocity, normalized velocity and the basePoint(=the center) in the ellipsoid space
+		colInfo.setVelocity(Operation.divideVector(colInfo.getR3Velocity(),colInfo.getEradius()));
+		colInfo.setNormalizedVelocity(colInfo.getVelocity().x,colInfo.getVelocity().y,colInfo.getVelocity().z);
+		if(colInfo.getNormalizedVelocity().lengthSquared() != 0)
+			colInfo.getNormalizedVelocity().normalise();
+		colInfo.setBasePoint(Operation.divideVector(getPosition(),colInfo.getEradius()));
+		
+		if(debug){	
+			/*System.out.println();
+			System.out.println("velocity "+colInfo.getVelocity());
+			System.out.println("normalised velo"+colInfo.getNormalizedVelocity());
+			System.out.println("basePoint "+colInfo.getBasePoint());
+			System.out.println("pos "+colInfo.getBasePoint());
+			System.out.println("IP: "+colInfo.getIntersectionPoint());*/
+		}
+		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
+		
+		//System.out.println(trianglesList.get(0));
+		int i=0;
+		while(i<trianglesList.size()){
 			Triangle triangle = trianglesList.get(i);
-			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			//CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			//CheckCollision.touchTriangle(triangle, colInfo.getBasePoint());
 			i++;
 		}
-		ResponseStep.collideAndSlide(this,colInfo,getVelocity(),new Vector3f(0,0,0));
+		//System.out.println("collision : "+colInfo.isFoundCollision());
+		//if(colInfo.isFoundCollision())
+			//setVelocity(new Vector3f(0,0,0));
+		//if(colInfo.isFoundCollision())
+		//setPosition(ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0)));
+		
+		colInfo.setFoundCollision(false);
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
-		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+        velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
+//CHANGESSSS		
 		float terrainHeight;
 		if(terrain != null)
 			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
@@ -170,18 +204,22 @@ public class Ball extends Entity{
 	public  void setVelocity(Vector3f velocity) {
 		this.velocity = velocity;
 	}
-	public static Vector3f getRadius() {
+	public Vector3f getRadius() {
 		return radius;
 	}
-	public static void setRadius(Vector3f radius) {
-		Ball.radius = radius;
+	public void setRadius(Vector3f radius) {
+		this.radius = radius;
 	}
-	public static Vector3f geteRadius() {
+	public Vector3f geteRadius() {
 		return eRadius;
 	}
-	public static void seteRadius(Vector3f eRadius) {
-		Ball.eRadius = eRadius;
+	public void seteRadius(Vector3f eRadius) {
+		this.eRadius = eRadius;
 	}
+	public CollisionInfo getColInfo(){
+		return colInfo;
+	}
+	
 	
 	
 

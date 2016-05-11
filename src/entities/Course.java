@@ -17,7 +17,7 @@ public class Course {
 	private Ball ball;
 	private Vector3f startingPosition;	
 	
-	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains,List<WaterTile> waters, Ball ball) {
+	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains,List<WaterTile> waters, Ball ball){
 		this.entities = entities;
 		this.lights = lights;
 		this.terrains = terrains;

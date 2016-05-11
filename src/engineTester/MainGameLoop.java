@@ -18,6 +18,8 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
+import collision.BoundingBox;
+import collision.Triangle;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -90,11 +92,64 @@ public class MainGameLoop {
 		List<Entity> entities = course.getEntities();
 		List<WaterTile> waters = course.getWaters();
 		List<Terrain> terrains = course.getTerrains();
-
+		
 		Ball ball = course.getBall();
 		Camera camera = new Camera(ball);
 		entities.add(ball);
 		MousePicker mouse = new MousePicker(camera , renderer.getProjectionMatrix()) ; //might need to be removed, only for testing..
+		/*float ellipseX = ball.getColInfo().getEradius().x;
+		float ellipseY = ball.getColInfo().getEradius().y;
+		float ellipseZ = ball.getColInfo().getEradius().z;*/
+		float ellipseX=1;
+		float ellipseY=1;
+		float ellipseZ=1;
+		
+		
+///////////// TESTING \\\\\\\\\
+RawModel rw = OBJLoader.loadObjModel("exampleOBJ", loader);
+Entity ent = new Entity (new TexturedModel(rw,new ModelTexture(loader.loadTexture("blendMap")) ),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(450, 400),ball.getPosition().z+20),0,90,0,5);
+
+BoundingBox box = ent.getBox();
+
+ArrayList<Triangle> trianglesList = rw.getTriangles();
+Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
+/*for(int i=0; i<trianglesList.size(); i++){
+	triangle = trianglesList.get(i);
+	Vector3f p1 = triangle.getP1();
+	Vector3f newP1 = new Vector3f((p1.x+ent.getPosition().x)/ellipseX, (p1.y+ent.getPosition().y)/ellipseY , (p1.z+ent.getPosition().z)/ellipseZ);
+	triangle.setP1(newP1);
+	
+	Vector3f p2 = triangle.getP2();
+	Vector3f newP2 = new Vector3f((p2.x+ent.getPosition().x)/ellipseX, (p2.y+ent.getPosition().y)/ellipseY , (p2.z+ent.getPosition().z)/ellipseZ);
+	triangle.setP2(newP2);
+	
+	Vector3f p3 = triangle.getP3();
+	Vector3f newP3 = new Vector3f((p3.x+ent.getPosition().x)/ellipseX, (p3.y+ent.getPosition().y)/ellipseY , (p3.z+ent.getPosition().z)/ellipseZ);
+	triangle.setP3(newP3);
+}*/
+ent.getBox().getExtremePoints();
+
+
+System.out.println("maxX: "+box.getMaxX());
+System.out.println("minX: "+box.getMinX());
+System.out.println("maxY: "+box.getMaxY());
+System.out.println("minY: "+box.getMinY());
+System.out.println("maxZ: "+box.getMaxZ());
+System.out.println("minZ: "+box.getMinZ());
+
+
+Triangle testTriangle = trianglesList.get(0);
+trianglesList.clear();
+trianglesList.add(testTriangle);
+for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
+System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);
+ArrayList<Entity> testEntity = new ArrayList<Entity>();
+testEntity.add(ent);
+entities.add(ent);
+
+System.out.println("obstacle: "+testEntity.get(0).getPosition());
+
+		
 		
 		GuiTexture gui = new GuiTexture(loader.loadTexture("exampleGUI"),new Vector2f (-0.9f,0.9f),new Vector2f(0.1f,0.15f));
 		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
@@ -113,7 +168,7 @@ public class MainGameLoop {
 		int exitLoop=0;
 		while(!(Display.isCloseRequested() || exitLoop != 0)){
 			exitLoop = checkActualGameImputs();
-			ball.move(course.getCurrentTerrain());
+			ball.move(course.getCurrentTerrain(),testEntity);
 			camera.move();
 			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
@@ -339,7 +394,7 @@ public class MainGameLoop {
 	}
 	
 	
-	private static int checkActualGameImputs() {
+	private static int checkActualGameImputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
 			return 1;
 		}

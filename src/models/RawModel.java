@@ -12,7 +12,7 @@ public class RawModel {
 	private int vaoID;
 	private int vertexCount;
 	private List<Vector3f> vertices;
-	private ArrayList<Triangle> triangles;
+	private ArrayList<Triangle> triangles=new ArrayList<Triangle>();
 	
 	public RawModel(int vaoID, int vertexCount){
 		this.vaoID = vaoID;

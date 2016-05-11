@@ -31,7 +31,7 @@ public class MousePicker {
 		currentRay = calculateMouseRay();
 		counter++ ;
 		if(counter >= 10){
-			System.out.println(currentRay) ;
+			//System.out.println(currentRay) ;
 			counter = 0 ;
 		}
 	}
