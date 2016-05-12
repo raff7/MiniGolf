@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.BoundingBox;
-import collision.CheckCollision;
+//import collision.CheckCollision;
 import collision.CollisionHandler;
 import collision.CollisionInfo;
 import collision.Operation;
@@ -40,7 +40,7 @@ public class Ball extends Entity{
 	
 
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
-		super(model, position, rotX, rotY, rotZ, scale);
+		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
 		colInfo = new CollisionInfo(new Vector3f(1,5,1),velocity,getPosition());
 	}
