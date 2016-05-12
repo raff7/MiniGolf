@@ -19,7 +19,7 @@ public class CollisionHandler {
 		// Calculate the signed distance from sphere position to triangle plane
 		//System.out.println("BasePoint : "+colInfo.getBasePoint());
 		double signedDistToTrianglePlane = trianglePlane.signedDistanceTo(colInfo.getBasePoint());
-		//System.out.println("distance: "+signedDistToTrianglePlane);
+		System.out.println("distance: "+signedDistToTrianglePlane);
 		// cache this as we’re going to use it a few times below:
 		float normalDotVelocity = Vector3f.dot(trianglePlane.normal,colInfo.getVelocity());
 		

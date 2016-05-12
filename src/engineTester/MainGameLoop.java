@@ -414,7 +414,7 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
 		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
 		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
-		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
+		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		
 		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(400,0,360),0,0,0,1));
