@@ -106,15 +106,18 @@ public class MainGameLoop {
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("exampleOBJ", loader);
-Entity ent = new Entity (new TexturedModel(rw,new ModelTexture(loader.loadTexture("blendMap")) ),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(450, 400),ball.getPosition().z+20),0,90,0,5);
+RawModel rw = OBJLoader.loadObjModel("face", loader);
+ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
+rwModel.setHasTransparency(true);
+
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
 
 BoundingBox box = ent.getBox();
 
 ArrayList<Triangle> trianglesList = rw.getTriangles();
 Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
 /*for(int i=0; i<trianglesList.size(); i++){
-	triangle = trianglesList.get(i);
+	triangle = triang1lesList.get(i);
 	Vector3f p1 = triangle.getP1();
 	Vector3f newP1 = new Vector3f((p1.x+ent.getPosition().x)/ellipseX, (p1.y+ent.getPosition().y)/ellipseY , (p1.z+ent.getPosition().z)/ellipseZ);
 	triangle.setP1(newP1);
@@ -127,7 +130,6 @@ Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
 	Vector3f newP3 = new Vector3f((p3.x+ent.getPosition().x)/ellipseX, (p3.y+ent.getPosition().y)/ellipseY , (p3.z+ent.getPosition().z)/ellipseZ);
 	triangle.setP3(newP3);
 }*/
-ent.getBox().getExtremePoints();
 
 
 System.out.println("maxX: "+box.getMaxX());
@@ -435,15 +437,15 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		
 		
 				
-		course.addEntity(new Entity(staticDragonModel, new Vector3f(360,course.getHeightOfTerrain(360, 400),400),0,-90,0,5));
-		course.addEntity(new Entity(staticDragonModel, new Vector3f(440,course.getHeightOfTerrain(440, 400),400),0,-90,0,5));
+//		course.addEntity(new Entity(staticDragonModel, new Vector3f(360,course.getHeightOfTerrain(360, 400),400),0,-90,0,5));
+//		course.addEntity(new Entity(staticDragonModel, new Vector3f(440,course.getHeightOfTerrain(440, 400),400),0,-90,0,5));
 
 
 		Random random = new Random();
 		
 			
 			
-		for(int i=0;i<300;i++){
+/*		for(int i=0;i<300;i++){
 			if(i%100 == 0){
 				float x =random.nextFloat()*800;
 				float z = random.nextFloat() * 800;
@@ -486,7 +488,7 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 
 		course.addLight(lamp.getLight());
 		course.addLight(lamp1.getLight());
-		course.addLight(lamp2.getLight());
+		course.addLight(lamp2.getLight());*/
 		Light sun = new Light(new Vector3f(20000,20000,2000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		

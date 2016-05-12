@@ -56,6 +56,16 @@ public class CollisionInfo {
 	public Vector3f getR3Velocity(){
 		return R3Velocity;
 	}
+	public void setR3Velocity(Vector3f v){
+		R3Velocity=v;
+	}
+	public Vector3f getR3Position(){
+		return R3Position;
+	}
+	public void setR3Position(Vector3f v){
+		R3Position=v;
+	}
+	
 	//return the velocity in the ellipsoid space
 	public Vector3f getVelocity(){
 		return velocity;

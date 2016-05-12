@@ -34,8 +34,19 @@ public class ResponseStep{
 	// ... to here
 */
 	// Convert final result back to R3:
-	finalPosition = Operation.multiplyVector(finalPosition,colInfo.getEradius());
+	finalPosition = Operation.multiplyVector(finalPosition, colInfo.getEradius());
+	
+/*Vector3f newVelocity = Operation.subtract(finalPosition, colInfo.getBasePoint());
+newVelocity.normalise();
+Operation.multiplyByScalar(colInfo.getR3Velocity().length(),newVelocity);
+System.out.println("old velocity: "+colInfo.getR3Velocity());
+colInfo.setR3Velocity(newVelocity);
+System.out.println("new velocity: "+colInfo.getR3Velocity());
+System.out.println();*/
+	//System.out.println("current pos: "+colInfo.getR3Position());
+	//System.out.println("final pos: "+finalPosition);
 	return finalPosition;
+	
 	
 	// Move the entity (application specific function)
 	
@@ -105,6 +116,7 @@ public class ResponseStep{
 		// Recurse:
 		// don't recurse if the new velocity is very small
 		if (newVelocityVector.length() < veryCloseDistance){
+			colInfo.setR3Velocity(Operation.multiplyVector(newVelocityVector,colInfo.getEradius()));
 			return newBasePoint;
 		}
 		collisionRecursionDepth++;

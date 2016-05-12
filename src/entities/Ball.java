@@ -36,13 +36,13 @@ public class Ball extends Entity{
 	private Vector3f radius;
 	private Vector3f eRadius;
 	
-	private boolean debug=false;
+	private boolean debug=true;
 	
 
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
-		colInfo = new CollisionInfo(new Vector3f(5,10,5),velocity,getPosition());
+		colInfo = new CollisionInfo(new Vector3f(1,5,1),velocity,getPosition());
 	}
 	/*
 	 * move as a free camera
@@ -57,7 +57,7 @@ public class Ball extends Entity{
 	}
 	
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
-		System.out.println("ball: "+getPosition());
+		//System.out.println("ball: "+getPosition());
 		/*BoundingBox box = entitiesList.get(0).getBox();
 		if(Math.abs(this.getBox().getMaxZ() - box.getMaxX() ) <= 1)
 			setVelocity(new Vector3f(0,0,0));*/
@@ -83,15 +83,22 @@ public class Ball extends Entity{
 		int i=0;
 		while(i<trianglesList.size()){
 			Triangle triangle = trianglesList.get(i);
-			//CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
 			//CheckCollision.touchTriangle(triangle, colInfo.getBasePoint());
 			i++;
 		}
 		//System.out.println("collision : "+colInfo.isFoundCollision());
 		//if(colInfo.isFoundCollision())
 			//setVelocity(new Vector3f(0,0,0));
-		//if(colInfo.isFoundCollision())
-		//setPosition(ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0)));
+		if(colInfo.isFoundCollision()){
+			System.out.println("collision : "+colInfo.isFoundCollision());
+			//ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0));
+			//System.out.println("R3 vel: "+colInfo.getR3Velocity());
+			//setVelocity(colInfo.getR3Velocity());
+			
+			//setVelocity(new Vector3f(0,0,0));
+			//setPosition(ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0)));
+		}
 		
 		colInfo.setFoundCollision(false);
 		checkInputs();
@@ -101,7 +108,7 @@ public class Ball extends Entity{
         velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
-//CHANGESSSS		
+	
 		float terrainHeight;
 		if(terrain != null)
 			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
