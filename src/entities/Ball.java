@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.BoundingBox;
@@ -57,10 +58,49 @@ public class Ball extends Entity{
 	}
 	
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
+		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
+		BoundingBox box =entitiesList.get(0).getBox();
+		Triangle t =trianglesList.get(0);
+		if(debug){
+			System.out.println();	
+			System.out.println("p1 "+t.getP1());
+			System.out.println("p2 "+t.getP2());
+			System.out.println("p3 "+t.getP3());
+			System.out.println("normal "+t.getNormal());
+			System.out.println("constant "+t.getEquation()[3]);
+			System.out.println("originZ "+t.origin.z);
+			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
+			debug=false;
+		}
+	
+		double distance;
+		if(box.getMinX()<getPosition().x && getPosition().x<box.getMaxX()){
+			//System.out.println("inbetween");
+			double numerator;
+			double denominator;
+			//for(int i=0; i<trianglesList.size(); i++){
+				Vector3f normal = trianglesList.get(0).getNormal();
+				float[] equation = trianglesList.get(0).getEquation();
+			// distance = Vector3f.dot(getPosition(), trianglesList.get(i).getNormal()) + trianglesList.get(i).getEquation()[3];
+				 numerator = Math.abs(normal.x*getPosition().x + normal.y*getPosition().y + normal.z*getPosition().z +  equation[3]);
+				 denominator = Math.sqrt(Math.pow(normal.x,2) + Math.pow(normal.y,2) + Math.pow(normal.z,2));
+				distance = numerator/denominator;
+			System.out.println(distance);
+			//System.out.println("equation[3]: "+equation[3]);
+			if(Math.abs(distance) < 2){
+				//setVelocity(new Vector3f(0,0,0));
+				System.out.println("normal: "+normal);
+				setVelocity(Operation.add(getVelocity(),Operation.multiplyByScalar(getVelocity().length(),normal)));
+				System.out.println("stop");
+			}
+			//}
+		}
+			
+		/*
 		//System.out.println("ball: "+getPosition());
 		/*BoundingBox box = entitiesList.get(0).getBox();
 		if(Math.abs(this.getBox().getMaxZ() - box.getMaxX() ) <= 1)
-			setVelocity(new Vector3f(0,0,0));*/
+			setVelocity(new Vector3f(0,0,0));
 		
 		//get the coordinates of the velocity, normalized velocity and the basePoint(=the center) in the ellipsoid space
 		colInfo.setVelocity(Operation.divideVector(colInfo.getR3Velocity(),colInfo.getEradius()));
@@ -75,15 +115,16 @@ public class Ball extends Entity{
 			System.out.println("normalised velo"+colInfo.getNormalizedVelocity());
 			System.out.println("basePoint "+colInfo.getBasePoint());
 			System.out.println("pos "+colInfo.getBasePoint());
-			System.out.println("IP: "+colInfo.getIntersectionPoint());*/
+			System.out.println("IP: "+colInfo.getIntersectionPoint());
 		}
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		
 		//System.out.println(trianglesList.get(0));
 		int i=0;
 		while(i<trianglesList.size()){
-			Triangle triangle = trianglesList.get(i);
+			/*Triangle triangle = trianglesList.get(i);
 			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
+			System.out.println("collision "+i+": "+colInfo.isFoundCollision());
 			//CheckCollision.touchTriangle(triangle, colInfo.getBasePoint());
 			i++;
 		}
@@ -91,16 +132,17 @@ public class Ball extends Entity{
 		//if(colInfo.isFoundCollision())
 			//setVelocity(new Vector3f(0,0,0));
 		if(colInfo.isFoundCollision()){
-			System.out.println("collision : "+colInfo.isFoundCollision());
+			
 			//ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0));
 			//System.out.println("R3 vel: "+colInfo.getR3Velocity());
 			//setVelocity(colInfo.getR3Velocity());
 			
-			//setVelocity(new Vector3f(0,0,0));
+			setVelocity(new Vector3f(0,0,0));
 			//setPosition(ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0)));
 		}
 		
 		colInfo.setFoundCollision(false);
+		*/
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
@@ -225,6 +267,39 @@ public class Ball extends Entity{
 	}
 	public CollisionInfo getColInfo(){
 		return colInfo;
+	}
+	
+	public boolean isInTriangle(Triangle triangle){
+		Vector2f edgeP1P2;
+		Vector2f edgeP1P3;
+		Vector2f edgeP2P3;
+		Vector3f P1_3D = triangle.getP1();
+		Vector3f P2_3D = triangle.getP2();
+		Vector3f P3_3D = triangle.getP3();
+		Vector2f p1;
+		Vector2f p2;
+		Vector2f p3;
+		if(triangle.getNormal().getY() != 0  ){
+			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getZ());
+			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getZ());
+			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getZ());
+			
+			p1 = new Vector2f(P1_3D.getX(), P1_3D.getZ());
+			p2 = new Vector2f(P2_3D.getX(), P2_3D.getZ());
+			p3 = new Vector2f(P3_3D.getX(),P3_3D.getZ());
+			
+			
+		}else if(triangle.getNormal().getZ() != 0 ){
+			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
+			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
+			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getY());
+		}else if(triangle.getNormal().getX() != 0){
+			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getY(), triangle.getEdgeP1P2().getZ());
+			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getY(), triangle.getEdgeP1P3().getZ());
+			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getY(), triangle.getEdgeP2P3().getZ());
+		}
+		
+		return true;
 	}
 	
 	

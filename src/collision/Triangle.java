@@ -6,19 +6,35 @@ public class Triangle {
 	private Vector3f p1;
 	private Vector3f p2;
 	private Vector3f p3;
-	
+	private Vector3f edgeP1P2;
+	private Vector3f edgeP1P3;
+	private Vector3f edgeP2P3;
+	private float[] equation = new float[4];
+	public Vector3f origin= new Vector3f();
 	private Vector3f normal=new Vector3f();
-	private float constant;
+
 	
 	public Triangle(Vector3f p1, Vector3f p2, Vector3f p3){
+		//System.out.println();
+		//System.out.println("points: "+ p1+" "+p2+" "+p3);
 		this.p1=p1;
 		this.p2=p2;
 		this.p3=p3;
 		
-		/*Vector3f edgeP1P2 =new Vector3f(p2.getX()-p1.getX(),p2.getY()-p1.getY(),p2.getZ()-p1.getZ());
-		Vector3f edgeP1P3 =new Vector3f(p3.getX()-p1.getX(),p3.getY()-p1.getY(),p3.getZ()-p1.getZ());
+		edgeP1P2 =new Vector3f(p2.getX()-p1.getX(),p2.getY()-p1.getY(),p2.getZ()-p1.getZ());
+		edgeP1P3 =new Vector3f(p3.getX()-p1.getX(),p3.getY()-p1.getY(),p3.getZ()-p1.getZ());
+		edgeP2P3 = new Vector3f(p3.getX()-p2.getX(),p3.getY()-p2.getY(),p3.getZ()-p3.getZ());
 		Vector3f.cross(edgeP1P2,edgeP1P3,normal);
-		constant = -(normal.x*p1.x + normal.y*p1.y + normal.z*p1.z);*/
+		
+		if(normal.length() !=0)
+			normal.normalise();
+		origin = this.p1;
+		equation[0] = normal.x;
+		equation[1] = normal.y;
+		equation[2] = normal.z;
+		//System.out.println("CHECK: "+ normal.x+"*"+origin.x  +" + "+  normal.y+"*"+origin.y+" + "+normal.z+"*"+origin.z);
+		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
+		equation[3]= origin.z;
 	}
 	public Vector3f getP1(){
 		return p1;
@@ -40,13 +56,27 @@ public class Triangle {
 	}
 	
 	public String toString(){
-		String s ="p1: "+p1+"  p2  "+p2+"  p3  " +p3;
+		String s ="p1: "+p1+"  p2  "+p2+"  p3  " +p3+"    equation[3]:"+equation[3]+"   normal: "+normal+"  // \\  ";
 		return s;
 	}
 	public Vector3f getNormal(){
 		return normal;
 	}
-	public  float getConstant(){
-		return constant;
+	public  float[] getEquation(){
+		return equation;
+	}
+	public void upDateEquation(Vector3f p1){
+		origin=p1;
+		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
+		
+	}
+	public Vector3f getEdgeP1P2() {
+		return edgeP1P2;
+	}
+	public Vector3f getEdgeP1P3() {
+		return edgeP1P3;
+	}
+	public Vector3f getEdgeP2P3() {
+		return edgeP2P3;
 	}
 }

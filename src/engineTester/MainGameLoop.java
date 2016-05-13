@@ -113,12 +113,12 @@ rwModel.setHasTransparency(true);
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
 
 BoundingBox box = ent.getBox();
-
+//System.out.println("P1 const Before: "+rw.getTriangles().get(0).getEquation()[3]);
 ArrayList<Triangle> trianglesList = rw.getTriangles();
 Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
-/*for(int i=0; i<trianglesList.size(); i++){
-	triangle = triang1lesList.get(i);
-	Vector3f p1 = triangle.getP1();
+for(int i=0; i<trianglesList.size(); i++){
+	triangle = trianglesList.get(i);
+	/*Vector3f p1 = triangle.getP1();
 	Vector3f newP1 = new Vector3f((p1.x+ent.getPosition().x)/ellipseX, (p1.y+ent.getPosition().y)/ellipseY , (p1.z+ent.getPosition().z)/ellipseZ);
 	triangle.setP1(newP1);
 	
@@ -129,7 +129,10 @@ Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
 	Vector3f p3 = triangle.getP3();
 	Vector3f newP3 = new Vector3f((p3.x+ent.getPosition().x)/ellipseX, (p3.y+ent.getPosition().y)/ellipseY , (p3.z+ent.getPosition().z)/ellipseZ);
 	triangle.setP3(newP3);
-}*/
+	System.out.println("P1: "+triangle.getP1());*/
+	triangle.upDateEquation(triangle.getP1());
+}
+//System.out.println("P1 const after: "+rw.getTriangles().get(0).getEquation()[3]);
 
 
 System.out.println("maxX: "+box.getMaxX());
@@ -140,9 +143,9 @@ System.out.println("maxZ: "+box.getMaxZ());
 System.out.println("minZ: "+box.getMinZ());
 
 
-Triangle testTriangle = trianglesList.get(0);
+/*Triangle testTriangle = trianglesList.get(0);
 trianglesList.clear();
-trianglesList.add(testTriangle);
+trianglesList.add(testTriangle);*/
 for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
 System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);
 ArrayList<Entity> testEntity = new ArrayList<Entity>();
