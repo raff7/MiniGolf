@@ -143,9 +143,9 @@ System.out.println("maxZ: "+box.getMaxZ());
 System.out.println("minZ: "+box.getMinZ());*/
 
 
-Triangle testTriangle = trianglesList.get(0);
+/*Triangle testTriangle = trianglesList.get(0);
 trianglesList.clear();
-trianglesList.add(testTriangle);
+trianglesList.add(testTriangle);*/
 /*for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
 System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);*/
 ArrayList<Entity> testEntity = new ArrayList<Entity>();

@@ -21,12 +21,12 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 2;
+	private static final float RUN_SPEED = 150;
 	private static final float 	TURN_SPEED = 160;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
-	private static final float FRICTION = 0.001f;
-	private static final float MAX_RUN_SPEED = 100;
+	private static final float FRICTION = 0.01f;
+	private static final float MAX_RUN_SPEED = 1000;
 	
 
 	private float currentTurnSpeed = 0;
@@ -75,85 +75,19 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-	
+
 		for(int i=0; i < trianglesList.size(); i++){
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
 			if( distance < getRadius()  && isInTriangle(triangle)){
-				setVelocity(Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(),triangle.getNormal())));
+				System.out.println("BEFORE "+getVelocity());
+				setVelocity( Operation.multiplyByScalar(-1, getVelocity()));
+				System.out.println("AFTER  "+getVelocity());
+				//setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(),triangle.getNormal()) ) );
 				System.out.println("collision");
 			}			
 			}
-				/*
-				//System.out.println("inbetween");
-				double numerator;
-				double denominator;
-				//for(int i=0; i<trianglesList.size(); i++){
-					Vector3f normal = trianglesList.get(0).getNormal();
-					float[] equation = trianglesList.get(0).getEquation();
-				// distance = Vector3f.dot(getPosition(), trianglesList.get(i).getNormal()) + trianglesList.get(i).getEquation()[3];
-					 numerator = Math.abs(normal.x*getPosition().x + normal.y*getPosition().y + normal.z*getPosition().z +  equation[3]);
-					 denominator = Math.sqrt(Math.pow(normal.x,2) + Math.pow(normal.y,2) + Math.pow(normal.z,2));
-					distance = numerator/denominator;
-				System.out.println(distance);
-				//System.out.println("equation[3]: "+equation[3]);
-				if(Math.abs(distance) < 2){
-					//setVelocity(new Vector3f(0,0,0));
-					System.out.println("normal: "+normal);
-					setVelocity(Operation.add(getVelocity(),Operation.multiplyByScalar(getVelocity().length(),normal)));
-					System.out.println("stop");
-				}
-			//}
-			}*/
-			
-		/*
-		//System.out.println("ball: "+getPosition());
-		/*BoundingBox box = entitiesList.get(0).getBox();
-		if(Math.abs(this.getBox().getMaxZ() - box.getMaxX() ) <= 1)
-			setVelocity(new Vector3f(0,0,0));
-		
-		//get the coordinates of the velocity, normalized velocity and the basePoint(=the center) in the ellipsoid space
-		colInfo.setVelocity(Operation.divideVector(colInfo.getR3Velocity(),colInfo.getEradius()));
-		colInfo.setNormalizedVelocity(colInfo.getVelocity().x,colInfo.getVelocity().y,colInfo.getVelocity().z);
-		if(colInfo.getNormalizedVelocity().lengthSquared() != 0)
-			colInfo.getNormalizedVelocity().normalise();
-		colInfo.setBasePoint(Operation.divideVector(getPosition(),colInfo.getEradius()));
-		
-		if(debug){	
-			/*System.out.println();
-			System.out.println("velocity "+colInfo.getVelocity());
-			System.out.println("normalised velo"+colInfo.getNormalizedVelocity());
-			System.out.println("basePoint "+colInfo.getBasePoint());
-			System.out.println("pos "+colInfo.getBasePoint());
-			System.out.println("IP: "+colInfo.getIntersectionPoint());
-		}
-		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
-		
-		//System.out.println(trianglesList.get(0));
-		int i=0;
-		while(i<trianglesList.size()){
-			/*Triangle triangle = trianglesList.get(i);
-			CollisionHandler.checkTriangle(colInfo,triangle.getP1(),triangle.getP2(),triangle.getP3());
-			System.out.println("collision "+i+": "+colInfo.isFoundCollision());
-			//CheckCollision.touchTriangle(triangle, colInfo.getBasePoint());
-			i++;
-		}
-		//System.out.println("collision : "+colInfo.isFoundCollision());
-		//if(colInfo.isFoundCollision())
-			//setVelocity(new Vector3f(0,0,0));
-		if(colInfo.isFoundCollision()){
-			
-			//ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0));
-			//System.out.println("R3 vel: "+colInfo.getR3Velocity());
-			//setVelocity(colInfo.getR3Velocity());
-			
-			setVelocity(new Vector3f(0,0,0));
-			//setPosition(ResponseStep.collideAndSlide(colInfo,new Vector3f(0,0,0)));
-		}
-		
-		colInfo.setFoundCollision(false);
-		*/
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
@@ -172,6 +106,28 @@ public class Ball extends Entity{
 			velocity.y = 0;//-velocity.y*0.8f;
 			super.getPosition().y=terrainHeight;
 		}
+		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
+			float length = getVelocity().length();
+			float newLength = length-FRICTION;
+			
+			Vector3f v = getVelocity();
+			if(v.length() != 0)
+				v.normalise();
+			Operation.multiplyByScalar(newLength,v);
+			
+			setVelocity(v);
+			
+			/*float scaleX = velocity.x/FRICTION;
+			if(this.velocity.x>0)			
+				this.velocity.x=Math.max(this.velocity.x-FRICTION, 0);
+			else				
+				this.velocity.x=Math.min(this.velocity.x+FRICTION, 0);
+			if(this.velocity.z>0)
+				this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
+			else
+				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
+
+	
 	}
 	private void jump(){
 		if(!isInAir){
@@ -181,27 +137,14 @@ public class Ball extends Entity{
 	}
 	private void checkInputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			this.velocity.x += RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
-			this.velocity.z += RUN_SPEED*Math.cos(Math.toRadians(getRotY()));		
+			this.velocity.x = (float) (RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (RUN_SPEED*Math.cos(Math.toRadians(getRotY())));		
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
 			this.velocity.x -= RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
 			this.velocity.z -= RUN_SPEED*Math.cos(Math.toRadians(getRotY()));			
-			}else{
-				float temp = this.velocity.y;
-				this.velocity.scale(FRICTION);
-				this.velocity.y=temp;
-//				if(this.velocity.x>0)
-//					this.velocity.x=Math.max(this.velocity.x-FRICTION, 0);
-//				else
-//					this.velocity.x=Math.min(this.velocity.x+FRICTION, 0);
-//				if(this.velocity.z>0)
-//					this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
-//				else
-//					this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);
-
-		}
+			}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			this.currentTurnSpeed = -TURN_SPEED;
 		}
@@ -215,8 +158,8 @@ public class Ball extends Entity{
 			jump();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			velocity.x = (float) (MAX_RUN_SPEED*Math.sin(Math.toRadians(getRotY())));
-			velocity.z = (float) (MAX_RUN_SPEED*Math.cos(Math.toRadians(getRotY())));
+			velocity.x = 0;
+			velocity.z = 0;
 
 		}
 		
@@ -254,7 +197,6 @@ public class Ball extends Entity{
 			velocity.x *= 1.5f;
 			velocity.y *= 1.5f;
 			velocity.z *= 1.5f;
-
 		}
 		
 	}
