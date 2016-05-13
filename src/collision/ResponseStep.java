@@ -3,6 +3,7 @@ package collision;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Ball;
+import geometry.Plane;
 
 public class ResponseStep{
 	static int collisionRecursionDepth;

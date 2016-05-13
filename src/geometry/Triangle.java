@@ -1,4 +1,4 @@
-package collision;
+package geometry;
 
 import org.lwjgl.util.vector.Vector3f;
 

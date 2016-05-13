@@ -13,7 +13,7 @@ import collision.CollisionHandler;
 import collision.CollisionInfo;
 import collision.Operation;
 import collision.ResponseStep;
-import collision.Triangle;
+import geometry.Triangle;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
 import terrains.Terrain;

@@ -19,7 +19,6 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import collision.BoundingBox;
-import collision.Triangle;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -38,6 +37,7 @@ import entities.Course;
 import entities.Entity;
 import entities.Lamp;
 import entities.Light;
+import geometry.Triangle;
 import gui.Button;
 import gui.GuiRenderer;
 import gui.GuiTexture;

@@ -2,6 +2,8 @@ package collision;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import geometry.Plane;
+
 public class CollisionHandler {
 
 	// Assumes: p1,p2 and p3 are given in ellipsoid space:

@@ -1,4 +1,4 @@
-package toolbox;
+package geometry;
 
 import org.lwjgl.util.vector.Vector2f;
 

@@ -2,6 +2,8 @@ package collision;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import geometry.Triangle;
+
 public class CheckCollision {
 	public static double touchTriangle(Triangle triangle,Vector3f point){
 		Vector3f normal = triangle.getNormal();
