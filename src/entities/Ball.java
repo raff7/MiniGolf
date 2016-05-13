@@ -273,12 +273,15 @@ public class Ball extends Entity{
 		Vector2f edgeP1P2;
 		Vector2f edgeP1P3;
 		Vector2f edgeP2P3;
+		
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
 		Vector3f P3_3D = triangle.getP3();
+		
 		Vector2f p1;
 		Vector2f p2;
 		Vector2f p3;
+		
 		if(triangle.getNormal().getY() != 0  ){
 			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getZ());
 			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getZ());
@@ -287,6 +290,8 @@ public class Ball extends Entity{
 			p1 = new Vector2f(P1_3D.getX(), P1_3D.getZ());
 			p2 = new Vector2f(P2_3D.getX(), P2_3D.getZ());
 			p3 = new Vector2f(P3_3D.getX(),P3_3D.getZ());
+			
+			
 			
 			
 		}else if(triangle.getNormal().getZ() != 0 ){
@@ -298,6 +303,9 @@ public class Ball extends Entity{
 			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getY(), triangle.getEdgeP1P3().getZ());
 			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getY(), triangle.getEdgeP2P3().getZ());
 		}
+		
+		
+		
 		
 		return true;
 	}
