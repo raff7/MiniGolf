@@ -134,20 +134,20 @@ for(int i=0; i<trianglesList.size(); i++){
 }
 //System.out.println("P1 const after: "+rw.getTriangles().get(0).getEquation()[3]);
 
-
+/*
 System.out.println("maxX: "+box.getMaxX());
 System.out.println("minX: "+box.getMinX());
 System.out.println("maxY: "+box.getMaxY());
 System.out.println("minY: "+box.getMinY());
 System.out.println("maxZ: "+box.getMaxZ());
-System.out.println("minZ: "+box.getMinZ());
+System.out.println("minZ: "+box.getMinZ());*/
 
 
-/*Triangle testTriangle = trianglesList.get(0);
+Triangle testTriangle = trianglesList.get(0);
 trianglesList.clear();
-trianglesList.add(testTriangle);*/
-for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
-System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);
+trianglesList.add(testTriangle);
+/*for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
+System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);*/
 ArrayList<Entity> testEntity = new ArrayList<Entity>();
 testEntity.add(ent);
 entities.add(ent);

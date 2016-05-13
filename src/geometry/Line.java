@@ -18,7 +18,8 @@ public class Line {
 		
 		float distance1 = yLine1-p1.getY();
 		float distance2 = yLine2-p2.getY();
-		
+		//System.out.println(yLine2+"  "+p2.getY());
+		//System.out.println("distances: "+distance1+"  "+distance2);
 		if(distance1*distance2>0 || distance1 ==0)
 			return true;
 		else
