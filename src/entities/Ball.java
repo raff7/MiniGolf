@@ -62,8 +62,9 @@ public class Ball extends Entity{
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		BoundingBox box =entitiesList.get(0).getBox();
 		
-		Triangle t =trianglesList.get(0);
+		
 		if(debug){
+			Triangle t =trianglesList.get(0);
 			System.out.println();	
 			System.out.println("p1 "+t.getP1());
 			System.out.println("p2 "+t.getP2());
@@ -79,14 +80,10 @@ public class Ball extends Entity{
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
-			if(distance < getRadius()  && isInTriangle(triangle)){
+			if( distance < getRadius()  && isInTriangle(triangle)){
 				setVelocity(Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(),triangle.getNormal())));
 				System.out.println("collision");
-			}
-				
-				
-				
-				
+			}			
 			}
 				/*
 				//System.out.println("inbetween");
@@ -298,7 +295,7 @@ public class Ball extends Entity{
 		
 		Vector2f position2D=null;
 		
-		if(triangle.getNormal().getY() != 0  ){
+		if( triangle.getNormal().getY() != 0  ){
 			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getZ());
 			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getZ());
 			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getZ());
@@ -335,6 +332,7 @@ public class Ball extends Entity{
 		Line line1 = new Line(edgeP1P2, p1);
 		Line line2 = new Line(edgeP1P3, p1);
 		Line line3 = new Line(edgeP2P3, p2);
+		//System.out.println(line1.m+"   "+line1.p);
 		
 		if(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1)){
 			System.out.println("is in triangle");
