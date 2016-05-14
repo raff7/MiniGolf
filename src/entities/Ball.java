@@ -143,8 +143,8 @@ public class Ball extends Entity{
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.velocity.x -= RUN_SPEED*Math.sin(Math.toRadians(getRotY()));	
-			this.velocity.z -= RUN_SPEED*Math.cos(Math.toRadians(getRotY()));			
+			this.velocity.x = (float) (-RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (-RUN_SPEED*Math.cos(Math.toRadians(getRotY())));			
 			}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			this.currentTurnSpeed = -TURN_SPEED;
