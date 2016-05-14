@@ -79,12 +79,12 @@ public class Ball extends Entity{
 		for(Triangle triangle:trianglesList){
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
-			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
+			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle) && (Vector3f.dot(velocity, triangle.getNormal())<0)){
 				System.out.println("velocity before: "+getVelocity());
 				System.out.println("normal before scaling: "+triangle.getNormal());
 				System.out.println("velocity.length: "+getVelocity().length());
 				setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()) ) );
-				System.out.println("normal after scaling: "+Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()));
+			//	System.out.println("normal after scaling: "+Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()));
 				System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();
@@ -280,7 +280,6 @@ public class Ball extends Entity{
 		//System.out.println(line1.m+"   "+line1.p);
 		
 		if(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1)){
-			System.out.println("is in triangle");
 			return true;
 		}
 		return false;
