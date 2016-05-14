@@ -76,8 +76,7 @@ public class Ball extends Entity{
 			debug=false;
 		}
 		
-		for(int i=0; i < trianglesList.size(); i++){
-			Triangle triangle = trianglesList.get(i);
+		for(Triangle triangle:trianglesList){
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
 			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
