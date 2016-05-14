@@ -80,15 +80,16 @@ public class Ball extends Entity{
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
 			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle) && (Vector3f.dot(velocity, triangle.getNormal())<0)){
-				System.out.println("velocity before: "+getVelocity());
+				//System.out.println("velocity before: "+getVelocity());
 				float dotTimes2 = 2*(Vector3f.dot(triangle.getNormal(), getVelocity()));
-				System.out.println("dot times 2: "+dotTimes2);
+				//System.out.println("dot times 2: "+dotTimes2);
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, triangle.getNormal());
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
-				setVelocity((Vector3f)finalVelocity);//.negate());
-				System.out.println("velocity after: "+getVelocity());
+				
+				setVelocity((Vector3f)finalVelocity.negate());
+				/*System.out.println("velocity after: "+getVelocity());
 				System.out.println();
-				System.out.println();
+				System.out.println();*/
 				break;
 			}			
 		}
@@ -208,7 +209,11 @@ public class Ball extends Entity{
 		return velocity;
 	}
 	public  void setVelocity(Vector3f velocity) {
+		System.out.println();
+		System.out.println("velocity  before: "+getVelocity());
 		this.velocity = velocity;
+		System.out.println("velocity  after: "+getVelocity());
+		System.out.println();
 	}
 	public float getRadius() {
 		return radius;
