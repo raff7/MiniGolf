@@ -81,7 +81,6 @@ public class Ball extends Entity{
 			//System.out.println("distance: "+distance);
 			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
 				System.out.println("velocity before: "+getVelocity());
-				System.out.println("triangle: "+i);
 				System.out.println("normal before scaling: "+triangle.getNormal());
 				System.out.println("velocity.length: "+getVelocity().length());
 				setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()) ) );
@@ -89,7 +88,7 @@ public class Ball extends Entity{
 				System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();
-				i=trianglesList.size();
+				break;
 			}			
 		}
 		checkInputs();
