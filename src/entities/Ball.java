@@ -75,18 +75,14 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-
+		System.out.println("velocity: "+getVelocity());
 		for(int i=0; i < trianglesList.size(); i++){
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
 			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
-				System.out.println("BEFORE "+getVelocity());
-			//	setVelocity( Operation.multiplyByScalar(-1, getVelocity()));
-				setVelocity(new Vector3f(0,0,0));
-				System.out.println("AFTER  "+getVelocity());
-				//setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(),triangle.getNormal()) ) );
-				System.out.println("collision");
+				setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()) ) );
+				
 			}			
 			}
 		checkInputs();
