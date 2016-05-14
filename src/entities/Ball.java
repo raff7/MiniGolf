@@ -80,7 +80,7 @@ public class Ball extends Entity{
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
-			if( Math.abs(distance - getRadius())< radius  && isInTriangle(triangle)){
+			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
 				System.out.println("BEFORE "+getVelocity());
 			//	setVelocity( Operation.multiplyByScalar(-1, getVelocity()));
 				setVelocity(new Vector3f(0,0,0));
