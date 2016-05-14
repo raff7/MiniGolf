@@ -35,7 +35,7 @@ public class Ball extends Entity{
 	
 	private Vector3f velocity;
 	private CollisionInfo colInfo;
-	private float radius = 4;
+	private float radius = 1;
 	private Vector3f eRadius;
 	
 	private boolean debug=false;
@@ -80,9 +80,10 @@ public class Ball extends Entity{
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
-			if( distance < getRadius()  && isInTriangle(triangle)){
+			if( Math.abs(distance - getRadius())< radius  && isInTriangle(triangle)){
 				System.out.println("BEFORE "+getVelocity());
-				setVelocity( Operation.multiplyByScalar(-1, getVelocity()));
+			//	setVelocity( Operation.multiplyByScalar(-1, getVelocity()));
+				setVelocity(new Vector3f(0,0,0));
 				System.out.println("AFTER  "+getVelocity());
 				//setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(),triangle.getNormal()) ) );
 				System.out.println("collision");
@@ -107,7 +108,7 @@ public class Ball extends Entity{
 			super.getPosition().y=terrainHeight;
 		}
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
-			float length = getVelocity().length();
+			/*float length = getVelocity().length();
 			float newLength = length-FRICTION;
 			
 			Vector3f v = getVelocity();
