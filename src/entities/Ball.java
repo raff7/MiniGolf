@@ -75,16 +75,24 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-		System.out.println("velocity: "+getVelocity());
+		
 		for(int i=0; i < trianglesList.size(); i++){
 			Triangle triangle = trianglesList.get(i);
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			//System.out.println("distance: "+distance);
 			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle)){
+				System.out.println("velocity before: "+getVelocity());
+				System.out.println("triangle: "+i);
+				System.out.println("normal before scaling: "+triangle.getNormal());
+				System.out.println("velocity.length: "+getVelocity().length());
 				setVelocity( Operation.add(getVelocity(), Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()) ) );
-				
+				System.out.println("normal after scaling: "+Operation.multiplyByScalar(getVelocity().length(), (Vector3f)triangle.getNormal().normalise()));
+				System.out.println("velocity after: "+getVelocity());
+				System.out.println();
+				System.out.println();
+				i=trianglesList.size();
 			}			
-			}
+		}
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
