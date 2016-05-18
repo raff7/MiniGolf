@@ -305,9 +305,9 @@ public class Ball extends Entity{
 		Vector2f p2=null;
 		Vector2f p3=null;
 		
-		Line line1;
-		Line line2;
-		Line line3;
+		Line line1=null;
+		Line line2=null;
+		Line line3=null;
 		
 		Vector2f position2D=null;
 		
@@ -325,8 +325,27 @@ public class Ball extends Entity{
 			line3 = new Line(edgeP2P3, p2);
 			
 			position2D = new Vector2f(getPosition().x, getPosition().z);
-	
-			if(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1)){
+		}
+		
+		if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
+			if(triangle.getNormal().getZ() != 0 ){
+				edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
+				edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
+				edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getY());
+				
+				p1 = new Vector2f(P1_3D.getX(), P1_3D.getY());
+				p2 = new Vector2f(P2_3D.getX(), P2_3D.getY());
+				p3 = new Vector2f(P3_3D.getX(), P3_3D.getY());
+				
+				line1 = new Line(edgeP1P2, p1);
+				line2 = new Line(edgeP1P3, p1);
+				line3 = new Line(edgeP2P3, p2);
+				
+				position2D = new Vector2f(getPosition().x, getPosition().y);
+			}else
+				position2D=null;
+			
+			if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 				if(triangle.getNormal().getZ() != 0 ){
 					edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
 					edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
@@ -341,30 +360,15 @@ public class Ball extends Entity{
 					line3 = new Line(edgeP2P3, p2);
 					
 					position2D = new Vector2f(getPosition().x, getPosition().y);
+				}else
+					position2D=null;
+				
+				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
+					return true;
 				}
-				if(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1)){
-					if(triangle.getNormal().getX() != 0){
-						edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getY(), triangle.getEdgeP1P2().getZ());
-						edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getY(), triangle.getEdgeP1P3().getZ());
-						edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getY(), triangle.getEdgeP2P3().getZ());
-						
-						p1 = new Vector2f(P1_3D.getY(), P1_3D.getZ());
-						p2 = new Vector2f(P2_3D.getY(), P2_3D.getZ());
-						p3 = new Vector2f(P3_3D.getY(), P3_3D.getZ());
-						
-						line1 = new Line(edgeP1P2, p1);
-						line2 = new Line(edgeP1P3, p1);
-						line3 = new Line(edgeP2P3, p2);
-						
-						position2D = new Vector2f(getPosition().y, getPosition().z);
-						
-						if(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1)){
-							return true;
-						}
-					}
 			}
 		}
+		return false;
 	}
-	return false;
-}
+
 }
