@@ -42,7 +42,7 @@ import gui.Button;
 import gui.GuiRenderer;
 import gui.GuiTexture;
 
-public class MainGameLoop {
+public class MainGameLoop{
 	private static Course course;
 	private static Loader loader;
 	private static MasterRenderer renderer;
@@ -106,7 +106,7 @@ public class MainGameLoop {
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("exampleOBJ", loader);
+RawModel rw = OBJLoader.loadObjModel("dragon", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 rwModel.setHasTransparency(true);
 
@@ -310,8 +310,6 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		}
 
 
-			
-		
 		return 0;
 	}
 	
