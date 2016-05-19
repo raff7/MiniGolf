@@ -106,7 +106,7 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("exampleOBJ", loader);
+RawModel rw = OBJLoader.loadObjModel("cube", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 rwModel.setHasTransparency(true);
 
