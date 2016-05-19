@@ -21,7 +21,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 10;
+	private static final float RUN_SPEED = 50;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -61,7 +61,7 @@ public class Ball extends Entity{
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		BoundingBox box =entitiesList.get(0).getBox();
-		
+
 		
 		if(debug){
 			Triangle t =trianglesList.get(0);
@@ -80,16 +80,19 @@ public class Ball extends Entity{
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 //			System.out.println("distance: "+distance);
 			if( Math.abs(distance)< getRadius()  && isInTriangle(triangle)){
+				System.out.println(triangle.getNormal());
+
 				//System.out.println("velocity before: "+getVelocity());
 				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 				if(Vector3f.dot(velocity,triangle.getNormal()) > 0){
 					normal.negate();
 				}
 				//push it back
-				Vector3f distancePush = Operation.multiplyByScalar(30,normal);
-				float dx = distancePush.x * DisplayManager.getFrameTimeSeconds();
-				float dz = distancePush.z * DisplayManager.getFrameTimeSeconds();
-				float dy = distancePush.y * DisplayManager.getFrameTimeSeconds();
+				float factor=1;
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
+				float dx = distancePush.x;
+				float dz = distancePush.z;
+				float dy = distancePush.y;
 				super.increasePosition(dx,dy,dz);
 				
 				float dotTimes2 = 2*(Vector3f.dot(triangle.getNormal(), getVelocity()));
@@ -97,7 +100,7 @@ public class Ball extends Entity{
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, triangle.getNormal());
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 				
-				setVelocity((Vector3f)finalVelocity.negate());
+				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
 				/*System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();*/
@@ -119,7 +122,7 @@ public class Ball extends Entity{
 			terrainHeight = 0;
 		if(super.getPosition().y<terrainHeight){
 			isInAir=false;
-			velocity.y = 0;//-velocity.y*0.8f;
+			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
@@ -146,7 +149,7 @@ public class Ball extends Entity{
 	
 	}
 	private void jump(){
-		if(!isInAir){
+		if(!isInAir||isInAir){
 			this.velocity.y=JUMP_POWER;
 			isInAir=true;
 		}
@@ -336,11 +339,9 @@ public class Ball extends Entity{
 			line3 = new Line(edgeP2P3, p2);
 			
 			position2D = new Vector2f(getPosition().x, getPosition().z);
-		}else
-			System.out.println("T1 null");
+		}
 
 		if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-			System.out.println("T1");
 
 			if(triangle.getNormal().getZ() != 0 ){
 				edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
@@ -358,11 +359,9 @@ public class Ball extends Entity{
 				position2D = new Vector2f(getPosition().x, getPosition().y);
 			}else{
 				position2D=null;
-				System.out.println("T2 null");
 
 			}
 			if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-				System.out.println("T2");
 
 				if(triangle.getNormal().getX() != 0 ){
 					edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getY(), triangle.getEdgeP1P2().getZ());
@@ -380,10 +379,8 @@ public class Ball extends Entity{
 					position2D = new Vector2f(getPosition().y, getPosition().z);
 				}else{
 					position2D=null;
-					System.out.println("T3 null");
 				}
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-					System.out.println("T3");
 					return true;
 				}
 			}
