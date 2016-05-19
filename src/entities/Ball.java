@@ -75,9 +75,8 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-		int i =0;
 		for(Triangle triangle:trianglesList){
-			i++;
+		
 			Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 
 			float distance = Vector3f.dot(getPosition(), normal) + triangle.getEquation()[3];
@@ -89,7 +88,7 @@ public class Ball extends Entity{
 					normal.negate();
 				}
 				//push it back
-				float factor=30;
+				float factor=50;
 				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
 				float dx = distancePush.x;
 				float dz = distancePush.z;
@@ -108,7 +107,6 @@ public class Ball extends Entity{
 				break;
 			}			
 		}
-		System.out.println(i);
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
@@ -119,10 +117,10 @@ public class Ball extends Entity{
 	
 		float terrainHeight;
 		if(terrain != null)
-			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z)+1;
 		else
-			terrainHeight = 0;
-		if(super.getPosition().y<terrainHeight){
+			terrainHeight = 1;
+		if(super.getPosition().y < terrainHeight){
 			isInAir=false;
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
@@ -373,7 +371,7 @@ public class Ball extends Entity{
 					position2D=null;
 				}
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-					
+					System.out.println(triangle.getNormal());
 					return true;
 				}
 			}
