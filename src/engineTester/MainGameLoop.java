@@ -110,7 +110,7 @@ RawModel rw = OBJLoader.loadObjModel("cube", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 rwModel.setHasTransparency(true);
 
-Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20)-1,ball.getPosition().z+20),0,0,0,1);
 
 BoundingBox box = ent.getBox();
 //System.out.println("P1 const Before: "+rw.getTriangles().get(0).getEquation()[3]);
@@ -175,7 +175,6 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 			exitLoop = checkActualGameImputs();
 			ball.move(course.getCurrentTerrain(),testEntity);
 			camera.move();
-			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			
 			for(WaterTile water:waters){
@@ -418,7 +417,7 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		
-		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(400,0,360),0,0,0,1));
+		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(0,0,0),0,0,0,1));
 		float yball = (float) course.getHeightOfTerrain(400, 360);
 		course.getBall().setPosition(new Vector3f(course.getBall().getPosition().x,yball,course.getBall().getPosition().z));
 		

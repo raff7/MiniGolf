@@ -33,7 +33,7 @@ public class Line {
 			distance1 = yLine1-p1.getY();
 			distance2 = yLine2-p2.getY();
 		}
-		if(distance1*distance2>0 || distance1 ==0)
+		if(distance1*distance2>=0 || distance1 ==0 )
 			return true;
 		else
 			return false;
