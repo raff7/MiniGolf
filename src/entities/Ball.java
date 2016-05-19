@@ -75,8 +75,9 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-		
+		int i =0;
 		for(Triangle triangle:trianglesList){
+			i++;
 			Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 
 			float distance = Vector3f.dot(getPosition(), normal) + triangle.getEquation()[3];
@@ -107,6 +108,7 @@ public class Ball extends Entity{
 				break;
 			}			
 		}
+		System.out.println(i);
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
@@ -307,9 +309,7 @@ public class Ball extends Entity{
 	}*/
 	
 	public boolean isInTriangle(Triangle triangle){
-		Vector2f edgeP1P2=null;
-		Vector2f edgeP1P3=null;
-		Vector2f edgeP2P3=null;
+
 		
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
@@ -326,17 +326,14 @@ public class Ball extends Entity{
 		Vector2f position2D=null;
 		
 		if( triangle.getNormal().getY() != 0 ){
-			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getZ());
-			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getZ());
-			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getZ());
 			
 			p1 = new Vector2f(P1_3D.getX(), P1_3D.getZ());
 			p2 = new Vector2f(P2_3D.getX(), P2_3D.getZ());
 			p3 = new Vector2f(P3_3D.getX(), P3_3D.getZ());
 			
-			line1 = new Line(edgeP1P2, p1);
-			line2 = new Line(edgeP1P3, p3);
-			line3 = new Line(edgeP2P3, p2);
+			line1 = new Line(p1, p2);
+			line2 = new Line(p1, p3);
+			line3 = new Line(p2, p3);
 			
 			position2D = new Vector2f(getPosition().x, getPosition().z);
 		}
@@ -344,17 +341,14 @@ public class Ball extends Entity{
 		if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 
 			if(triangle.getNormal().getZ() != 0 ){
-				edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
-				edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
-				edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getY());
 				
 				p1 = new Vector2f(P1_3D.getX(), P1_3D.getY());
 				p2 = new Vector2f(P2_3D.getX(), P2_3D.getY());
 				p3 = new Vector2f(P3_3D.getX(), P3_3D.getY());
 				
-				line1 = new Line(edgeP1P2, p1);
-				line2 = new Line(edgeP1P3, p3);
-				line3 = new Line(edgeP2P3, p2);
+				line1 = new Line(p1, p2);
+				line2 = new Line(p1, p3);
+				line3 = new Line(p2, p3);
 				
 				position2D = new Vector2f(getPosition().x, getPosition().y);
 			}else{
@@ -364,33 +358,22 @@ public class Ball extends Entity{
 			if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 
 				if(triangle.getNormal().getX() != 0 ){
-					System.out.println("Here,");
-					edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getZ(), triangle.getEdgeP1P2().getY());
-					edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getZ(), triangle.getEdgeP1P3().getY());
-					edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getZ(), triangle.getEdgeP2P3().getY());
 					
 					p1 = new Vector2f(P1_3D.getZ(), P1_3D.getY());
 					p2 = new Vector2f(P2_3D.getZ(), P2_3D.getY());
 					p3 = new Vector2f(P3_3D.getZ(), P3_3D.getY());
 					
-					line1 = new Line(edgeP1P2, p1);
-					line2 = new Line(edgeP1P3, p3);
-					line3 = new Line(edgeP2P3, p2);
+					line1 = new Line(p1, p2);
+					line2 = new Line(p1, p3);
+					line3 = new Line(p2, p3);
 					
 					position2D = new Vector2f(getPosition().z, getPosition().y);
-					System.out.println("Ball: "+position2D);
-					System.out.println("Triangle: "+p1+" "+p2+" "+p3);
 
 				}else{
 					position2D=null;
 				}
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-					if(p1.x==30){
-						System.out.println("collision with low triangle");
-					}else if(p1.x==20){
-						System.out.println("collision with HIGH triangle");
-
-					}
+					
 					return true;
 				}
 			}
