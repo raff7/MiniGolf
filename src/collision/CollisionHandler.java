@@ -2,6 +2,8 @@ package collision;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import geometry.Plane;
+
 public class CollisionHandler {
 
 	// Assumes: p1,p2 and p3 are given in ellipsoid space:
@@ -19,7 +21,7 @@ public class CollisionHandler {
 		// Calculate the signed distance from sphere position to triangle plane
 		//System.out.println("BasePoint : "+colInfo.getBasePoint());
 		double signedDistToTrianglePlane = trianglePlane.signedDistanceTo(colInfo.getBasePoint());
-		System.out.println("distance: "+signedDistToTrianglePlane);
+		//System.out.println("distance: "+signedDistToTrianglePlane);
 		// cache this as we’re going to use it a few times below:
 		float normalDotVelocity = Vector3f.dot(trianglePlane.normal,colInfo.getVelocity());
 		
@@ -193,6 +195,7 @@ public class CollisionHandler {
 		
 		// Set result:
 		if (foundCollison == true){
+			//System.out.println("distance: "+t*colInfo.getVelocity().length());
 			// distance to collision: ’t’ is time of collision
 			double distToCollision = t*colInfo.getVelocity().length();
 			// Does this triangle qualify for the closest hit?

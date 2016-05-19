@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import collision.Triangle;
+import geometry.Triangle;
 
 public class RawModel {
 	
