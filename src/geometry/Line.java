@@ -10,7 +10,7 @@ public class Line {
 	private boolean isVertical = false;
 	
 	public Line(Vector2f vector, Vector2f point){
-		pointOfLine= point;
+		pointOfLine = point;
 		if(vector.x==0)
 			isVertical=true;
 		else{

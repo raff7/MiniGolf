@@ -21,8 +21,8 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 150;
-	private static final float 	TURN_SPEED = 160;
+	private static final float RUN_SPEED = 10;
+	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
 	private static final float FRICTION = 0.01f;
@@ -35,7 +35,7 @@ public class Ball extends Entity{
 	
 	private Vector3f velocity;
 	private CollisionInfo colInfo;
-	private float radius = 1;
+	private float radius = 1f;
 	private Vector3f eRadius;
 	
 	private boolean debug=false;
@@ -79,8 +79,19 @@ public class Ball extends Entity{
 		for(Triangle triangle:trianglesList){
 			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 //			System.out.println("distance: "+distance);
-			if( Math.abs(distance)< getRadius()  && isInTriangle(triangle) && (Vector3f.dot(velocity, triangle.getNormal())<0)){
+			if( Math.abs(distance)< getRadius()  && isInTriangle(triangle)){
 				//System.out.println("velocity before: "+getVelocity());
+				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+				if(Vector3f.dot(velocity,triangle.getNormal()) > 0){
+					normal.negate();
+				}
+				//push it back
+				Vector3f distancePush = Operation.multiplyByScalar(30,normal);
+				float dx = distancePush.x * DisplayManager.getFrameTimeSeconds();
+				float dz = distancePush.z * DisplayManager.getFrameTimeSeconds();
+				float dy = distancePush.y * DisplayManager.getFrameTimeSeconds();
+				super.increasePosition(dx,dy,dz);
+				
 				float dotTimes2 = 2*(Vector3f.dot(triangle.getNormal(), getVelocity()));
 				//System.out.println("dot times 2: "+dotTimes2);
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, triangle.getNormal());
