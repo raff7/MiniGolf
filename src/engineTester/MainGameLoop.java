@@ -409,7 +409,7 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		
 		course.addWater(new WaterTile(400,360,-5));
 		
-		RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
+	    RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
 		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
 		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
 		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
