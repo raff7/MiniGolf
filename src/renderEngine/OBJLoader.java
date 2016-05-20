@@ -80,9 +80,9 @@ public class OBJLoader {
 				
 				Triangle t = new Triangle(vertices.get(Integer.parseInt(vertex1[0])-1),vertices.get(Integer.parseInt(vertex2[0])-1),vertices.get(Integer.parseInt(vertex3[0])-1));
 				triangles.add(t);
-				System.out.println(t);
 				line = reader.readLine();
 			}
+			System.out.println(triangles.size());
 			reader.close();
 
 		} catch (Exception e) {

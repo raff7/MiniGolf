@@ -51,35 +51,20 @@ public class Ball extends Entity{
 		BoundingBox box =entitiesList.get(0).getBox();
 		
 		for(Triangle triangle:trianglesList){
+			ArrayList<Vector3f> points = new ArrayList<Vector3f>();
+			Vector3f normalVelocity = new Vector3f();
+			getVelocity().normalise(normalVelocity);
+			points.add(Operation.add(getPosition(),Operation.multiplyByScalar(radius,normalVelocity )));
+//			points.add(c);
+//			points.add(e);
+//			points.add(e);
+//			points.add(e);
 			
-			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
-			if( Math.abs(distance)< getRadius())
-				if( isInTriangle(triangle)){
-					Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
-					//System.out.println("velocity before: "+getVelocity());
-					if(Vector3f.dot(velocity,normal) > 0){
-						normal.negate();
-					}
-					//push it back
-					float factor=50;
-					Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
-					float dx = distancePush.x;
-					float dz = distancePush.z;
-					float dy = distancePush.y;
-					super.increasePosition(dx,dy,dz);
-					
-					float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
-					//System.out.println("dot times 2: "+dotTimes2);
-					Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
-					Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
-					
-					setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
-					/*System.out.println("velocity after: "+getVelocity());
-					System.out.println();
-					System.out.println();*/
+			for(Vector3f point:points)
+				if(collide(triangle,point))
 					break;
-				}
-			}			
+				
+		}
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
@@ -266,6 +251,39 @@ public class Ball extends Entity{
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 					return true;
 				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean collide(Triangle triangle, Vector3f point){
+
+		float distance = Vector3f.dot(point, triangle.getNormal()) + triangle.getEquation()[3];
+		if( Math.abs(distance)< getRadius()){
+			if( isInTriangle(triangle)){
+				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+				//System.out.println("velocity before: "+getVelocity());
+				if(Vector3f.dot(velocity,normal) > 0){
+					normal.negate();
+				}
+				//push it back
+				float factor=50;
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
+				float dx = distancePush.x;
+				float dz = distancePush.z;
+				float dy = distancePush.y;
+				super.increasePosition(dx,dy,dz);
+				
+				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
+				//System.out.println("dot times 2: "+dotTimes2);
+				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
+				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
+				
+				setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
+				/*System.out.println("velocity after: "+getVelocity());
+				System.out.println();
+				System.out.println();*/
+				return true;
 			}
 		}
 		return false;
