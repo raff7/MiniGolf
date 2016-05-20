@@ -56,7 +56,7 @@ public class Triangle {
 	}
 	
 	public String toString(){
-		String s ="p1: "+p1+"  p2  "+p2+"  p3  " +p3+"    equation[3]:"+equation[3]+"   normal: "+normal+"  // \\  ";
+		String s ="p1: "+p1+"  p2  "+p2+"  p3  " +p3+"  equation[3]: "+equation[3]+"  normal: "+normal;
 		return s;
 	}
 	public Vector3f getNormal(){

@@ -40,12 +40,8 @@ public class Line {
 		}
 		if(distance1*distance2 >= 0)
 			return true;
-		else{
-			System.out.println();
-			System.out.println("dist1: "+distance1);
-			System.out.println("dist2: "+distance2);
+		else
 			return false;
-		}
 	}
 	public String toString(){
 		return "y="+m+"x+"+p;

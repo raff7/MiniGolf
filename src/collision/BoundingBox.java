@@ -22,7 +22,6 @@ public class BoundingBox {
 
 	public BoundingBox(TexturedModel model, Entity entity){
 		this.vertices = model.getRawModel().getVertices();
-		setVertexRealCoordinates(entity);
 		getExtremePoints();
 	}
 	public void getExtremePoints(){
@@ -78,13 +77,6 @@ public class BoundingBox {
 	}
 	public float getMaxZ(){
 		return maxZ;
-	}
-	public void setVertexRealCoordinates(Entity entity){
-		for(int i=0; i<vertices.size(); i++){
-			Vector3f vertex = vertices.get(i);
-			vertex.set(vertex.x+entity.getPosition().x*entity.getScale(), vertex.y+entity.getPosition().y*entity.getScale(), vertex.z+entity.getPosition().z*entity.getScale());
-			vertices.set(i,vertex);
-		}
 	}
 }
 

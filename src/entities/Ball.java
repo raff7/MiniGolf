@@ -53,7 +53,7 @@ public class Ball extends Entity{
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		BoundingBox box =entitiesList.get(0).getBox();
-		
+	
 		for(Triangle triangle:trianglesList){
 			ArrayList<Vector3f> points = new ArrayList<Vector3f>();
 			
@@ -71,7 +71,7 @@ public class Ball extends Entity{
 			Vector3f pointH = Operation.add(getPosition(),Operation.multiplyByScalar(-radius, normalisedVelocityDummy));
 			
 			
-			points.add(pointA);
+			/*points.add(pointA);
 			points.add(pointB);
 			points.add(pointC);
 			points.add(pointD);
@@ -79,13 +79,18 @@ public class Ball extends Entity{
 			points.add(pointF);
 			
 			points.add(pointG);
-			points.add(pointH);
+			points.add(pointH);*/
 			points.add(getPosition());
+			
+			/*Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+			if(Vector3f.dot(velocity,normal) > 0)
+				normal.negate();
+			
+			Vector3f supportPoint = ;*/
 			
 			for(Vector3f point:points)
 				if(collide(triangle,point))
 					break;
-				
 		}
 		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
@@ -108,12 +113,20 @@ public class Ball extends Entity{
 		frictionEffect();
 		
 	}
+	
+	private void frictionEffect(){
+		velocity.scale(friction) ;
+		if(Math.abs(velocity.length()) < minimalSpeed){
+			velocity.set(0f, 0f, 0f) ;
+		}
+	}
 	private void jump(){
 		if(!isInAir||isInAir){
 			this.velocity.y=JUMP_POWER;
 			isInAir=true;
 		}
 	}
+	
 	private void checkInputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.velocity.x = (float) (RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
@@ -188,7 +201,42 @@ public class Ball extends Entity{
 	public void setRadius(float radius) {
 		this.radius = radius;
 	}
-	
+		
+	private boolean collide(Triangle triangle, Vector3f point){
+
+		float distance = Vector3f.dot(point, triangle.getNormal()) + triangle.getEquation()[3];
+		//System.out.println("distance: "+distance);
+		
+		if( Math.abs(distance) <= getRadius()){
+			if( isInTriangle(triangle,point)){
+				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+				//System.out.println("velocity before: "+getVelocity());
+				if(Vector3f.dot(velocity,normal) > 0){
+					normal.negate();
+				}
+				//push it back
+				float factor=50;
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
+				float dx = distancePush.x;
+				float dz = distancePush.z;
+				float dy = distancePush.y;
+				super.increasePosition(dx,dy,dz);
+				
+				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
+				//System.out.println("dot times 2: "+dotTimes2);
+				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
+				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
+				
+				setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
+				/*System.out.println("velocity after: "+getVelocity());
+				System.out.println();
+				System.out.println();*/
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean isInTriangle(Triangle triangle, Vector3f point){
 
 		Vector3f P1_3D = triangle.getP1();
@@ -257,46 +305,6 @@ public class Ball extends Entity{
 			}
 		}
 		return false;
-	}
-	
-
-	private boolean collide(Triangle triangle, Vector3f point){
-
-		float distance = Vector3f.dot(point, triangle.getNormal()) + triangle.getEquation()[3];
-		if( Math.abs(distance)< getRadius()){
-			if( isInTriangle(triangle,point)){
-				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
-				//System.out.println("velocity before: "+getVelocity());
-				if(Vector3f.dot(velocity,normal) > 0){
-					normal.negate();
-				}
-				//push it back
-				float factor=50;
-				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
-				float dx = distancePush.x;
-				float dz = distancePush.z;
-				float dy = distancePush.y;
-				super.increasePosition(dx,dy,dz);
-				
-				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
-				//System.out.println("dot times 2: "+dotTimes2);
-				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
-				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
-				
-				setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
-				/*System.out.println("velocity after: "+getVelocity());
-				System.out.println();
-				System.out.println();*/
-				return true;
-			}
-		}
-		return false;
-	}
-	private void frictionEffect(){
-		velocity.scale(friction) ;
-		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, 0f, 0f) ;
-		}
 	}
 
 }
