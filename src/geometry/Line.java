@@ -19,25 +19,33 @@ public class Line {
 			p= p1.y-m*p1.x;
 			}
 	}
-	
+	//p1 is the ball in 2D, p2 is the third point of the triangle(in 2D as well)
 	public boolean liesOnSameSide(Vector2f p1, Vector2f p2){
 		float distance1;
 		float distance2;
 		if(isVertical){
+			//distance between line and third point of the triangle
 			distance1 = pointOfLine.x - p2.getX();
+			//distance between the line and the ball
 			distance2 = pointOfLine.x - p1.getX();
 		}
 		else{
+			//y of the line at the ball's x
 			float yLine1 = m*p1.getX()+p;
+			//y of the line at the x of the third point of the triangle 
 			float yLine2 = m*p2.getX()+p;
 			
 			distance1 = yLine1-p1.getY();
 			distance2 = yLine2-p2.getY();
 		}
-		if(distance1*distance2>0 || distance1 ==0 )
+		if(distance1*distance2 >= 0)
 			return true;
-		else
+		else{
+			System.out.println();
+			System.out.println("dist1: "+distance1);
+			System.out.println("dist2: "+distance2);
 			return false;
+		}
 	}
 	public String toString(){
 		return "y="+m+"x+"+p;

@@ -56,13 +56,22 @@ public class Ball extends Entity{
 		
 		for(Triangle triangle:trianglesList){
 			ArrayList<Vector3f> points = new ArrayList<Vector3f>();
-			Vector3f normalVelocity = new Vector3f();
-			getVelocity().normalise(normalVelocity);
-			points.add(Operation.add(getPosition(),Operation.multiplyByScalar(radius,normalVelocity )));
-//			points.add(c);
-//			points.add(e);
-//			points.add(e);
-//			points.add(e);
+			
+			Vector3f normalisedVelocityDummy = new Vector3f();
+			getVelocity().normalise(normalisedVelocityDummy);
+			
+			Vector3f pointA = Operation.add(getPosition(),new Vector3f(radius,0,0));
+			Vector3f pointB = Operation.add(getPosition(),new Vector3f(-radius,0,0));
+			Vector3f pointC = Operation.add(getPosition(),new Vector3f(0,radius,0));
+			Vector3f pointD = Operation.add(getPosition(),new Vector3f(0,-radius,0));
+			Vector3f pointE = Operation.add(getPosition(),new Vector3f(0,0,radius));
+			Vector3f pointF = Operation.add(getPosition(),new Vector3f(0,0,-radius));
+			points.add(pointA);
+			points.add(pointB);
+			points.add(pointC);
+			points.add(pointD);
+			points.add(pointE);
+			points.add(pointF);
 			
 			for(Vector3f point:points)
 				if(collide(triangle,point))
@@ -86,30 +95,9 @@ public class Ball extends Entity{
 			isInAir=false;
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
-			
-		frictionEffect() ;
-		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
-		}
-		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
-			/*float length = getVelocity().length();
-			float newLength = length-FRICTION;
-			
-			Vector3f v = getVelocity();
-			if(v.length() != 0)
-				v.normalise();
-			Operation.multiplyByScalar(newLength,v);
-			
-			setVelocity(v);
-			
-			/*float scaleX = velocity.x/FRICTION;
-			if(this.velocity.x>0)			
-				this.velocity.x=Math.max(this.velocity.x-FRICTION, 0);
-			else				
-				this.velocity.x=Math.min(this.velocity.x+FRICTION, 0);
-			if(this.velocity.z>0)
-				this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
-			else
-				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
+		}	
+		frictionEffect();
+		
 	}
 	private void jump(){
 		if(!isInAir||isInAir){
@@ -236,7 +224,6 @@ public class Ball extends Entity{
 				position2D = new Vector2f(getPosition().x, getPosition().y);
 			}else{
 				position2D=null;
-
 			}
 			if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 
@@ -297,16 +284,6 @@ public class Ball extends Entity{
 		return false;
 	}
 	private void frictionEffect(){
-		/*Vector3f newVelocity = new Vector3f() ;
-		while(Math.abs(velocity.length()) > minimalSpeed){
-		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
-		newVelocity.setX((velocity.getX() * friction));
-		newVelocity.setY((velocity.getY() * friction));
-		newVelocity.setZ((velocity.getZ() * friction));
-		velocity = newVelocity ;
-		}
-		velocity.set(0f, 0f, 0f) ;*/
-		
 		velocity.scale(friction) ;
 		if(Math.abs(velocity.length()) < minimalSpeed){
 			velocity.set(0f, 0f, 0f) ;
