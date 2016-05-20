@@ -21,8 +21,8 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 150;
-	private static final float 	TURN_SPEED = 160;
+	private static final float RUN_SPEED = 50;
+	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
 	private static final float FRICTION = 0.01f;
@@ -35,7 +35,7 @@ public class Ball extends Entity{
 	
 	private Vector3f velocity;
 	private CollisionInfo colInfo;
-	private float radius = 1;
+	private float radius = 1f;
 	private Vector3f eRadius;
 	
 	private boolean debug=false;
@@ -61,7 +61,7 @@ public class Ball extends Entity{
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		BoundingBox box =entitiesList.get(0).getBox();
-		
+
 		
 		if(debug){
 			Triangle t =trianglesList.get(0);
@@ -75,18 +75,32 @@ public class Ball extends Entity{
 			System.out.println(trianglesList.get(0).getNormal().z+" * "+trianglesList.get(0).origin.z);
 			debug=false;
 		}
-		
 		for(Triangle triangle:trianglesList){
-			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
-			//System.out.println("distance: "+distance);
-			if( Math.abs(distance - getRadius())< 0.5  && isInTriangle(triangle) && (Vector3f.dot(velocity, triangle.getNormal())<0)){
+		
+			Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+
+			float distance = Vector3f.dot(getPosition(), normal) + triangle.getEquation()[3];
+//			System.out.println("distance: "+distance);
+			if( Math.abs(distance)< getRadius()  && isInTriangle(triangle)){
+
 				//System.out.println("velocity before: "+getVelocity());
-				float dotTimes2 = 2*(Vector3f.dot(triangle.getNormal(), getVelocity()));
+				if(Vector3f.dot(velocity,normal) > 0){
+					normal.negate();
+				}
+				//push it back
+				float factor=50;
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
+				float dx = distancePush.x;
+				float dz = distancePush.z;
+				float dy = distancePush.y;
+				super.increasePosition(dx,dy,dz);
+				
+				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
 				//System.out.println("dot times 2: "+dotTimes2);
-				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, triangle.getNormal());
+				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 				
-				setVelocity((Vector3f)finalVelocity.negate());
+				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
 				/*System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();*/
@@ -103,12 +117,12 @@ public class Ball extends Entity{
 	
 		float terrainHeight;
 		if(terrain != null)
-			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z)+1;
 		else
-			terrainHeight = 0;
-		if(super.getPosition().y<terrainHeight){
+			terrainHeight = 1;
+		if(super.getPosition().y < terrainHeight){
 			isInAir=false;
-			velocity.y = 0;//-velocity.y*0.8f;
+			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
@@ -135,7 +149,7 @@ public class Ball extends Entity{
 	
 	}
 	private void jump(){
-		if(!isInAir){
+		if(!isInAir||isInAir){
 			this.velocity.y=JUMP_POWER;
 			isInAir=true;
 		}
@@ -293,9 +307,7 @@ public class Ball extends Entity{
 	}*/
 	
 	public boolean isInTriangle(Triangle triangle){
-		Vector2f edgeP1P2=null;
-		Vector2f edgeP1P3=null;
-		Vector2f edgeP2P3=null;
+
 		
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
@@ -312,58 +324,54 @@ public class Ball extends Entity{
 		Vector2f position2D=null;
 		
 		if( triangle.getNormal().getY() != 0 ){
-			edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getZ());
-			edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getZ());
-			edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getZ());
 			
 			p1 = new Vector2f(P1_3D.getX(), P1_3D.getZ());
 			p2 = new Vector2f(P2_3D.getX(), P2_3D.getZ());
 			p3 = new Vector2f(P3_3D.getX(), P3_3D.getZ());
 			
-			line1 = new Line(edgeP1P2, p1);
-			line2 = new Line(edgeP1P3, p1);
-			line3 = new Line(edgeP2P3, p2);
+			line1 = new Line(p1, p2);
+			line2 = new Line(p1, p3);
+			line3 = new Line(p2, p3);
 			
 			position2D = new Vector2f(getPosition().x, getPosition().z);
 		}
-		
+
 		if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
+
 			if(triangle.getNormal().getZ() != 0 ){
-				edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
-				edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
-				edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getY());
 				
 				p1 = new Vector2f(P1_3D.getX(), P1_3D.getY());
 				p2 = new Vector2f(P2_3D.getX(), P2_3D.getY());
 				p3 = new Vector2f(P3_3D.getX(), P3_3D.getY());
 				
-				line1 = new Line(edgeP1P2, p1);
-				line2 = new Line(edgeP1P3, p1);
-				line3 = new Line(edgeP2P3, p2);
+				line1 = new Line(p1, p2);
+				line2 = new Line(p1, p3);
+				line3 = new Line(p2, p3);
 				
 				position2D = new Vector2f(getPosition().x, getPosition().y);
-			}else
+			}else{
 				position2D=null;
-			
+
+			}
 			if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-				if(triangle.getNormal().getZ() != 0 ){
-					edgeP1P2 = new Vector2f(triangle.getEdgeP1P2().getX(), triangle.getEdgeP1P2().getY());
-					edgeP1P3 = new Vector2f(triangle.getEdgeP1P3().getX(), triangle.getEdgeP1P3().getY());
-					edgeP2P3 = new Vector2f(triangle.getEdgeP2P3().getX(), triangle.getEdgeP2P3().getY());
+
+				if(triangle.getNormal().getX() != 0 ){
 					
-					p1 = new Vector2f(P1_3D.getX(), P1_3D.getY());
-					p2 = new Vector2f(P2_3D.getX(), P2_3D.getY());
-					p3 = new Vector2f(P3_3D.getX(), P3_3D.getY());
+					p1 = new Vector2f(P1_3D.getZ(), P1_3D.getY());
+					p2 = new Vector2f(P2_3D.getZ(), P2_3D.getY());
+					p3 = new Vector2f(P3_3D.getZ(), P3_3D.getY());
 					
-					line1 = new Line(edgeP1P2, p1);
-					line2 = new Line(edgeP1P3, p1);
-					line3 = new Line(edgeP2P3, p2);
+					line1 = new Line(p1, p2);
+					line2 = new Line(p1, p3);
+					line3 = new Line(p2, p3);
 					
-					position2D = new Vector2f(getPosition().x, getPosition().y);
-				}else
+					position2D = new Vector2f(getPosition().z, getPosition().y);
+
+				}else{
 					position2D=null;
-				
+				}
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
+					System.out.println(triangle.getNormal());
 					return true;
 				}
 			}

@@ -30,11 +30,11 @@ public class Operation {
 	}
 
 	public static Vector3f multiplyByScalar(float k, Vector3f v){
-		System.out.println("Values of x,y,z,k BEFORE :"+v.getX()+"  "+v.getY()+"  "+v.getZ()+"  "+k);
+	//System.out.println("Values of x,y,z,k BEFORE :"+v.getX()+"  "+v.getY()+"  "+v.getZ()+"  "+k);
 		float x = (float) v.getX()*k;
 		float y = (float) v.getY()*k;
 		float z = (float) v.getZ()*k;
-		System.out.println("Values of x,y,z AFTER:"+x+"  "+y+"  "+z);
+	//System.out.println("Values of x,y,z AFTER:"+x+"  "+y+"  "+z);
 		return new Vector3f(x,y,z);
 	}
 

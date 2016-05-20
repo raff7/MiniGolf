@@ -106,7 +106,7 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("face", loader);
+RawModel rw = OBJLoader.loadObjModel("tree", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 rwModel.setHasTransparency(true);
 
@@ -175,7 +175,6 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 			exitLoop = checkActualGameImputs();
 			ball.move(course.getCurrentTerrain(),testEntity);
 			camera.move();
-			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			
 			for(WaterTile water:waters){
@@ -418,7 +417,7 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		
-		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(400,0,360),0,0,0,1));
+		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(0,0,0),0,0,0,1));
 		float yball = (float) course.getHeightOfTerrain(400, 360);
 		course.getBall().setPosition(new Vector3f(course.getBall().getPosition().x,yball,course.getBall().getPosition().z));
 		
