@@ -66,12 +66,21 @@ public class Ball extends Entity{
 			Vector3f pointD = Operation.add(getPosition(),new Vector3f(0,-radius,0));
 			Vector3f pointE = Operation.add(getPosition(),new Vector3f(0,0,radius));
 			Vector3f pointF = Operation.add(getPosition(),new Vector3f(0,0,-radius));
+			
+			Vector3f pointG = Operation.add(getPosition(),Operation.multiplyByScalar(radius, normalisedVelocityDummy));
+			Vector3f pointH = Operation.add(getPosition(),Operation.multiplyByScalar(-radius, normalisedVelocityDummy));
+			
+			
 			points.add(pointA);
 			points.add(pointB);
 			points.add(pointC);
 			points.add(pointD);
 			points.add(pointE);
 			points.add(pointF);
+			
+			points.add(pointG);
+			points.add(pointH);
+			points.add(getPosition());
 			
 			for(Vector3f point:points)
 				if(collide(triangle,point))
@@ -180,7 +189,7 @@ public class Ball extends Entity{
 		this.radius = radius;
 	}
 	
-	public boolean isInTriangle(Triangle triangle){
+	public boolean isInTriangle(Triangle triangle, Vector3f point){
 
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
@@ -206,7 +215,7 @@ public class Ball extends Entity{
 			line2 = new Line(p1, p3);
 			line3 = new Line(p2, p3);
 			
-			position2D = new Vector2f(getPosition().x, getPosition().z);
+			position2D = new Vector2f(point.x, point.z);
 		}
 
 		if( position2D== null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
@@ -221,7 +230,7 @@ public class Ball extends Entity{
 				line2 = new Line(p1, p3);
 				line3 = new Line(p2, p3);
 				
-				position2D = new Vector2f(getPosition().x, getPosition().y);
+				position2D = new Vector2f(point.x, point.y);
 			}else{
 				position2D=null;
 			}
@@ -237,7 +246,7 @@ public class Ball extends Entity{
 					line2 = new Line(p1, p3);
 					line3 = new Line(p2, p3);
 					
-					position2D = new Vector2f(getPosition().z, getPosition().y);
+					position2D = new Vector2f(point.z, point.y);
 
 				}else{
 					position2D=null;
@@ -255,7 +264,7 @@ public class Ball extends Entity{
 
 		float distance = Vector3f.dot(point, triangle.getNormal()) + triangle.getEquation()[3];
 		if( Math.abs(distance)< getRadius()){
-			if( isInTriangle(triangle)){
+			if( isInTriangle(triangle,point)){
 				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 				//System.out.println("velocity before: "+getVelocity());
 				if(Vector3f.dot(velocity,normal) > 0){
