@@ -107,15 +107,13 @@ rwModel.setHasTransparency(true);
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
 
 BoundingBox box = ent.getBox();
-//System.out.println("P1 const Before: "+rw.getTriangles().get(0).getEquation()[3]);
+
 ArrayList<Triangle> trianglesList = rw.getTriangles();
 Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
 for(int i=0; i<trianglesList.size(); i++){
 	triangle = trianglesList.get(i);
 	triangle.upDateEquation(triangle.getP1());
 }
-/*for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
-System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);*/
 ArrayList<Entity> testEntity = new ArrayList<Entity>();
 testEntity.add(ent);
 entities.add(ent);

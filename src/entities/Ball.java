@@ -1,14 +1,10 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
 import collision.BoundingBox;
-import collision.CollisionInfo;
 import collision.Operation;
 import geometry.Line;
 import geometry.Triangle;
@@ -24,14 +20,11 @@ public class Ball extends Entity{
 	private static final float JUMP_POWER=30;
 	private static final float FRICTION = 0.01f;
 	private static final float MAX_RUN_SPEED = 1000;
-	
-
 	private float currentTurnSpeed = 0;
 	
 	private boolean isInAir=false;
 	
 	private Vector3f velocity;
-	private CollisionInfo colInfo;
 	private float radius = 1f;
 	private Vector3f eRadius;
 	
@@ -41,11 +34,9 @@ public class Ball extends Entity{
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
-		colInfo = new CollisionInfo(new Vector3f(1,5,1),velocity,getPosition());
 	}
-	/*
-	 * move as a free camera
-	 */
+	
+	// move as a free camera
 	public void move(){
 		checkFreeCameraInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
@@ -54,17 +45,14 @@ public class Ball extends Entity{
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	}
-	
+	//move as a ball
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){ 	
 		ArrayList<Triangle> trianglesList = entitiesList.get(0).getModel().getRawModel().getTriangles();
 		BoundingBox box =entitiesList.get(0).getBox();
-
 		
 		for(Triangle triangle:trianglesList){
-		
-
-			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			
+			float distance = Vector3f.dot(getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 			if( Math.abs(distance)< getRadius())
 				if( isInTriangle(triangle)){
 					Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
@@ -85,7 +73,7 @@ public class Ball extends Entity{
 					Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 					Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 					
-					setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
+					setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
 					/*System.out.println("velocity after: "+getVelocity());
 					System.out.println();
 					System.out.println();*/
@@ -130,8 +118,6 @@ public class Ball extends Entity{
 				this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
 			else
 				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
-
-	
 	}
 	private void jump(){
 		if(!isInAir||isInAir){
@@ -164,9 +150,7 @@ public class Ball extends Entity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;
 			velocity.z = 0;
-
 		}
-		
 	}
 	private void checkFreeCameraInputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
@@ -201,18 +185,13 @@ public class Ball extends Entity{
 			velocity.x *= 1.5f;
 			velocity.y *= 1.5f;
 			velocity.z *= 1.5f;
-		}
-		
+		}		
 	}
 	public  Vector3f getVelocity() {
 		return velocity;
 	}
 	public  void setVelocity(Vector3f velocity) {
-		System.out.println();
-		System.out.println("velocity  before: "+getVelocity());
 		this.velocity = velocity;
-		System.out.println("velocity  after: "+getVelocity());
-		System.out.println();
 	}
 	public float getRadius() {
 		return radius;
@@ -220,21 +199,9 @@ public class Ball extends Entity{
 	public void setRadius(float radius) {
 		this.radius = radius;
 	}
-	public Vector3f geteRadius() {
-		return eRadius;
-	}
-	public void seteRadius(Vector3f eRadius) {
-		this.eRadius = eRadius;
-	}
-	public CollisionInfo getColInfo(){
-		return colInfo;
-	}
-	
-	
 	
 	public boolean isInTriangle(Triangle triangle){
 
-		
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
 		Vector3f P3_3D = triangle.getP3();
@@ -297,7 +264,6 @@ public class Ball extends Entity{
 					position2D=null;
 				}
 				if(position2D==null || (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
-					System.out.println(triangle.getNormal());
 					return true;
 				}
 			}
