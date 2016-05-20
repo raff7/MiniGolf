@@ -30,7 +30,7 @@ public class Course {
 		
 		
 	}
-	public Course(int x, int y, int z){
+	public Course(){
 		entities = new ArrayList<Entity>();
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
