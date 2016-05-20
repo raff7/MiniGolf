@@ -102,7 +102,6 @@ public class MainGameLoop{
 ///////////// TESTING \\\\\\\\\
 RawModel rw = OBJLoader.loadObjModel("parallellepipedo", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
-rwModel.setHasTransparency(false);
 
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
 
@@ -114,8 +113,8 @@ for(int i=0; i<trianglesList.size(); i++){
 	triangle = trianglesList.get(i);
 	triangle.upDateEquation(triangle.getP1());
 }
-ArrayList<Entity> testEntity = new ArrayList<Entity>();
-testEntity.add(ent);
+ArrayList<Entity> collideEnt = new ArrayList<Entity>();
+collideEnt.add(ent);
 entities.add(ent);
 
 
@@ -138,7 +137,7 @@ entities.add(ent);
 		int exitLoop=0;
 		while(!(Display.isCloseRequested() || exitLoop != 0)){
 			exitLoop = checkActualGameImputs();
-			ball.move(course.getCurrentTerrain(),testEntity);
+			ball.move(course.getCurrentTerrain(),collideEnt);
 			camera.move();
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			

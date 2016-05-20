@@ -43,4 +43,35 @@ public class Line {
 	public String toString(){
 		return "y="+m+"x+"+p;
 	}
+
+	public Vector2f[] intersectPoint(Circle2D circle) {
+		Vector2f[] result = new Vector2f[2];
+		float a= (m*m)+1;
+		float b= (2*m*(p-circle.getK())-2*(circle.getH()));
+		float c= (circle.getH()*circle.getH())+p-circle.getK()-(circle.getR()*circle.getR());
+		
+		
+		float delta = (b*b)-4*a*c;
+		
+		if(delta<0)
+			return null;
+		else if(delta==0){
+			result[0]=new Vector2f();
+			result[0].x=(float)-b/2*a;
+			result[0].y=m*(result[0].x)+p;
+			result[1]=null;
+		}else if(delta>0){
+			result[0]=new Vector2f();
+
+			result[0].x=(float)((-b+Math.sqrt(delta))/2*a);
+			result[0].y=m*(result[0].x)+p;
+			
+			result[1]=new Vector2f();
+
+			result[1].x=(float)((-b-Math.sqrt(delta))/2*a);
+			result[1].y=m*(result[1].x)+p;
+		}
+		return result;
+		
+	}
 }
