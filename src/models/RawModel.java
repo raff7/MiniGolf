@@ -27,9 +27,6 @@ public class RawModel {
 		return vertexCount;
 	}
 
-	public void serVertices(List<Vector3f> vertices) {
-		this.vertices = vertices;	
-	}
 	public List<Vector3f> getVertices() {
 		return vertices;	
 	}

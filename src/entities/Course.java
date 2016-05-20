@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import bot.Node;
 import terrains.Terrain;
 import water.WaterTile;
 
@@ -16,19 +17,25 @@ public class Course {
 	private List<WaterTile> waters;
 	private Ball ball;
 	private Vector3f startingPosition;	
+	//might need to add some methods !!
+	//private Node[][][] worldNodes ;
 	
-	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains,List<WaterTile> waters, Ball ball){
+	public Course(List<Entity> entities, List<Light> lights, List<Terrain> terrains,List<WaterTile> waters, Ball ball/*, Node[][][] world*/){
 		this.entities = entities;
 		this.lights = lights;
 		this.terrains = terrains;
 		this.waters = waters;
 		this.ball = ball;
+		//this.worldNodes = world ;
+		
+		
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
 		waters = new ArrayList<WaterTile>();
+		//worldNodes = new Node[x][y][z] ;
 
 	}
 	public List<Entity> getEntities() {

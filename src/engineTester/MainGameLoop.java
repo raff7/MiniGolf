@@ -376,11 +376,19 @@ entities.add(ent);
 		
 		course.addWater(new WaterTile(400,360,-5));
 		
+<<<<<<< HEAD
 //		RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
 //		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
 //		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
 //		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
 //		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
+=======
+	    RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
+		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
+		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
+		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
+>>>>>>> 69d15c3219fb474769c84cc0a8d4e4eeb8afee81
 		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		

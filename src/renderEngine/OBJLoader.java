@@ -103,7 +103,7 @@ public class OBJLoader {
 			indicesArray[i] = indices.get(i);
 		}
 		RawModel model = loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
-		model.serVertices(vertices);
+		model.setVertices(vertices);
 		model.setTriangles(triangles);
 		return model;
 
