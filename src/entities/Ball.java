@@ -14,7 +14,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 50;
+	private static final float RUN_SPEED = 100;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -86,10 +86,8 @@ public class Ball extends Entity{
 			isInAir=false;
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
-			
-		frictionEffect() ;
-		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
 		}
+		//frictionEffect() ;
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
 			/*float length = getVelocity().length();
 			float newLength = length-FRICTION;
@@ -267,7 +265,7 @@ public class Ball extends Entity{
 	private boolean collide(Triangle triangle, Vector3f point){
 
 		float distance = Vector3f.dot(point, triangle.getNormal()) + triangle.getEquation()[3];
-		if( Math.abs(distance)< getRadius()){
+		if( Math.abs(distance)< 1f){
 			if( isInTriangle(triangle)){
 				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 				//System.out.println("velocity before: "+getVelocity());
@@ -275,8 +273,8 @@ public class Ball extends Entity{
 					normal.negate();
 				}
 				//push it back
-				float factor=50;
-				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/factor,normal);
+				float pushFactor=120;
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/pushFactor,normal);
 				float dx = distancePush.x;
 				float dz = distancePush.z;
 				float dy = distancePush.y;
@@ -286,8 +284,14 @@ public class Ball extends Entity{
 				//System.out.println("dot times 2: "+dotTimes2);
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
+				if(Math.abs(finalVelocity.y)<20f){
+					finalVelocity.y=0;
+
+				}
+					
+
 				
-				setVelocity(Operation.multiplyByScalar(0.7f,(Vector3f)finalVelocity.negate()));
+				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
 				/*System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();*/
