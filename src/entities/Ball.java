@@ -101,10 +101,9 @@ public class Ball extends Entity{
 			isInAir=false;
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
-			
+		}
 		frictionEffect() ;
 		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
-		}
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
 			/*float length = getVelocity().length();
 			float newLength = length-FRICTION;
@@ -126,6 +125,7 @@ public class Ball extends Entity{
 			else
 				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
 	}
+	
 	private void jump(){
 		if(!isInAir||isInAir){
 			this.velocity.y=JUMP_POWER;
