@@ -97,16 +97,10 @@ public class MainGameLoop{
 		Camera camera = new Camera(ball);
 		entities.add(ball);
 		MousePicker mouse = new MousePicker(camera , renderer.getProjectionMatrix()) ; //might need to be removed, only for testing..
-		/*float ellipseX = ball.getColInfo().getEradius().x;
-		float ellipseY = ball.getColInfo().getEradius().y;
-		float ellipseZ = ball.getColInfo().getEradius().z;*/
-		float ellipseX=1;
-		float ellipseY=1;
-		float ellipseZ=1;
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("tree", loader);
+RawModel rw = OBJLoader.loadObjModel("cube", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 rwModel.setHasTransparency(true);
 
@@ -118,41 +112,14 @@ ArrayList<Triangle> trianglesList = rw.getTriangles();
 Triangle triangle = new Triangle(new Vector3f(),new Vector3f(),new Vector3f());
 for(int i=0; i<trianglesList.size(); i++){
 	triangle = trianglesList.get(i);
-	/*Vector3f p1 = triangle.getP1();
-	Vector3f newP1 = new Vector3f((p1.x+ent.getPosition().x)/ellipseX, (p1.y+ent.getPosition().y)/ellipseY , (p1.z+ent.getPosition().z)/ellipseZ);
-	triangle.setP1(newP1);
-	
-	Vector3f p2 = triangle.getP2();
-	Vector3f newP2 = new Vector3f((p2.x+ent.getPosition().x)/ellipseX, (p2.y+ent.getPosition().y)/ellipseY , (p2.z+ent.getPosition().z)/ellipseZ);
-	triangle.setP2(newP2);
-	
-	Vector3f p3 = triangle.getP3();
-	Vector3f newP3 = new Vector3f((p3.x+ent.getPosition().x)/ellipseX, (p3.y+ent.getPosition().y)/ellipseY , (p3.z+ent.getPosition().z)/ellipseZ);
-	triangle.setP3(newP3);
-	System.out.println("P1: "+triangle.getP1());*/
 	triangle.upDateEquation(triangle.getP1());
 }
-//System.out.println("P1 const after: "+rw.getTriangles().get(0).getEquation()[3]);
-
-/*
-System.out.println("maxX: "+box.getMaxX());
-System.out.println("minX: "+box.getMinX());
-System.out.println("maxY: "+box.getMaxY());
-System.out.println("minY: "+box.getMinY());
-System.out.println("maxZ: "+box.getMaxZ());
-System.out.println("minZ: "+box.getMinZ());*/
-
-
-/*Triangle testTriangle = trianglesList.get(0);
-trianglesList.clear();
-trianglesList.add(testTriangle);*/
 /*for(int i=0; i<ent.getModel().getRawModel().getTriangles().size(); i++)
 System.out.println(ent.getModel().getRawModel().getTriangles().get(i)+"    number :"+i);*/
 ArrayList<Entity> testEntity = new ArrayList<Entity>();
 testEntity.add(ent);
 entities.add(ent);
 
-System.out.println("obstacle: "+testEntity.get(0).getPosition());
 
 		
 		
@@ -409,11 +376,11 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		
 		course.addWater(new WaterTile(400,360,-5));
 		
-		RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
-		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
-		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
-		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
-		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
+//		RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
+//		RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+//		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
+//		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
+//		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
 		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		
@@ -421,19 +388,19 @@ System.out.println("obstacle: "+testEntity.get(0).getPosition());
 		float yball = (float) course.getHeightOfTerrain(400, 360);
 		course.getBall().setPosition(new Vector3f(course.getBall().getPosition().x,yball,course.getBall().getPosition().z));
 		
-		TexturedModel staticDragonModel = new TexturedModel(dragonModel,new ModelTexture(loader.loadTexture("gold")));
-		staticDragonModel.getTexture().setReflectivity(0.7f);
-		staticDragonModel.getTexture().setShineDamper(5);
-		TexturedModel staticTreeModel = new TexturedModel(treeModel,new ModelTexture(loader.loadTexture("tree")));
-		TexturedModel staticGrassModel = new TexturedModel(grassModel,new ModelTexture(loader.loadTexture("grassTexture")));
-		staticGrassModel.getTexture().setNumberOfRows(3);
-		staticGrassModel.getTexture().setHasTransparency(true);
-		staticGrassModel.getTexture().setUseFakeLight(true);
-		ModelTexture fernTextures = new ModelTexture(loader.loadTexture("fern"));
-		fernTextures.setNumberOfRows(2);
-		fernTextures.setHasTransparency(true);
-		TexturedModel staticFernModel = new TexturedModel(fernModel,fernTextures);
-		TexturedModel lampTexturedModel = new TexturedModel(lampModel,new ModelTexture(loader.loadTexture("lamp")));
+//		TexturedModel staticDragonModel = new TexturedModel(dragonModel,new ModelTexture(loader.loadTexture("gold")));
+//		staticDragonModel.getTexture().setReflectivity(0.7f);
+//		staticDragonModel.getTexture().setShineDamper(5);
+//		TexturedModel staticTreeModel = new TexturedModel(treeModel,new ModelTexture(loader.loadTexture("tree")));
+//		TexturedModel staticGrassModel = new TexturedModel(grassModel,new ModelTexture(loader.loadTexture("grassTexture")));
+//		staticGrassModel.getTexture().setNumberOfRows(3);
+//		staticGrassModel.getTexture().setHasTransparency(true);
+//		staticGrassModel.getTexture().setUseFakeLight(true);
+//		ModelTexture fernTextures = new ModelTexture(loader.loadTexture("fern"));
+//		fernTextures.setNumberOfRows(2);
+//		fernTextures.setHasTransparency(true);
+//		TexturedModel staticFernModel = new TexturedModel(fernModel,fernTextures);
+//		TexturedModel lampTexturedModel = new TexturedModel(lampModel,new ModelTexture(loader.loadTexture("lamp")));
 		
 		
 				

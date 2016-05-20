@@ -23,7 +23,7 @@ public class Triangle {
 		
 		edgeP1P2 =new Vector3f(p2.getX()-p1.getX(),p2.getY()-p1.getY(),p2.getZ()-p1.getZ());
 		edgeP1P3 =new Vector3f(p3.getX()-p1.getX(),p3.getY()-p1.getY(),p3.getZ()-p1.getZ());
-		edgeP2P3 = new Vector3f(p3.getX()-p2.getX(),p3.getY()-p2.getY(),p3.getZ()-p3.getZ());
+		edgeP2P3 = new Vector3f(p3.getX()-p2.getX(),p3.getY()-p2.getY(),p3.getZ()-p2.getZ());
 		Vector3f.cross(edgeP1P2,edgeP1P3,normal);
 		
 		if(normal.length() !=0)
@@ -79,4 +79,5 @@ public class Triangle {
 	public Vector3f getEdgeP2P3() {
 		return edgeP2P3;
 	}
+
 }

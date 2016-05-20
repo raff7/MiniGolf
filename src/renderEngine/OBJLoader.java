@@ -60,7 +60,9 @@ public class OBJLoader {
 				}
 			}
 			
-
+			System.out.println();
+			System.out.println();
+			System.out.println();
 			while (line != null) {
 				if (!line.startsWith("f ")) {
 					line = reader.readLine();
@@ -78,7 +80,7 @@ public class OBJLoader {
 				
 				Triangle t = new Triangle(vertices.get(Integer.parseInt(vertex1[0])-1),vertices.get(Integer.parseInt(vertex2[0])-1),vertices.get(Integer.parseInt(vertex3[0])-1));
 				triangles.add(t);
-				
+				System.out.println(t);
 				line = reader.readLine();
 			}
 			reader.close();
