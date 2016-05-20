@@ -28,6 +28,10 @@ public class Ball extends Entity{
 	private float radius = 1f;
 	private Vector3f eRadius;
 	
+	//for friction effect
+	private float friction = 0.99f ;
+	private float minimalSpeed = 1f ;
+	
 	private boolean debug=false;
 	
 
@@ -97,6 +101,9 @@ public class Ball extends Entity{
 			isInAir=false;
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
+			
+		frictionEffect() ;
+		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
 		}
 		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
 			/*float length = getVelocity().length();
@@ -269,6 +276,23 @@ public class Ball extends Entity{
 			}
 		}
 		return false;
+	}
+	
+	private void frictionEffect(){
+		/*Vector3f newVelocity = new Vector3f() ;
+		while(Math.abs(velocity.length()) > minimalSpeed){
+		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
+		newVelocity.setX((velocity.getX() * friction));
+		newVelocity.setY((velocity.getY() * friction));
+		newVelocity.setZ((velocity.getZ() * friction));
+		velocity = newVelocity ;
+		}
+		velocity.set(0f, 0f, 0f) ;*/
+		
+		velocity.scale(friction) ;
+		if(Math.abs(velocity.length()) < minimalSpeed){
+			velocity.set(0f, 0f, 0f) ;
+		}
 	}
 
 }
