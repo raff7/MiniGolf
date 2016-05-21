@@ -274,14 +274,7 @@ public class Ball extends Entity{
 				if(Vector3f.dot(velocity,normal) > 0){
 					normal.negate();
 				}
-				//push it back
-				float pushFactor=120;
-				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/pushFactor,normal);
-				float dx = distancePush.x;
-				float dz = distancePush.z;
-				float dy = distancePush.y;
-				super.increasePosition(dx,dy,dz);
-				
+			
 				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
 				//System.out.println("dot times 2: "+dotTimes2);
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
@@ -292,6 +285,16 @@ public class Ball extends Entity{
 
 				
 				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
+				
+				//push it back
+				float pushFactor=100;
+
+				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/pushFactor,normal);
+				float dx = distancePush.x;
+				float dz = distancePush.z;
+				float dy = distancePush.y;
+				super.increasePosition(dx,dy,dz);
+				
 				/*System.out.println("velocity after: "+getVelocity());
 				System.out.println();
 				System.out.println();*/

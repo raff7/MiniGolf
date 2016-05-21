@@ -100,7 +100,7 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("parallellepipedo", loader);
+RawModel rw = OBJLoader.loadObjModel("dragon", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
