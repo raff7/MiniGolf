@@ -15,7 +15,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 200;
+	private static final float RUN_SPEED = 100;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -85,28 +85,9 @@ public class Ball extends Entity{
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
-		//frictionEffect() ;
-		///////FRICTIONMOTHERFUCKER\\\\\\\\\\\\
-			/*float length = getVelocity().length();
-			float newLength = length-FRICTION;
-			
-			Vector3f v = getVelocity();
-			if(v.length() != 0)
-				v.normalise();
-			Operation.multiplyByScalar(newLength,v);
-			
-			setVelocity(v);
-			
-			/*float scaleX = velocity.x/FRICTION;
-			if(this.velocity.x>0)			
-				this.velocity.x=Math.max(this.velocity.x-FRICTION, 0);
-			else				
-				this.velocity.x=Math.min(this.velocity.x+FRICTION, 0);
-			if(this.velocity.z>0)
-				this.velocity.z=Math.max(this.velocity.z-FRICTION, 0);
-			else
-				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
+		frictionEffect() ;
 	}
+	
 	private Vector3f getCenter() {
 		center.x= super.getPosition().x;
 		center.y= super.getPosition().y+RADIUS;
@@ -293,7 +274,7 @@ public class Ball extends Entity{
 				
 				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
 				
-//				//push it back
+				//push it back
 				float pushFactor=RADIUS/150;
 
 				while(Math.abs(distance)<RADIUS){
