@@ -15,7 +15,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 200;
+	private static final float RUN_SPEED = 50;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -27,7 +27,6 @@ public class Ball extends Entity{
 	
 	private Vector3f velocity;
 	private final float  RADIUS = 1f;
-	private Vector3f center;
 	
 	//for friction effect
 	private float friction = 0.99f ;
@@ -38,7 +37,6 @@ public class Ball extends Entity{
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
-		center = new Vector3f(position.x,position.y+RADIUS,position.z);
 	}
 	
 	// move as a free camera
@@ -54,7 +52,6 @@ public class Ball extends Entity{
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
 		checkInputs();
 		
-		System.out.println(super.getPosition().y);
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
 		ArrayList<BoundingBox> boxes = new ArrayList();
@@ -64,8 +61,10 @@ public class Ball extends Entity{
 		boxes.add(entity.getBox());
 		}
 		for(Triangle triangle:trianglesList){
-				if(collide(triangle))
+				if(collide(triangle)){
+					System.out.println(triangle.getNormal());
 					break;
+				}
 		}
 		//end of collision
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
@@ -107,13 +106,7 @@ public class Ball extends Entity{
 			else
 				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
 	}
-	private Vector3f getCenter() {
-		center.x= super.getPosition().x;
-		center.y= super.getPosition().y+RADIUS;
-		center.z= super.getPosition().z;
-		
-		return 	center;
-	}
+	
 
 	private void jump(){
 		if(!isInAir||isInAir){
@@ -220,7 +213,7 @@ public class Ball extends Entity{
 			
 			
 			
-			position2D = new Vector2f(getCenter().x, getCenter().z);
+			position2D = new Vector2f(super.getPosition().x, super.getPosition().z);
 		}
 
 		if( position2D== null || triangle2D.ballIsIn(position2D,RADIUS)){// (line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
@@ -234,7 +227,7 @@ public class Ball extends Entity{
 				triangle2D = new Triangle2D(p1,p2,p3);
 				
 				
-				position2D = new Vector2f(getCenter().x, getCenter().y);
+				position2D = new Vector2f(super.getPosition().x, super.getPosition().y);
 			}else{
 				position2D=null;
 
@@ -249,7 +242,7 @@ public class Ball extends Entity{
 					
 					triangle2D = new Triangle2D(p1,p2,p3);
 					
-					position2D = new Vector2f(getCenter().z, getCenter().y);
+					position2D = new Vector2f(super.getPosition().z, super.getPosition().y);
 
 				}else{
 					position2D=null;
@@ -266,7 +259,7 @@ public class Ball extends Entity{
 
 	private boolean collide(Triangle triangle){
 
-		float distance = Vector3f.dot(getCenter(), triangle.getNormal()) + triangle.getEquation()[3];
+		float distance = Vector3f.dot(super.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 		//check collision
 		
 		//step 1, bounding box, TBI
@@ -278,31 +271,28 @@ public class Ball extends Entity{
 				
 				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 				//System.out.println("velocity before: "+getVelocity());
-				if(Vector3f.dot(velocity,normal) > 0){
-					normal.negate();
+				if(Vector3f.dot(velocity,normal) >= 0){
+					return false;
 				}
 			
 				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
 				//System.out.println("dot times 2: "+dotTimes2);
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
-				if(Math.abs(finalVelocity.y)<20f)
+				if(Math.abs(finalVelocity.y)<50f)
 					finalVelocity.y=0;
 					
 
 				
-				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
+				setVelocity(Operation.multiplyByScalar(1f,(Vector3f)finalVelocity.negate()));
 				
 //				//push it back
 				float pushFactor=RADIUS/150;
 
 				while(Math.abs(distance)<RADIUS){
 					Vector3f distancePush = Operation.multiplyByScalar(pushFactor,normal);
-					float dx = distancePush.x;
-					float dz = distancePush.z;
-					float dy = distancePush.y;
-					super.increasePosition(dx,dy,dz);
-					distance = Vector3f.dot(getCenter(), triangle.getNormal()) + triangle.getEquation()[3];
+					super.increasePosition(distancePush.x,distancePush.y,distancePush.z);
+					distance = Vector3f.dot(super.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 				}				
 
 				return true;
