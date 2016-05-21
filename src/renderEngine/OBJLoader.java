@@ -82,7 +82,6 @@ public class OBJLoader {
 				triangles.add(t);
 				line = reader.readLine();
 			}
-			System.out.println(triangles.size());
 			reader.close();
 
 		} catch (Exception e) {

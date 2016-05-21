@@ -47,15 +47,7 @@ public class Triangle2D {
 			}
 			Line lineToCheck=null;
 			Line lineToCheck2=null;
-			System.out.println("distance: "+ distance);
 
-			System.out.print("closest: ");
-			if(closest==p1)
-				System.out.println("p1");
-			else if(closest==p2)
-				System.out.println("p2");
-			else if(closest==p3)
-				System.out.println("p3");
 			
 
 			
@@ -72,22 +64,20 @@ public class Triangle2D {
 				lineToCheck2 = new Line(p3, closest);
 			}
 			
-			System.out.println("Lines to check: 1: "+lineToCheck+" 2: "+lineToCheck2);
 
 			if(Maths.isInBetween(center,lineToCheck.getPerpendicoular(lineToCheck.pa),lineToCheck.getPerpendicoular(lineToCheck.pb))){
-				System.out.println("Is in front of line1");
 				return Maths.distancePointLine(center, lineToCheck);
 			}else if(Maths.isInBetween(center,lineToCheck2.getPerpendicoular(lineToCheck2.pa),lineToCheck2.getPerpendicoular(lineToCheck2.pb))){
-				System.out.println("Is in front of line2");
 				return Maths.distancePointLine(center,lineToCheck2);
 			}
 			else
-				System.out.println("Is in front of pont closest");
 				return (float) Math.sqrt(distance);
 		}
 	}
 
 	private boolean contain(Vector2f center) {
+		if(line1.liesOnSameSide(center, p3)&&line2.liesOnSameSide(center, p2)&&line3.liesOnSameSide(center, p1))
+			return true;
 		return false;
 	}
 

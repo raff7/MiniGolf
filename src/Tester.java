@@ -18,7 +18,6 @@ public class Tester {
 		Vector2f p = new Vector2f(-2f,-1f);
 	
 		
-		System.out.println("distance "+t.distance(p));
 		
 		
 		

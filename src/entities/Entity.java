@@ -109,5 +109,12 @@ public class Entity {
 	public BoundingBox getBox(){
 		return box;
 	}
+	public void setVertexRealCoordinates(){
+		for(int i=0; i<model.getRawModel().getVertices().size(); i++){
+			Vector3f vertex = model.getRawModel().getVertices().get(i);
+			vertex.set(vertex.x+this.getPosition().x*this.getScale(), vertex.y+this.getPosition().y*this.getScale(), vertex.z+this.getPosition().z*this.getScale());
+			model.getRawModel().getVertices().set(i,vertex);
+		}
+	}
 
 }

@@ -15,7 +15,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 100;
+	private static final float RUN_SPEED = 200;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -27,6 +27,7 @@ public class Ball extends Entity{
 	
 	private Vector3f velocity;
 	private final float  RADIUS = 1f;
+	private Vector3f center;
 	
 	//for friction effect
 	private float friction = 0.99f ;
@@ -37,6 +38,7 @@ public class Ball extends Entity{
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
+		center = new Vector3f(position.x,position.y+RADIUS,position.z);
 	}
 	
 	// move as a free camera
@@ -50,6 +52,9 @@ public class Ball extends Entity{
 	}
 	//move as a ball
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
+		checkInputs();
+		
+		System.out.println(super.getPosition().y);
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
 		ArrayList<BoundingBox> boxes = new ArrayList();
@@ -61,10 +66,8 @@ public class Ball extends Entity{
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle))
 					break;
-				
 		}
 		//end of collision
-		checkInputs();
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
@@ -74,9 +77,9 @@ public class Ball extends Entity{
 	
 		float terrainHeight;
 		if(terrain != null)
-			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z)+1;
+			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
 		else
-			terrainHeight = 1;
+			terrainHeight = 0;
 		if(super.getPosition().y < terrainHeight){
 			isInAir=false;
 			velocity.y = 0;
@@ -105,7 +108,11 @@ public class Ball extends Entity{
 				this.velocity.z=Math.min(this.velocity.z+FRICTION, 0);*/
 	}
 	private Vector3f getCenter() {
-		return 	new Vector3f(super.getPosition().x,super.getPosition().y+RADIUS,super.getPosition().z);
+		center.x= super.getPosition().x;
+		center.y= super.getPosition().y+RADIUS;
+		center.z= super.getPosition().z;
+		
+		return 	center;
 	}
 
 	private void jump(){
@@ -264,7 +271,7 @@ public class Ball extends Entity{
 		
 		//step 1, bounding box, TBI
 
-		if( Math.abs(distance)< RADIUS){//step 2, plane distance
+		if( Math.abs(distance)<= RADIUS){//step 2, plane distance
 			if( isInTriangle(triangle)){//step 3, triangle/ball overlap
 
 				//do collision
@@ -286,18 +293,18 @@ public class Ball extends Entity{
 				
 				setVelocity(Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity.negate()));
 				
-				//push it back
-				float pushFactor=100;
+//				//push it back
+				float pushFactor=RADIUS/150;
 
-				Vector3f distancePush = Operation.multiplyByScalar(velocity.length()/pushFactor,normal);
-				float dx = distancePush.x;
-				float dz = distancePush.z;
-				float dy = distancePush.y;
-				super.increasePosition(dx,dy,dz);
-				
-				/*System.out.println("velocity after: "+getVelocity());
-				System.out.println();
-				System.out.println();*/
+				while(Math.abs(distance)<RADIUS){
+					Vector3f distancePush = Operation.multiplyByScalar(pushFactor,normal);
+					float dx = distancePush.x;
+					float dz = distancePush.z;
+					float dy = distancePush.y;
+					super.increasePosition(dx,dy,dz);
+					distance = Vector3f.dot(getCenter(), triangle.getNormal()) + triangle.getEquation()[3];
+				}				
+
 				return true;
 			}
 		}

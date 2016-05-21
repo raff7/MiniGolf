@@ -100,10 +100,11 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("dragon", loader);
+RawModel rw = OBJLoader.loadObjModel("stage", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
+rwModel.setHasTransparency(true);
 
-Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(ball.getPosition().x,course.getHeightOfTerrain(ball.getPosition().x, ball.getPosition().z+20),ball.getPosition().z+20),0,0,0,1);
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,1);
 
 BoundingBox box = ent.getBox();
 
@@ -379,10 +380,10 @@ entities.add(ent);
 //		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
 //		RawModel lampModel = OBJLoader.loadObjModel("lamp", loader);
 	   
-		RawModel playerModel = OBJLoader.loadObjModel("golfBall", loader);
+		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 		
 		
-		course.setBall(new Ball(new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture"))),new Vector3f(0,0,0),0,0,0,1));
+		course.setBall(new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,20),0,0,0,1));
 		float yball = (float) course.getHeightOfTerrain(400, 360);
 		course.getBall().setPosition(new Vector3f(course.getBall().getPosition().x,yball,course.getBall().getPosition().z));
 		
