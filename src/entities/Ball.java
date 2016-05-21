@@ -9,6 +9,7 @@ import collision.Operation;
 import geometry.Line;
 import geometry.Triangle;
 import models.TexturedModel;
+import physic.HumanInputController;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
@@ -133,7 +134,7 @@ public class Ball extends Entity{
 		}
 	}
 	private void checkInputs(){
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+		/*if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.velocity.x = (float) (RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
 			this.velocity.z = (float) (RUN_SPEED*Math.cos(Math.toRadians(getRotY())));		
 			
@@ -157,7 +158,10 @@ public class Ball extends Entity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;
 			velocity.z = 0;
-		}
+		}*/
+		
+		HumanInputController inOne = new HumanInputController(course , camera) ;
+		setVelocity(inOne.makeAShot()) ;
 	}
 	private void checkFreeCameraInputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
