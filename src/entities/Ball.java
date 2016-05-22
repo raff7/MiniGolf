@@ -13,14 +13,15 @@ import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
-import physic.HumanInputController;
+import toolbox.HumanInputController;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
 import toolbox.Maths;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 20;
+	
+	private static final float RUN_SPEED = 50;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -70,7 +71,6 @@ public class Ball extends Entity{
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
-					frictionEffect() ;
 					break;
 				}
 		}
@@ -92,6 +92,7 @@ public class Ball extends Entity{
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
+		frictionEffect() ;
 	}
 	
 
@@ -269,16 +270,14 @@ public class Ball extends Entity{
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 				
-				if(Math.abs(finalVelocity.y)<20f){//here
+				if(Math.abs(finalVelocity.y)<10f){
 					finalVelocity.y=0;
 				}
 					
-				
-				if(Math.abs(Vector3f.dot(velocity, normal))>20){
-					finalVelocity=Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity);
-				}
-				setVelocity((Vector3f)finalVelocity.negate());
 
+				
+				setVelocity(Operation.multiplyByScalar(1f,(Vector3f)finalVelocity.negate()));
+				
 //				//push it back
 				float pushFactor=RADIUS/150;
 
@@ -297,7 +296,7 @@ public class Ball extends Entity{
 
 		velocity.scale(friction) ;
 		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, velocity.y, 0f) ;
+			velocity.set(0f, 0f, 0f) ;
 		}
 	}
 	
