@@ -2,6 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import collision.BoundingBox;
@@ -113,8 +114,10 @@ public class Ball extends Entity{
 		}else{
 			this.currentTurnSpeed = 0;
 		}
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			jump();
+		}
+		if(Mouse.isButtonDown(0)){
 			//jump();
 			humanInput.makeAShot(this);
 		}
