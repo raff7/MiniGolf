@@ -29,6 +29,8 @@ public class Triangle2D {
 	}
 	
 	public float distance(Vector2f center) {
+	
+		
 		float distance1=Integer.MAX_VALUE;
 		float distance2=Integer.MAX_VALUE;
 		if(contain(center)){
@@ -72,9 +74,11 @@ public class Triangle2D {
 			}if(Maths.isInBetween(center,lineToCheck2.getPerpendicoular(lineToCheck2.pa),lineToCheck2.getPerpendicoular(lineToCheck2.pb))){
 				distance2= Maths.distancePointLine(center,lineToCheck2);
 			}
-			if(distance1==Integer.MAX_VALUE && distance2==Integer.MAX_VALUE)
+			if(distance1==Integer.MAX_VALUE && distance2==Integer.MAX_VALUE){
 				return (float) Math.sqrt(distance);
+			}
 		}
+
 		return (float) Math.sqrt(Math.min(distance1, distance2));
 	}
 

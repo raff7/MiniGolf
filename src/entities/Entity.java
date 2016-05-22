@@ -119,7 +119,6 @@ public class Entity {
 	public BoundingBox getBox(){
 		return box;
 	}
-	
 	public void setVertexRealCoordinates(){
 		List<Vector3f> verticesList = model.getRawModel().getVertices();
 		for(Vector3f vertex: verticesList)
@@ -145,4 +144,5 @@ public class Entity {
 			triangle.upDateEquation(triangle.getP1());
 		}
 	}
+
 }
