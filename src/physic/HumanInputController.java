@@ -29,7 +29,6 @@ public class HumanInputController {
 	private Vector3f computeShotDirection(){
 		
 		Vector3f temp = new Vector3f();
-		System.out.println("pos " +ball.getPosition()+"cam "+camera.getPosition());
 		Vector3f.sub(ball.getPosition(), camera.getPosition(), temp) ;
 		temp.set(temp.getX() , 0 , temp.getZ()) ;
 		temp.normalise();
