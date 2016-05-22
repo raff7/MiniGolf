@@ -29,6 +29,8 @@ public class Triangle2D {
 	}
 	
 	public float distance(Vector2f center) {
+		float distance1=Integer.MAX_VALUE;
+		float distance2=Integer.MAX_VALUE;
 		if(contain(center)){
 			return 0;
 		}
@@ -64,15 +66,16 @@ public class Triangle2D {
 				lineToCheck2 = new Line(p3, closest);
 			}
 			
-
+			
 			if(Maths.isInBetween(center,lineToCheck.getPerpendicoular(lineToCheck.pa),lineToCheck.getPerpendicoular(lineToCheck.pb))){
-				return Maths.distancePointLine(center, lineToCheck);
-			}else if(Maths.isInBetween(center,lineToCheck2.getPerpendicoular(lineToCheck2.pa),lineToCheck2.getPerpendicoular(lineToCheck2.pb))){
-				return Maths.distancePointLine(center,lineToCheck2);
+				distance1= Maths.distancePointLine(center, lineToCheck);
+			}if(Maths.isInBetween(center,lineToCheck2.getPerpendicoular(lineToCheck2.pa),lineToCheck2.getPerpendicoular(lineToCheck2.pb))){
+				distance2= Maths.distancePointLine(center,lineToCheck2);
 			}
-			else
+			if(distance1==Integer.MAX_VALUE && distance2==Integer.MAX_VALUE)
 				return (float) Math.sqrt(distance);
 		}
+		return (float) Math.sqrt(Math.min(distance1, distance2));
 	}
 
 	private boolean contain(Vector2f center) {
@@ -81,6 +84,8 @@ public class Triangle2D {
 		return false;
 	}
 
-
+	public String toString(){
+		return p1+" "+p2+" "+p3;
+	}
 
 }

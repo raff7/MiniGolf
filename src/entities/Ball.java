@@ -13,9 +13,10 @@ import models.TexturedModel;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
+import toolbox.Maths;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 50;
+	private static final float RUN_SPEED = 100;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -62,7 +63,6 @@ public class Ball extends Entity{
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
-					System.out.println(triangle.getNormal());
 					break;
 				}
 		}
@@ -187,8 +187,7 @@ public class Ball extends Entity{
 	}
 	
 	public boolean isInTriangle(Triangle triangle){
-
-
+		
 		Vector3f P1_3D = triangle.getP1();
 		Vector3f P2_3D = triangle.getP2();
 		Vector3f P3_3D = triangle.getP3();
@@ -203,8 +202,7 @@ public class Ball extends Entity{
 		
 		Triangle2D triangle2D = null;
 		
-		if( triangle.getNormal().getY() != 0 ){
-			
+		if( Math.abs(triangle.getNormal().getY()) > Maths.EPSILON  ){
 			p1 = new Vector2f(P1_3D.getX(), P1_3D.getZ());
 			p2 = new Vector2f(P2_3D.getX(), P2_3D.getZ());
 			p3 = new Vector2f(P3_3D.getX(), P3_3D.getZ());
@@ -228,13 +226,16 @@ public class Ball extends Entity{
 				
 				
 				position2D = new Vector2f(super.getPosition().x, super.getPosition().y);
+
+
+
 			}else{
 				position2D=null;
 
 			}
 			if( position2D== null || triangle2D.ballIsIn(position2D,RADIUS)){//(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 
-				if(triangle.getNormal().getX() != 0 ){
+				if(Math.abs(triangle.getNormal().getX()) > Maths.EPSILON ){
 					
 					p1 = new Vector2f(P1_3D.getZ(), P1_3D.getY());
 					p2 = new Vector2f(P2_3D.getZ(), P2_3D.getY());
@@ -247,6 +248,7 @@ public class Ball extends Entity{
 				}else{
 					position2D=null;
 				}
+				
 				if(position2D==null || triangle2D.ballIsIn(position2D,RADIUS)){//(line1.liesOnSameSide(position2D, p3) && line2.liesOnSameSide(position2D, p2) && line3.liesOnSameSide(position2D,p1))){
 
 					return true;

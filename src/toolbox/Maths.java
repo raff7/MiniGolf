@@ -9,7 +9,7 @@ import geometry.Line;
 
 public class Maths {
 
-	private static final float EPSILON = 0.01f;
+	public static final float EPSILON = 0.1f;
 	public static float barryCentric(Vector3f p1, Vector3f p2,Vector3f p3,Vector2f pos){
 		float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
 		float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
@@ -58,10 +58,9 @@ public class Maths {
 	public static boolean isInBetween(Vector2f point, Line line1, Line line2) {
 		// check if a point is in between 2 parallel lines
 		if(line1.m!=line2.m){
-			if(Math.abs(line1.m-line2.m)>EPSILON){
-				System.err.println("error, non parallel lines: line 1 : "+line1+" line2  "+line2);
-				System.exit(1 );
-			}else
+			//if(Math.abs(line1.m-line2.m)>EPSILON){
+				//System.err.println("error, non parallel lines: line 1 : "+line1+" line2  "+line2);
+			//}
 				line1.m=line2.m;
 		}
 

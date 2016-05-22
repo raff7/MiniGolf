@@ -2,9 +2,13 @@ package entities;
 
 import models.TexturedModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.BoundingBox;
+import geometry.Triangle;
 
 public class Entity {
 
@@ -25,6 +29,12 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		/* REALLY IMPORTANT 
+		 * Here we set the coordinates of the vertices from the relative coordinates system
+		 * to the world coordinates system.*/
+		setVertexRealCoordinates();
+		//update the value of every plane's constant to correspond to the R3 (in game) value
+		upDatePlaneConstant();
 		box = new BoundingBox(model,this);
 	}
 	public Entity(TexturedModel model,int index, Vector3f position, float rotX, float rotY, float rotZ,
@@ -110,10 +120,28 @@ public class Entity {
 		return box;
 	}
 	public void setVertexRealCoordinates(){
-		for(int i=0; i<model.getRawModel().getVertices().size(); i++){
-			Vector3f vertex = model.getRawModel().getVertices().get(i);
-			vertex.set(vertex.x+this.getPosition().x*this.getScale(), vertex.y+this.getPosition().y*this.getScale(), vertex.z+this.getPosition().z*this.getScale());
-			model.getRawModel().getVertices().set(i,vertex);
+		List<Vector3f> verticesList = model.getRawModel().getVertices();
+		for(Vector3f vertex: verticesList)
+			vertex.set( (vertex.x*getScale()) + getPosition().x, (vertex.y*getScale()) + getPosition().y, (vertex.z*getScale()) + getPosition().z);
+		
+		if(rotX !=0){
+			float[][] rotMatrixX = new float[][]{{1f,	0f,						0f},
+												 {0f,	(float)Math.cos(rotX), (float)-Math.sin(rotX)},
+												 {0f, 	(float)Math.sin(rotX), (float) Math.cos(rotX)}};
+			for(Vector3f vertex: verticesList){	
+				System.out.println("Before: "+vertex);
+				float x = position.x*rotMatrixX[0][0] + position.y*rotMatrixX[1][0] + position.z*rotMatrixX[2][0];
+				float y = position.x*rotMatrixX[0][1] + position.y*rotMatrixX[1][1] + position.z*rotMatrixX[2][1];
+				float z = position.x*rotMatrixX[0][2] + position.y*rotMatrixX[1][2] + position.z*rotMatrixX[2][2];
+				vertex.set(x,y,z);
+				System.out.println("After: "+vertex);
+			}
+		}
+	}
+	public void upDatePlaneConstant(){
+		ArrayList<Triangle> trianglesList = model.getRawModel().getTriangles();
+		for(Triangle triangle:trianglesList){
+			triangle.upDateEquation(triangle.getP1());
 		}
 	}
 
