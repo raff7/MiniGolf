@@ -65,12 +65,10 @@ public class Ball extends Entity{
 		boxes.add(entity.getBox());
 		}
 		for(Triangle triangle:trianglesList){
-<<<<<<< HEAD
 				if(collide(triangle)){
-=======
-				if(collide(triangle))
->>>>>>> 0ddfe120bb7b1a9d407d64fa7386bec6bd61709a
+
 					break;
+				}
 		}
 		//end of collision
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
@@ -90,7 +88,7 @@ public class Ball extends Entity{
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
-		frictionEffect() ;
+		frictionEffect();
 	}
 	
 	private Vector3f getCenter() {
@@ -218,14 +216,11 @@ public class Ball extends Entity{
 				triangle2D = new Triangle2D(p1,p2,p3);
 				
 				
-<<<<<<< HEAD
 				position2D = new Vector2f(super.getPosition().x, super.getPosition().y);
 
 
 
-=======
-				position2D = new Vector2f(getCenter().x, getCenter().y);
->>>>>>> 0ddfe120bb7b1a9d407d64fa7386bec6bd61709a
+
 			}else{
 				position2D=null;
 
