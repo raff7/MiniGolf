@@ -119,7 +119,8 @@ public class Ball extends Entity{
 		}
 		if(Mouse.isButtonDown(0)){
 			//jump();
-			humanInput.makeAShot(this);
+			if(getVelocity().x == 0 && getVelocity().y == 0 && getVelocity().z ==0)
+				humanInput.makeAShot(this);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;

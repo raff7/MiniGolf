@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 import entities.Camera;
 import entities.Entity;
 
-public class MousePickerTraveler {
+public class MousePickerTraveler{
 	
 	Vector3f position ;
 	Vector3f direction ;
