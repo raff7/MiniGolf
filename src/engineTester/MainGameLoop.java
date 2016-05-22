@@ -6,6 +6,7 @@ import java.util.Random;
 
 import models.RawModel;
 import models.TexturedModel;
+import physic.HumanInputController;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -109,8 +110,9 @@ ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);
 entities.add(ent);
 
-
-		
+HumanInputController humanInput = new HumanInputController(camera,ball);
+ball.setHumanInputController(humanInput);
+System.out.println("pos " +ball.getPosition()+"cam "+camera.getPosition());
 		
 		GuiTexture gui = new GuiTexture(loader.loadTexture("exampleGUI"),new Vector2f (-0.9f,0.9f),new Vector2f(0.1f,0.15f));
 		List<GuiTexture> inGameGuis = new ArrayList<GuiTexture>();
