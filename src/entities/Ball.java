@@ -10,6 +10,7 @@ import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
+import physic.HumanInputController;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
@@ -34,8 +35,8 @@ public class Ball extends Entity{
 	private float friction = 0.99f ;
 	private float minimalSpeed = 1f ;
 	
+	HumanInputController humanInput;
 	
-
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
@@ -55,7 +56,6 @@ public class Ball extends Entity{
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
 		checkInputs();
 		
-		System.out.println(super.getPosition().y);
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
 		ArrayList<BoundingBox> boxes = new ArrayList();
@@ -125,7 +125,8 @@ public class Ball extends Entity{
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			jump();
+			//jump();
+			humanInput.makeAShot(this);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;
@@ -176,6 +177,9 @@ public class Ball extends Entity{
 	public float getRadius() {
 		return RADIUS;
 	}
+	public void setHumanInputController(HumanInputController humanInput){
+		 this.humanInput = humanInput;
+	}
 	
 	public boolean isInTriangle(Triangle triangle){
 		
@@ -217,10 +221,7 @@ public class Ball extends Entity{
 				
 				
 				position2D = new Vector2f(super.getPosition().x, super.getPosition().y);
-
-
-
-
+		
 			}else{
 				position2D=null;
 
