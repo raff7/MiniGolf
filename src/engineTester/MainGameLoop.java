@@ -101,10 +101,11 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("cube", loader);
-ModelTexture rwModel = new ModelTexture(loader.loadTexture("mud"));
-rwModel.setUseFakeLight(true);
-Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,10);
+RawModel rw = OBJLoader.loadObjModel("stage", loader);
+ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
+rwModel.setUseFakeLight(false);
+rwModel.setHasTransparency(true);
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,1);
 
 ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);
@@ -447,7 +448,7 @@ ball.setHumanInputController(humanInput);
 		course.addLight(lamp.getLight());
 		course.addLight(lamp1.getLight());
 		course.addLight(lamp2.getLight());*/
-		Light sun = new Light(new Vector3f(20000,20000,2000),new Vector3f(1f,1f,1f));
+		Light sun = new Light(new Vector3f(100,20000,-10000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
 	}

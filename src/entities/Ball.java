@@ -18,7 +18,7 @@ import textures.ModelTexture;
 import toolbox.Maths;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 50;
+	private static final float RUN_SPEED = 150;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -264,14 +264,16 @@ public class Ball extends Entity{
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 				
-				if(Math.abs(finalVelocity.y)<10f){
+				if(Math.abs(finalVelocity.y)<20f){//here
 					finalVelocity.y=0;
 				}
 					
+				
+				if(Math.abs(Vector3f.dot(velocity, normal))>20){
+					finalVelocity=Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity);
+				}
+				setVelocity((Vector3f)finalVelocity.negate());
 
-				
-				setVelocity(Operation.multiplyByScalar(1f,(Vector3f)finalVelocity.negate()));
-				
 //				//push it back
 				float pushFactor=RADIUS/150;
 
@@ -297,10 +299,10 @@ public class Ball extends Entity{
 		}
 		velocity.set(0f, 0f, 0f) ;*/
 		
-		velocity.scale(friction) ;
-		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, 0f, 0f) ;
-		}
+//		velocity.scale(friction) ;
+//		if(Math.abs(velocity.length()) < minimalSpeed){
+//			velocity.set(0f, 0f, 0f) ;
+//		}
 	}
 
 }
