@@ -101,7 +101,7 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("provona2", loader);
+RawModel rw = OBJLoader.loadObjModel("cube", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("mud"));
 rwModel.setUseFakeLight(true);
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,10);
