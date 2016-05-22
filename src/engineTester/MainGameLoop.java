@@ -100,22 +100,13 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-<<<<<<< HEAD
-RawModel rw = OBJLoader.loadObjModel("provona2", loader);
-ArrayList<Triangle> trs = rw.getTriangles();
-for(Triangle triangle:trs){
-	System.out.println(triangle);
-}
-=======
+
 RawModel rw = OBJLoader.loadObjModel("cube", loader);
->>>>>>> 0ddfe120bb7b1a9d407d64fa7386bec6bd61709a
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("gold"));
 
-<<<<<<< HEAD
 Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,10);
 
-=======
->>>>>>> 0ddfe120bb7b1a9d407d64fa7386bec6bd61709a
+
 ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);
 entities.add(ent);
