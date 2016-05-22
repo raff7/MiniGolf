@@ -65,6 +65,7 @@ public class Ball extends Entity{
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
+					frictionEffect() ;
 					break;
 				}
 		}
@@ -86,7 +87,6 @@ public class Ball extends Entity{
 			velocity.y = 0;
 			super.getPosition().y=terrainHeight;
 		}
-		frictionEffect() ;
 	}
 	
 
@@ -289,20 +289,11 @@ public class Ball extends Entity{
 		return false;
 	}
 	private void frictionEffect(){
-		/*Vector3f newVelocity = new Vector3f() ;
-		while(Math.abs(velocity.length()) > minimalSpeed){
-		System.out.println(velocity.getX() + " , " + velocity.getY() + " , " + velocity.getZ()) ;
-		newVelocity.setX((velocity.getX() * friction));
-		newVelocity.setY((velocity.getY() * friction));
-		newVelocity.setZ((velocity.getZ() * friction));
-		velocity = newVelocity ;
+
+		velocity.scale(friction) ;
+		if(Math.abs(velocity.length()) < minimalSpeed){
+			velocity.set(0f, velocity.y, 0f) ;
 		}
-		velocity.set(0f, 0f, 0f) ;*/
-		
-//		velocity.scale(friction) ;
-//		if(Math.abs(velocity.length()) < minimalSpeed){
-//			velocity.set(0f, 0f, 0f) ;
-//		}
 	}
 
 }
