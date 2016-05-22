@@ -15,7 +15,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 100;
+	private static final float RUN_SPEED = 50;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
