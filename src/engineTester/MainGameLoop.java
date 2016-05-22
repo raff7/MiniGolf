@@ -6,7 +6,6 @@ import java.util.Random;
 
 import models.RawModel;
 import models.TexturedModel;
-import physic.HumanInputController;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -27,6 +26,7 @@ import renderEngine.OBJLoader;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import textures.ModelTexture;
+import toolbox.HumanInputController;
 import toolbox.MousePicker;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;

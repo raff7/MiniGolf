@@ -11,10 +11,10 @@ import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
-import physic.HumanInputController;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
+import toolbox.HumanInputController;
 import toolbox.Maths;
 
 public class Ball extends Entity{
@@ -52,7 +52,7 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	}
 	//move as a ball
-	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
+	public void move(Terrain terrain, ArrayList<Entity> entitiesList){
 		checkInputs();
 		
 		//collision
@@ -65,6 +65,7 @@ public class Ball extends Entity{
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
+					//friction(triangle);
 					break;
 				}
 		}
@@ -115,7 +116,8 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			jump();
+			//jump();
+			humanInput.setPower();
 		}
 		if(Mouse.isButtonDown(0)){
 			//jump();
@@ -296,11 +298,25 @@ public class Ball extends Entity{
 		velocity = newVelocity ;
 		}
 		velocity.set(0f, 0f, 0f) ;*/
-		
-		velocity.scale(friction) ;
+		//if(velocity.y == 0){
+			velocity.scale(friction);
+			if(Math.abs(velocity.length()) < minimalSpeed){
+				velocity.set(0f, 0f, 0f) ;
+			}
+		//}
+	}
+	
+	/*private void frictionEffect(Triangle triangle){
+		Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+		if(Vector3f.dot(velocity,normal) >= 0){
+			normal.negate();
+		//in radian
+		float angle = Vector3f.angle(velocity,normal);
+		if(  )
+			velocity.scale(friction);
 		if(Math.abs(velocity.length()) < minimalSpeed){
 			velocity.set(0f, 0f, 0f) ;
 		}
-	}
+	}*/
 
 }

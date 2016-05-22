@@ -1,5 +1,6 @@
-package physic;
+package toolbox;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.Operation;
@@ -21,13 +22,12 @@ public class HumanInputController {
 	
 	public void makeAShot(Ball ball){	
 		direction = computeShotDirection();
-		computeShotPower();
+		//computeShotPower();
 		shot = Operation.multiplyByScalar(power, direction);
 		ball.setVelocity(shot);
 	}
 	
 	private Vector3f computeShotDirection(){
-		
 		Vector3f temp = new Vector3f();
 		Vector3f.sub(ball.getPosition(), camera.getPosition(), temp) ;
 		temp.set(temp.getX() , 0 , temp.getZ()) ;
@@ -35,26 +35,32 @@ public class HumanInputController {
 		return temp ;
 	}
 	
-	private void computeShotPower(){
+	public void computeShotPower(){
 		power=100f;	
 	}
 	
-	private Vector3f getDirection(){
+	public Vector3f getDirection(){
 		
 		return direction ;
 	}
 	
-	private void setDirection(Vector3f dir){
+	public void setDirection(Vector3f dir){
 		
 		direction = dir ;
 	}
 	
-	private double getPower(){
+	public double getPower(){
 		
 		return power ;
 	}
 	
-	private void setPower(float pow){
-		power = pow;
+	public void setPower(){
+		float pow = 0;
+		while(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && pow < 150){
+			pow+=0.001;
+			System.out.println(Keyboard.isKeyDown(Keyboard.KEY_SPACE));
+			System.out.println(pow);
+		}
+		power=pow;
 	}
 }
