@@ -65,8 +65,6 @@ public class MainGameLoop{
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		
-		//generateManualWorld();//temp
-		//actualGameLoop();	//
 		startMainMenuGui();
 
 		clean();
@@ -101,11 +99,11 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("stage", loader);
+RawModel rw = OBJLoader.loadObjModel("hole", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 rwModel.setUseFakeLight(false);
 rwModel.setHasTransparency(true);
-Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,1);
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,28);
 
 ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);

@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+
+import GameManager.Observer;
 import collision.BoundingBox;
 import collision.Operation;
 import geometry.Line;
@@ -18,7 +20,7 @@ import textures.ModelTexture;
 import toolbox.Maths;
 
 public class Ball extends Entity{
-	private static final float RUN_SPEED = 150;
+	private static final float RUN_SPEED = 20;
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
@@ -34,6 +36,9 @@ public class Ball extends Entity{
 	//for friction effect
 	private float friction = 0.99f ;
 	private float minimalSpeed = 1f ;
+	
+	//for observer
+	ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	HumanInputController humanInput;
 	
@@ -53,7 +58,7 @@ public class Ball extends Entity{
 	}
 	//move as a ball
 	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
-		checkInputs();
+		checkTestingInputs();
 		
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
@@ -96,7 +101,7 @@ public class Ball extends Entity{
 			isInAir=true;
 		}
 	}
-	private void checkInputs(){
+	private void checkTestingInputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			this.velocity.x = (float) (RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
 			this.velocity.z = (float) (RUN_SPEED*Math.cos(Math.toRadians(getRotY())));		
@@ -294,6 +299,22 @@ public class Ball extends Entity{
 		if(Math.abs(velocity.length()) < minimalSpeed){
 			velocity.set(0f, velocity.y, 0f) ;
 		}
+	}
+	
+	
+	
+	//observer: game
+	
+	public void Notify(){
+		for(Observer observer:observers){
+			observer.update(ballIsInHole);
+		}
+	}
+	public void attach(Observer observer){
+		observers.add(observer);
+	}
+	public void detach(Observer observer){
+		observers.remove(observer);
 	}
 
 }
