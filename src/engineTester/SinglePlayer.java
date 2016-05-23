@@ -1,6 +1,5 @@
 package engineTester;
 
-import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -14,7 +13,6 @@ import entities.Ball;
 import entities.Camera;
 import entities.Course;
 import gui.GuiRenderer;
-import gui.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;

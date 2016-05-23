@@ -1,10 +1,7 @@
 package engineTester;
 
-import java.util.Random;
-
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Ball;
 import entities.Course;
 import entities.Entity;
 import entities.Light;
@@ -62,11 +59,11 @@ public class SampleCourse {
 //		course.addEntity(new Entity(staticDragonModel, new Vector3f(440,course.getHeightOfTerrain(440, 400),400),0,-90,0,5));
 
 
-		Random random = new Random();
+/*		Random random = new Random();
 		
 			
 			
-/*		for(int i=0;i<300;i++){
+		for(int i=0;i<300;i++){
 			if(i%100 == 0){
 				float x =random.nextFloat()*800;
 				float z = random.nextFloat() * 800;

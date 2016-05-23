@@ -1,8 +1,5 @@
 import org.lwjgl.util.vector.Vector2f;
-
-import geometry.Line;
 import geometry.Triangle2D;
-import toolbox.Maths;
 
 public class Tester {
 	public static void main(String[] args){

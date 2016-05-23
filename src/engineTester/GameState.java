@@ -1,6 +1,5 @@
 package engineTester;
 
-import entities.Course;
 
 public interface GameState {
 	public void update();
