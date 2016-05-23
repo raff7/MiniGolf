@@ -1,15 +1,13 @@
 package engineTester;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import GameManager.Game;
-import GameManager.HumanPlayer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
@@ -27,56 +25,56 @@ import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
 
-public class SinglePlayer implements GameState {
+public class CourseDesigner implements GameState{
 	
-	private Game game;
-
+	private Loader loader;
+	private MasterRenderer renderer;
+	private GuiRenderer guiRenderer;
+	
+	private List<GuiTexture> guis;	
+	
+	private WaterShader waterShader;
+	private WaterRenderer waterRenderer;
+	private WaterFrameBuffers buffers;
+	
+	
 	private Course course;
 	private Ball ball;
 	private Camera camera;
 	
-	private Loader loader;
-	private MasterRenderer renderer; 
-	private GuiRenderer guiRenderer;
-	private WaterRenderer waterRenderer;
-	private WaterShader waterShader;
-	private WaterFrameBuffers buffers;
-	
-	public SinglePlayer(){
-		
+
+	public CourseDesigner(){
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
-		//choseCourseLoop();
-		course=SampleCourse.getCourse(loader);//for testing
 		
-		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
+		ititializeGuis();
 		
-		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,20),0,0,0,1);
-		camera = new Camera(ball);
-		game = new Game(new HumanPlayer(ball));
-
-		course.addEntity(ball);
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
-						
 		
+		//choseCourseLoop();
+		course=SampleCourse.getCourse(loader);//for testing
+		
+		RawModel model = OBJLoader.loadObjModel("grassModel", loader);
+		ball = new Ball(new TexturedModel(model,new ModelTexture(loader.loadTexture("invisible"))),new Vector3f(0,0,0),0,0,0,1);
+		camera = new Camera(ball);
 	}
+
+
+
 	@Override
 	public void update() {
 		checkImputs();
-		if(!game.isPause()){
-			ball.move(course.getEntities());
-			camera.move();
-		}
-
+		ball.move();
+		camera.move();
+		
 	}
-	
+
+
 	@Override
 	public void render() {
-		GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-		
 		for(WaterTile water:course.getWaters()){
 			//render reflection on water texture
 			buffers.bindReflectionFrameBuffer();
@@ -89,35 +87,32 @@ public class SinglePlayer implements GameState {
 			
 			//render refraction on water texture
 			buffers.bindRefractionFrameBuffer();
-			renderer.renderScene(course.getEntities(), course.getTerrains(),  course.getLights(), camera, new Vector4f(0,-1,0,water.getHeight()));
+			renderer.renderScene(course.getEntities(), course.getTerrains(), course.getLights(), camera, new Vector4f(0,-1,0,water.getHeight()));
 		}
-
 		//render to screen
 		GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 		buffers.unbindCurrentFrameBuffer();
 		renderer.renderScene(course.getEntities(),course.getTerrains(),course.getLights(),camera, new Vector4f(0,-1,0,150000));
 		waterRenderer.render(course.getWaters(), camera);
-		guiRenderer.render(game.getGUIs());
+		guiRenderer.render(guis);
 		DisplayManager.updateDisplay();
-	}		
+		
+	}
+
 
 	@Override
 	public void changeGameState(GameState newState) {
-		if(!(newState instanceof Option )){
-			loader.cleanUp();
-			renderer.cleanUp();
-			guiRenderer.cleanUp();
-			waterShader.cleanUp();
-		}
-		MainGameLoop.Notify(newState);
+		// TODO Auto-generated method stub
+		
 	}
 	
-	private void checkImputs() {
-		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-			if(!game.isPause())
-				game.pause();
-			else
-				game.unPause();
-		}		
+	private void ititializeGuis() {
+		guis = new ArrayList<GuiTexture>();
+		
 	}
+	
+	private void checkImputs(){
+		
+	}
+
 }
