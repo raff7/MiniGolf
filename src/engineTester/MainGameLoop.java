@@ -26,7 +26,7 @@ import renderEngine.OBJLoader;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import textures.ModelTexture;
-import toolbox.HumanInputController;
+import toolbox.HumanPowerController;
 import toolbox.MousePicker;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
@@ -110,8 +110,6 @@ Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),
 ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);
 entities.add(ent);
-HumanInputController humanInput = new HumanInputController(camera,ball);
-ball.setHumanInputController(humanInput);
 
 		
 		GuiTexture gui = new GuiTexture(loader.loadTexture("exampleGUI"),new Vector2f (-0.9f,0.9f),new Vector2f(0.1f,0.15f));
