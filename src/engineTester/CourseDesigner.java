@@ -102,8 +102,7 @@ public class CourseDesigner implements GameState{
 
 	@Override
 	public void changeGameState(GameState newState) {
-		// TODO Auto-generated method stub
-		
+		//TODO
 	}
 	
 	private void ititializeGuis() {
@@ -112,7 +111,7 @@ public class CourseDesigner implements GameState{
 	}
 	
 	private void checkImputs(){
-		
+		//TODO
 	}
 
 }

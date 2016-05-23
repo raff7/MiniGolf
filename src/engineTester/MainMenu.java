@@ -48,7 +48,7 @@ public class MainMenu implements GameState{
 		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
 		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
 		//SinglePlayer
-		if((y > 20) && (y < 150) && (x > -243) && (x < 270)){
+		if (y > 0 && y < 50 && x > -99 && x < 95) {
 			menuButtons.get(0).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(new SinglePlayer());//go to singlePlayer menu
@@ -58,7 +58,7 @@ public class MainMenu implements GameState{
 		}
 		
 		//MultiPlayer
-		if((y > -102) && (y < -10) && (x > -245) && (x < 260)){
+        if (y > -40 && y < -1 && x > -99 && x < 87) {
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(null);//changeGameState(new MultiPlayer());//go to MultiPlayer menu
@@ -67,17 +67,17 @@ public class MainMenu implements GameState{
 			menuButtons.get(1).setSel(false);
 		}
 		//EditCourse
-				if((y > -200) && (y < -110) && (x > -243) && (x < 260)){
-					menuButtons.get(2).setSel(true);
-					if(Mouse.isButtonDown(0)){
-						changeGameState(null);//changeGameState(new CourseDesigner());//go to courseDesigner menu
-					}
-				}else{
-					menuButtons.get(2).setSel(false);
+        if (y > -80 && y < -41 && x > -99 && x < 87) {
+				menuButtons.get(2).setSel(true);
+				if(Mouse.isButtonDown(0)){
+					changeGameState(null);//changeGameState(new CourseDesigner());//go to courseDesigner menu
 				}
+			}else{
+				menuButtons.get(2).setSel(false);
+			}
 		
 		//options
-		if((y > -278) && (y < -210) && (x > -178) && (x < 150)){
+        if (y > -120 && y < -81 && x > -69 && x < 67) {
 			menuButtons.get(3).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(null);//changeGameState(new Option(this));//go to Options menu
@@ -86,7 +86,7 @@ public class MainMenu implements GameState{
 			menuButtons.get(3).setSel(false);
 		}
 		//quit
-		if((y > -400) && (y < -280) && (x > -99) && (x < 87)){
+        if (y > -160 && y < -121 && x > -39 && x < 39) {
 			menuButtons.get(4).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(null);
