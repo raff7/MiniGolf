@@ -8,12 +8,12 @@ import models.TexturedModel;
 public class BoundingBox {
 
 	public List<Vector3f> vertices;
-	private Vector3f minX;
-	private Vector3f maxX;
-	private Vector3f minY;
-	private Vector3f maxY;
-	private Vector3f minZ;
-	private Vector3f maxZ;
+	private Vector3f minX = new Vector3f();
+	private Vector3f maxX = new Vector3f();
+	private Vector3f minY = new Vector3f();
+	private Vector3f maxY = new Vector3f();
+	private Vector3f minZ = new Vector3f();
+	private Vector3f maxZ = new Vector3f();
 
 	public BoundingBox(TexturedModel model, Entity entity){
 		this.vertices = model.getRawModel().getVertices();

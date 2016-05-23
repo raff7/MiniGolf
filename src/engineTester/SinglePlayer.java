@@ -22,6 +22,7 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import textures.ModelTexture;
+import toolbox.HumanPowerController;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
@@ -54,7 +55,8 @@ public class SinglePlayer implements GameState {
 		
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,20),0,0,0,1);
 		camera = new Camera(ball);
-		game = new Game(new HumanPlayer(ball));
+		HumanPowerController humanPowerController = new HumanPowerController();
+		game = new Game(new HumanPlayer(ball, humanPowerController));
 
 		course.addEntity(ball);
 		waterShader = new WaterShader();
