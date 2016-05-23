@@ -1,12 +1,19 @@
 package GameManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Game {
+import gui.GuiTexture;
+
+public class Game implements Observer {
 	
 	private ArrayList<Player> players;
+	private ArrayList<Player> donePlayers= new ArrayList<Player>();
 	private Player activePlayer;
 	private int playerID;
+	private ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
+	
+	private boolean isPause=false;
 
 	
 	
@@ -15,8 +22,15 @@ public class Game {
 		activePlayer = players.get(playerID);
 	}
 	
-	public void update(boolean BallIsInHole){
-		if(BallIsInHole){
+	public Game(Player player) {
+		players = new ArrayList<Player>();
+		players.add(player);
+		activePlayer=player;
+	}
+
+	public void update(){
+		if(activePlayer.getBall().getBallIsInHole()){
+			donePlayers.add(activePlayer);
 			players.remove(activePlayer);
 		}
 		if(players.size()==0){
@@ -32,4 +46,22 @@ public class Game {
 		activePlayer=players.get(playerID);
 
 	}
+	
+	public void pause(){
+		isPause=true;
+	}
+	public void unPause(){
+		isPause=false;
+	}
+	public boolean isPause(){
+		return isPause;
+	}
+
+	public List<GuiTexture> getGUIs() {
+		return guis;
+	}
+	public ArrayList<Player> getDonePlayers(){
+		return donePlayers;
+	}
+	
 }

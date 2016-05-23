@@ -28,9 +28,7 @@ public class Ball extends Entity{
 	private static final float FRICTION = 0.01f;
 	private static final float MAX_RUN_SPEED = 1000;
 	private float currentTurnSpeed = 0;
-	
-	private boolean isInAir=false;
-	
+		
 	private Vector3f velocity;
 	private final float  RADIUS = 1f;
 	
@@ -40,6 +38,10 @@ public class Ball extends Entity{
 	
 	//for observer
 	ArrayList<Observer> observers = new ArrayList<Observer>();
+	private boolean ballIsInHole=false;
+	private boolean isShoted = false;
+	//private Hole hole;
+
 	
 	HumanInputController humanInput;
 	
@@ -58,7 +60,7 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	}
 	//move as a ball
-	public void move(Terrain terrain,ArrayList<Entity> entitiesList){
+	public void move(ArrayList<Entity> entitiesList){
 		checkTestingInputs();
 		
 		//collision
@@ -71,6 +73,7 @@ public class Ball extends Entity{
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
+					frictionEffect() ;
 					break;
 				}
 		}
@@ -82,25 +85,12 @@ public class Ball extends Entity{
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	
-		float terrainHeight;
-		if(terrain != null)
-			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
-		else
-			terrainHeight = 0;
-		if(super.getPosition().y < terrainHeight){
-			isInAir=false;
-			velocity.y = 0;
-			super.getPosition().y=terrainHeight;
-		}
-		frictionEffect() ;
 	}
 	
 
 	private void jump(){
-		if(!isInAir||isInAir){
+		
 			this.velocity.y=JUMP_POWER;
-			isInAir=true;
-		}
 	}
 	private void checkTestingInputs(){
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
@@ -274,10 +264,9 @@ public class Ball extends Entity{
 					finalVelocity.y=0;
 				}
 					
-
-				
-				setVelocity(Operation.multiplyByScalar(1f,(Vector3f)finalVelocity.negate()));
-				
+				if(Math.abs(Vector3f.dot(velocity, normal))>2)
+					finalVelocity = Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity);
+				setVelocity((Vector3f)finalVelocity.negate());
 //				//push it back
 				float pushFactor=RADIUS/150;
 
@@ -296,7 +285,7 @@ public class Ball extends Entity{
 
 		velocity.scale(friction) ;
 		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, 0f, 0f) ;
+			velocity.set(0f, velocity.y, 0f) ;
 		}
 	}
 	
@@ -306,7 +295,7 @@ public class Ball extends Entity{
 	
 	public void Notify(){
 		for(Observer observer:observers){
-			observer.update(ballIsInHole);
+			observer.update();
 		}
 	}
 	public void attach(Observer observer){
@@ -314,6 +303,11 @@ public class Ball extends Entity{
 	}
 	public void detach(Observer observer){
 		observers.remove(observer);
+	}
+
+	public boolean getBallIsInHole() {
+		// TODO Auto-generated method stub
+		return ballIsInHole;
 	}
 
 }
