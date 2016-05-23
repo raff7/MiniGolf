@@ -44,6 +44,9 @@ import gui.GuiRenderer;
 import gui.GuiTexture;
 
 public class MainGameLoop{
+	
+	private static GameState actualState;
+	
 	private static Course course;
 	private static Loader loader;
 	private static MasterRenderer renderer;
@@ -56,19 +59,17 @@ public class MainGameLoop{
 	private static List<Button> menuButtons;
 
 	public static void main(String[] args) {
-
-
-		DisplayManager.createDisplay();
-		loader = new Loader();
-		pauseMenuGuis = new ArrayList<GuiTexture>();
-		//generatePauseMenuGui();
-		renderer = new MasterRenderer(loader);
-		guiRenderer = new GuiRenderer(loader);
 		
-		//generateManualWorld();//temp
-		//actualGameLoop();	//
-		startMainMenuGui();
-
+		DisplayManager.createDisplay();
+		actualState = new MainMenu();
+		
+		
+		while(!Display.isCloseRequested() && actualState !=null){
+			
+			actualState.update();
+			actualState.render();
+			
+		}
 		clean();
 
 	}
@@ -101,11 +102,10 @@ public class MainGameLoop{
 		
 		
 ///////////// TESTING \\\\\\\\\
-RawModel rw = OBJLoader.loadObjModel("stage", loader);
+RawModel rw = OBJLoader.loadObjModel("hole", loader);
 ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
-rwModel.setUseFakeLight(false);
 rwModel.setHasTransparency(true);
-Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,1);
+Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,28);
 
 ArrayList<Entity> collideEnt = new ArrayList<Entity>();
 collideEnt.add(ent);
@@ -173,36 +173,18 @@ ball.setHumanInputController(humanInput);
 	}
 	
 	private static void startMainMenuGui() {
-		menuGuis=null;
-		menuGuis = new ArrayList<GuiTexture>();
-		menuButtons = null;
-		menuButtons = new ArrayList<Button>();
-		GuiTexture backGround = new GuiTexture(loader.loadTexture("backGround"),new Vector2f (0,-1f),new Vector2f(1.35f,2f));
-		GuiTexture title = new GuiTexture(loader.loadTexture("title"),new Vector2f (0,0.5f),new Vector2f(0.75f,0.75f));
-		Button singlePlayer = new Button(loader.loadTexture("singlePlayer"),loader.loadTexture("singlePlayerSel"),new Vector2f (0.02f,0.1f),new Vector2f(0.3f,0.15f));
-		Button multiPlayer = new Button(loader.loadTexture("multiPlayer"),loader.loadTexture("multiPlayerSel"),new Vector2f (0.02f,-0.1f),new Vector2f(0.3f,0.15f));
-		Button editCourse = new Button(loader.loadTexture("editCourse"),loader.loadTexture("editCourseSel"),new Vector2f (0.02f,-0.3f),new Vector2f(0.3f,0.15f));
-		Button option = new Button(loader.loadTexture("options"),loader.loadTexture("optionsSel"),new Vector2f (0.1f,-0.5f),new Vector2f(0.3f,0.15f));
-		Button quit = new 	Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.3f,0.15f));
 		
 		
 		
 		
-		menuGuis.add(backGround);
-		menuButtons.add(singlePlayer);
-		menuButtons.add(multiPlayer);
-		menuButtons.add(editCourse);
-		menuButtons.add(option);
-		menuButtons.add(quit);
-		menuGuis.add(title);
+		
 		
 		
 		//menu start
 		int exitLoop = 0;
 		while(!(Display.isCloseRequested() || exitLoop != 0)){
 			exitLoop = checkMainMenuImputs();
-			guiRenderer.renderMenu(menuGuis,menuButtons);
-			DisplayManager.updateDisplay();
+			
 		}
 		if(exitLoop==1){
 			startSinglePlayerMenu();
@@ -216,57 +198,7 @@ ball.setHumanInputController(humanInput);
 		clean();
 	}
 	private static int checkMainMenuImputs() {
-		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
-		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
-		//SinglePlayer
-		if((y > 20) && (y < 150) && (x > -243) && (x < 270)){
-			menuButtons.get(0).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 1;//go to singlePlayer menu
-			}
-		}else{
-			menuButtons.get(0).setSel(false);
-		}
 		
-		//MultiPlayer
-		if((y > -102) && (y < -10) && (x > -245) && (x < 260)){
-			menuButtons.get(1).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 2;//go to MultiPlayer menu
-			}
-		}else{
-			menuButtons.get(1).setSel(false);
-		}
-		//EditCourse
-				if((y > -200) && (y < -110) && (x > -243) && (x < 260)){
-					menuButtons.get(2).setSel(true);
-					if(Mouse.isButtonDown(0)){
-						return 3;//go to courseDesigner menu
-					}
-				}else{
-					menuButtons.get(2).setSel(false);
-				}
-		
-		//options
-		if((y > -278) && (y < -210) && (x > -178) && (x < 150)){
-			menuButtons.get(3).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				return 4;//go to Options menu
-			}
-		}else{
-			menuButtons.get(3).setSel(false);
-		}
-		//quit
-		if((y > -400) && (y < -280) && (x > -99) && (x < 87)){
-			menuButtons.get(4).setSel(true);
-			if(Mouse.isButtonDown(0)){
-				clean();
-			}
-		}else{
-			menuButtons.get(4).setSel(false);
-		}
-
-
 		return 0;
 	}
 	
@@ -451,6 +383,9 @@ ball.setHumanInputController(humanInput);
 		Light sun = new Light(new Vector3f(100,20000,-10000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
+	}
+	public static void Notify(GameState newState){
+		actualState = newState;
 	}
 	private static void clean(){
 		if(loader!=null)
