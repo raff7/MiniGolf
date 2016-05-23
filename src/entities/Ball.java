@@ -13,7 +13,7 @@ import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
-import toolbox.HumanInputController;
+import toolbox.HumanPowerController;
 import renderEngine.DisplayManager;
 import terrains.Terrain;
 import textures.ModelTexture;
@@ -42,8 +42,7 @@ public class Ball extends Entity{
 	private boolean isShoted = false;
 	//private Hole hole;
 
-	
-	HumanInputController humanInput;
+
 	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
@@ -166,9 +165,6 @@ public class Ball extends Entity{
 	}
 	public float getRadius() {
 		return RADIUS;
-	}
-	public void setHumanInputController(HumanInputController humanInput){
-		 this.humanInput = humanInput;
 	}
 	
 	public boolean isInTriangle(Triangle triangle){
