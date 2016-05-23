@@ -104,8 +104,11 @@ public class MainMenu implements GameState{
 	}
 
 	public void changeGameState(GameState newState) {
+		if(!(newState instanceof Option )){
+			loader.cleanUp();
+			guiRenderer.cleanUp();
+		}
 		MainGameLoop.Notify(newState);
-		
 	}
 
 }

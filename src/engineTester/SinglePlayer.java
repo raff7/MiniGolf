@@ -108,6 +108,12 @@ public class SinglePlayer implements GameState {
 
 	@Override
 	public void changeGameState(GameState newState) {
-		// TODO Auto-generated method stub
+		if(!(newState instanceof Option )){
+			loader.cleanUp();
+			renderer.cleanUp();
+			guiRenderer.cleanUp();
+			waterShader.cleanUp();
+		}
+		MainGameLoop.Notify(newState);
 	}
 }

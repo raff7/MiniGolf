@@ -60,7 +60,8 @@ public class MainGameLoop{
 			actualState.update();
 			
 		}
-		clean();
+		DisplayManager.closeDisplay();
+		System.exit(0);
 
 	}
 
@@ -377,15 +378,10 @@ entities.add(ent);
 	}
 	private static void clean(){
 		if(loader!=null)
-			loader.cleanUp();
 		if(renderer!=null)
-			renderer.cleanUp();
 		if(guiRenderer!=null)
-			guiRenderer.cleanUp();
 		if(waterShader!=null)
-			waterShader.cleanUp();
-		DisplayManager.closeDisplay();
-		System.exit(0);
+	
 	}
 	
 }
