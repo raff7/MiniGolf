@@ -47,16 +47,6 @@ public class MainGameLoop{
 	
 	private static GameState actualState;
 	
-	private static Course course;
-	private static Loader loader;
-	private static MasterRenderer renderer;
-	private static GuiRenderer guiRenderer;
-	private static WaterRenderer waterRenderer;
-	private static WaterShader waterShader;
-	private static List<GuiTexture> pauseMenuGuis;
-	private static List<Button> pauseMenuButtons;
-	private static List<GuiTexture> menuGuis;
-	private static List<Button> menuButtons;
 
 	public static void main(String[] args) {
 		
@@ -66,8 +56,8 @@ public class MainGameLoop{
 		
 		while(!Display.isCloseRequested() && actualState !=null){
 			
-			actualState.update();
 			actualState.render();
+			actualState.update();
 			
 		}
 		clean();
