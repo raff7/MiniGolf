@@ -1,4 +1,4 @@
-package bot;
+package GameManager;
 
 import java.util.ArrayList;
 
