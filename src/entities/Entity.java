@@ -1,10 +1,11 @@
 package entities;
 
 import models.TexturedModel;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
-
 import collision.BoundingBox;
+import geometry.Triangle;
 
 public class Entity {
 
@@ -25,6 +26,12 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		/* REALLY IMPORTANT 
+		 * Here we set the coordinates of the vertices from the relative coordinates system
+		 * to the world coordinates system.*/
+		setVertexRealCoordinates();
+		//update the value of every plane's constant to correspond to the R3 (in game) value
+		upDatePlaneConstant();
 		box = new BoundingBox(model,this);
 	}
 	public Entity(TexturedModel model,int index, Vector3f position, float rotX, float rotY, float rotZ,
@@ -108,6 +115,17 @@ public class Entity {
 	
 	public BoundingBox getBox(){
 		return box;
+	}
+	public void setVertexRealCoordinates(){
+		List<Vector3f> verticesList = model.getRawModel().getVertices();
+		for(Vector3f vertex: verticesList)
+			vertex.set(vertex.x+getPosition().x*getScale(), vertex.y+getPosition().y*getScale(), vertex.z+getPosition().z*getScale());
+	}
+	public void upDatePlaneConstant(){
+		ArrayList<Triangle> trianglesList = model.getRawModel().getTriangles();
+		for(Triangle triangle:trianglesList){
+			triangle.upDateEquation(triangle.getP1());
+		}
 	}
 
 }
