@@ -7,6 +7,7 @@ public abstract class Player {
 	private int numberOfShots;
 	private Ball ball;
 	private Camera camera;
+	protected float power;
 	
 	public Ball getBall() {
 		return ball;
@@ -23,6 +24,16 @@ public abstract class Player {
 	public int getNumberOfShots() {
 		return numberOfShots;
 	}
-
 	public abstract void shoot();
+	
+	public void increasePower(){
+		power += 1;
+	}
+	
+	public float getPower(){
+		return power;
+	}
+	public void setPower(float pow){
+		power =pow;
+	}
 }

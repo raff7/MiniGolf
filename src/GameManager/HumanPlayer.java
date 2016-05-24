@@ -1,5 +1,6 @@
 package GameManager;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -18,8 +19,7 @@ public class HumanPlayer extends Player{
 	@Override
 	public void shoot(){
 		Vector3f direction = getShotDirection();
-		float power = powerControler.getPower();
-		Vector3f shot = Operation.multiplyByScalar(power, direction);
+		Vector3f shot = Operation.multiplyByScalar(super.power, direction);
 		super.getBall().setVelocity(shot);
 	}
 	
@@ -29,5 +29,5 @@ public class HumanPlayer extends Player{
 		temp.set(temp.getX() , 0 , temp.getZ());
 		temp.normalise();
 		return temp ;
-	}	
+	}
 }

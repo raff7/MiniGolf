@@ -23,9 +23,7 @@ public class Course implements Serializable{
 		this.lights = lights;
 		this.terrains = terrains;
 		this.waters = waters;
-		//this.worldNodes = world ;
-		
-		
+		//this.worldNodes = world;
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
@@ -60,7 +58,6 @@ public class Course implements Serializable{
 		this.waters.add(water);
 	}
 	public Vector3f getStartingPosition() {
-
 		return startingPosition;
 	}
 	public void setStartingPosition(Vector3f position){

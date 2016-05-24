@@ -16,10 +16,19 @@ public class HumanPowerController {
 	public float getPower(){
 		power=0;
 		
-		while(Keyboard.isKeyDown(Keyboard.KEY_SPACE) ){
+		/*while(Keyboard.isKeyDown(Keyboard.KEY_SPACE) ){
 				power += 0.001;
 				System.out.println("loop");
-		}
+		}*/
+		
+		while (Keyboard.next()) {
+			   if (Keyboard.getEventKeyState()) {
+			   while(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+				   power += 0.001;
+					System.out.println("loop");
+			   }
+			   }
+			 }
 		return power;
 	}
 }

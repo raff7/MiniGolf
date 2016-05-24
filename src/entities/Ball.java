@@ -79,7 +79,7 @@ public class Ball extends Entity{
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
-        velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	
@@ -87,7 +87,6 @@ public class Ball extends Entity{
 	
 
 	private void jump(){
-		
 			this.velocity.y=JUMP_POWER;
 	}
 	private void checkTestingInputs(){
@@ -108,12 +107,10 @@ public class Ball extends Entity{
 		}else{
 			this.currentTurnSpeed = 0;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			//jump();
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
+			jump();
 		}
 		if(Mouse.isButtonDown(0)){
-			//if(getVelocity().x == 0 && getVelocity().y == 0 && getVelocity().z ==0)
-				
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;
