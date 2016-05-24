@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import entities.Course;
-import renderEngine.DisplayManager;
 
 public class CourseLoader {
 	private ObjectInputStream in;

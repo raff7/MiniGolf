@@ -23,7 +23,7 @@ public class SampleCourse {
 		RawModel rw = OBJLoader.loadObjModel("hole", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setHasTransparency(true);
-		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(100,10,100),0,0,0,28);
+		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,28);
 
 		course.addEntity(ent);
 		
