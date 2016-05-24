@@ -1,5 +1,6 @@
 package GameManager;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.Operation;
@@ -15,7 +16,7 @@ public class HumanPlayer extends Player{
 		powerControler = controler;
 	}
 	
-	public void shot(){	
+	public void shot(){
 		Vector3f direction = getShotDirection();
 		float power = powerControler.getPower();
 		Vector3f shot = Operation.multiplyByScalar(power, direction);
@@ -24,8 +25,8 @@ public class HumanPlayer extends Player{
 	
 	private Vector3f getShotDirection(){
 		Vector3f temp = new Vector3f();
-		Vector3f.sub(super.getBall().getPosition(), super.getCamera().getPosition(), temp) ;
-		temp.set(temp.getX() , 0 , temp.getZ()) ;
+		Vector3f.sub(super.getBall().getPosition(), super.getCamera().getPosition(), temp);
+		temp.set(temp.getX() , 0 , temp.getZ());
 		temp.normalise();
 		return temp ;
 	}

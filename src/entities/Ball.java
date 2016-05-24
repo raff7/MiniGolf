@@ -110,10 +110,9 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			jump();
+			//jump();
 		}
 		if(Mouse.isButtonDown(0)){
-			//jump();
 			//if(getVelocity().x == 0 && getVelocity().y == 0 && getVelocity().z ==0)
 				
 		}

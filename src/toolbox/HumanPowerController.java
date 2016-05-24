@@ -12,13 +12,13 @@ public class HumanPowerController {
 	private float power;
 
 	public HumanPowerController(){}
-		
+	
 	public float getPower(){
 		power=0;
-		while(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && power < 150){
-			power += 0.001;
-			System.out.println(Keyboard.isKeyDown(Keyboard.KEY_SPACE));
-			System.out.println(power);
+		
+		while(Keyboard.isKeyDown(Keyboard.KEY_SPACE) ){
+				power += 0.001;
+				System.out.println("loop");
 		}
 		return power;
 	}
