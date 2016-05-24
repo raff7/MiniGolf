@@ -21,7 +21,7 @@ public class Bot extends Player{
 		super.setCamera(new Camera(ball));
 	}
 	
-	public void shot(){
+	public void shoot(){
 		if(isPathClear()){
 			Vector3f straightShot = new Vector3f();
 			 straightShot = Vector3f.sub(hole.getPositon(), super.getBall().getPosition(), straightShot);

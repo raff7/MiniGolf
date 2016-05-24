@@ -30,6 +30,12 @@ public class HumanPlayer extends Player{
 		temp.normalise();
 		return temp ;
 	}
+
+	@Override
+	public void shoot() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

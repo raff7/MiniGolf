@@ -1,15 +1,14 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.util.vector.Vector3f;
 
 import bot.Node;
 import terrains.Terrain;
 import water.WaterTile;
 
-public class Course {
+public class Course implements Serializable{
 	
 	private ArrayList<Entity> entities;
 	private ArrayList<Light> lights;

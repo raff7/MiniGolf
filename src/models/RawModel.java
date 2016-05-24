@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import geometry.Triangle;
 
-public class RawModel {
+public class RawModel implements Serializable {
 	
 	private int vaoID;
 	private int vertexCount;

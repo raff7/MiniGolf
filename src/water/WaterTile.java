@@ -1,6 +1,8 @@
 package water;
 
-public class WaterTile {
+import java.io.Serializable;
+
+public class WaterTile implements Serializable{
 	
 	public static final float TILE_SIZE = 300;
 	

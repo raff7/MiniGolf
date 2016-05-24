@@ -1,6 +1,7 @@
 package engineTester;
 
 import org.lwjgl.opengl.Display;
+
 import renderEngine.DisplayManager;
 
 public class MainGameLoop{
@@ -25,7 +26,8 @@ public class MainGameLoop{
 
 	}
 
-	public static void Notify(GameState newState){
+	public static void changeGameState(GameState newState){
+
 		actualState = newState;
 	}
 	

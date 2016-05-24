@@ -1,6 +1,5 @@
 package engineTester;
 
-import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -12,11 +11,12 @@ import org.lwjgl.util.vector.Vector4f;
 import GameManager.Game;
 import GameManager.HumanPlayer;
 import GameManager.Player;
+import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import fileHandler.CourseLoader;
 import gui.GuiRenderer;
-import gui.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -30,7 +30,7 @@ import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
 
-public class SinglePlayer implements GameState {
+public class SinglePlayer implements GameState, Observer {
 	
 	private Game game;
 	private Player player;
@@ -52,7 +52,8 @@ public class SinglePlayer implements GameState {
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
-		course=SampleCourse.getCourse(loader);//for testing
+		
+		course=SampleCourse.getCourse(loader);
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 		
@@ -74,7 +75,7 @@ public class SinglePlayer implements GameState {
 		checkImputs();
 		if(!game.isPause()){
 			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-				player.shot();
+				player.shoot();
 			}
 			ball.move(course.getEntities());
 			camera.move();
@@ -118,7 +119,7 @@ public class SinglePlayer implements GameState {
 			guiRenderer.cleanUp();
 			waterShader.cleanUp();
 		}
-		MainGameLoop.Notify(newState);
+		MainGameLoop.changeGameState(newState);
 	}
 	
 	private void checkImputs() {
@@ -128,5 +129,11 @@ public class SinglePlayer implements GameState {
 			else
 				game.unPause();
 		}		
+	}
+	@Override
+	public void updateObserver() {
+		//final statistics printOut
+		changeGameState(null);
+		
 	}
 }

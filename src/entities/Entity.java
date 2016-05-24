@@ -2,6 +2,7 @@ package entities;
 
 import models.TexturedModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 import collision.BoundingBox;
 import geometry.Triangle;
 
-public class Entity {
+public class Entity implements Serializable{
 
 	private TexturedModel model;
 	private Vector3f position;

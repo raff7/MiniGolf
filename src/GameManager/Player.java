@@ -23,5 +23,6 @@ public abstract class Player {
 	public int getNumberOfShots() {
 		return numberOfShots;
 	}
-	public void shot(){}
+
+	public abstract void shoot();
 }

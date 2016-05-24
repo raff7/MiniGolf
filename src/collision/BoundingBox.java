@@ -1,11 +1,12 @@
 package collision;
 
+import java.io.Serializable;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import entities.Entity;
 import models.TexturedModel;
 
-public class BoundingBox {
+public class BoundingBox implements Serializable {
 
 	public List<Vector3f> vertices;
 	private Vector3f minX = new Vector3f();

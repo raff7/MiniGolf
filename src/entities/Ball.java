@@ -9,7 +9,6 @@ import org.lwjgl.util.vector.Vector3f;
 import GameManager.Observer;
 import collision.BoundingBox;
 import collision.Operation;
-import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
@@ -301,7 +300,6 @@ public class Ball extends Entity{
 	}
 
 	public boolean getBallIsInHole() {
-		// TODO Auto-generated method stub
 		return ballIsInHole;
 	}
 
