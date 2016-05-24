@@ -289,7 +289,7 @@ public class Ball extends Entity{
 	
 	public void Notify(){
 		for(Observer observer:observers){
-			observer.update();
+			observer.updateObserver();
 		}
 	}
 	public void attach(Observer observer){

@@ -74,9 +74,7 @@ public class SinglePlayer implements GameState, Observer {
 	public void update() {
 		checkImputs();
 		if(!game.isPause()){
-			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.shoot();
-			}
 			ball.move(course.getEntities());
 			camera.move();
 		}

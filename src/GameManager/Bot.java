@@ -27,7 +27,7 @@ public class Bot extends Player{
 			 straightShot = Vector3f.sub(hole.getPositon(), super.getBall().getPosition(), straightShot);
 			 super.getBall().setVelocity(straightShot);
 		}else{
-			
+			//path stuck
 		}
 			
 	}

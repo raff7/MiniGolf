@@ -15,8 +15,8 @@ public class HumanPlayer extends Player{
 		super.setCamera(new Camera(ball));
 		powerControler = controler;
 	}
-	
-	public void shot(){
+	@Override
+	public void shoot(){
 		Vector3f direction = getShotDirection();
 		float power = powerControler.getPower();
 		Vector3f shot = Operation.multiplyByScalar(power, direction);
@@ -29,13 +29,5 @@ public class HumanPlayer extends Player{
 		temp.set(temp.getX() , 0 , temp.getZ());
 		temp.normalise();
 		return temp ;
-	}
-
-	@Override
-	public void shoot() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+	}	
 }
