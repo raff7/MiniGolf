@@ -12,10 +12,7 @@ import collision.Operation;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
-import toolbox.HumanPowerController;
 import renderEngine.DisplayManager;
-import terrains.Terrain;
-import textures.ModelTexture;
 import toolbox.Maths;
 
 public class Ball extends Entity{
