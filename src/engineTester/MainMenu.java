@@ -80,7 +80,7 @@ public class MainMenu implements GameState{
         if (y > -120 && y < -81 && x > -69 && x < 67) {
 			menuButtons.get(3).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				changeGameState(null);//changeGameState(new Option(this));//go to Options menu
+				changeGameState(new Option(this));//go to Options menu
 			}
 		}else{
 			menuButtons.get(3).setSel(false);
@@ -108,7 +108,7 @@ public class MainMenu implements GameState{
 			loader.cleanUp();
 			guiRenderer.cleanUp();
 		}
-		MainGameLoop.Notify(newState);
+		MainGameLoop.changeGameState(newState);
 	}
 
 }

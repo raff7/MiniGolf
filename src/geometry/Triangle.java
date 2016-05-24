@@ -1,8 +1,10 @@
 package geometry;
 
+import java.io.Serializable;
+
 import org.lwjgl.util.vector.Vector3f;
 
-public class Triangle {
+public class Triangle implements Serializable{
 	private Vector3f p1;
 	private Vector3f p2;
 	private Vector3f p3;

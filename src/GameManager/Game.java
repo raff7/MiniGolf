@@ -14,6 +14,7 @@ public class Game implements Observer {
 	private ArrayList<GuiTexture> guis = new ArrayList<GuiTexture>();
 	
 	private boolean isPause=false;
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	
 	
@@ -28,23 +29,30 @@ public class Game implements Observer {
 		activePlayer=player;
 	}
 
-	public void update(){
+	public void updateObserver(){
 		if(activePlayer.getBall().getBallIsInHole()){
 			donePlayers.add(activePlayer);
 			players.remove(activePlayer);
 		}
 		if(players.size()==0){
-			gameOver();
+			notify();
 		}
 		else if(playerID<players.size()-1){
 			playerID++;
+			activePlayer=players.get(playerID);
+
 		}
 		else{
 			playerID=0;
-		}
-		
-		activePlayer=players.get(playerID);
+			activePlayer=players.get(playerID);
 
+		}
+	}
+	
+	public void notifyObservers(){
+		for(Observer observer:observers ){
+			observer.updateObserver();
+		}
 	}
 	
 	public void pause(){

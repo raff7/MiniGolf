@@ -9,9 +9,11 @@ import org.lwjgl.util.vector.Vector4f;
 
 import GameManager.Game;
 import GameManager.HumanPlayer;
+import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import fileHandler.CourseLoader;
 import gui.GuiRenderer;
 import models.RawModel;
 import models.TexturedModel;
@@ -26,7 +28,7 @@ import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
 
-public class SinglePlayer implements GameState {
+public class SinglePlayer implements GameState, Observer {
 	
 	private Game game;
 
@@ -47,7 +49,8 @@ public class SinglePlayer implements GameState {
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
-		course=SampleCourse.getCourse(loader);//for testing
+		CourseLoader courseLoader = new CourseLoader(0);
+		course=courseLoader.load();
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 		
@@ -109,7 +112,7 @@ public class SinglePlayer implements GameState {
 			guiRenderer.cleanUp();
 			waterShader.cleanUp();
 		}
-		MainGameLoop.Notify(newState);
+		MainGameLoop.changeGameState(newState);
 	}
 	
 	private void checkImputs() {
@@ -119,5 +122,11 @@ public class SinglePlayer implements GameState {
 			else
 				game.unPause();
 		}		
+	}
+	@Override
+	public void updateObserver() {
+		//final statistics printOut
+		changeGameState(null);
+		
 	}
 }
