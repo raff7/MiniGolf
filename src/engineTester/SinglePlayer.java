@@ -24,7 +24,6 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import textures.ModelTexture;
-import toolbox.HumanPowerController;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
@@ -59,32 +58,30 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
-		HumanPowerController humanPowerController = new HumanPowerController();
-		player = new HumanPlayer(ball, humanPowerController);
+		player = new HumanPlayer(ball);
 		game = new Game(player);
 
 		course.addEntity(ball);
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
-						
-		
+								
 	}
 	@Override
 	public void update() {
 		checkImputs();
 		if(!game.isPause()){
-
-			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) ){
+			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
+				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.increasePower();
-			}else if( player.getPower() != 0){
+				}else if(player.getPower() != 0){
 				player.shoot();
 				player.setPower(0);
+				}	
 			}
 			ball.move(course.getEntities());
 			camera.move();
 		}
-
 	}
 	
 	@Override

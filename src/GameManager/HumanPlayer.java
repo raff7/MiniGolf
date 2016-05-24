@@ -3,18 +3,15 @@ package GameManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
 import collision.Operation;
 import entities.Ball;
 import entities.Camera;
-import toolbox.HumanPowerController;
 
 public class HumanPlayer extends Player{
-	HumanPowerController powerControler;
-	public HumanPlayer(Ball ball, HumanPowerController controler){
+	
+	public HumanPlayer(Ball ball){
 		super.setBall(ball);
 		super.setCamera(new Camera(ball));
-		powerControler = controler;
 	}
 	@Override
 	public void shoot(){
