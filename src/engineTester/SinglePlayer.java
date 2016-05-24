@@ -57,7 +57,7 @@ public class SinglePlayer implements GameState, Observer {
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 		
-		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,0),0,0,0,1);
+		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
 		HumanPowerController humanPowerController = new HumanPowerController();
 		player = new HumanPlayer(ball, humanPowerController);
@@ -74,7 +74,7 @@ public class SinglePlayer implements GameState, Observer {
 	public void update() {
 		checkImputs();
 		if(!game.isPause()){
-				player.shoot();
+			player.shoot();
 			ball.move(course.getEntities());
 			camera.move();
 		}
