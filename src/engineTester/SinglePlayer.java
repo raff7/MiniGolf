@@ -2,6 +2,7 @@ package engineTester;
 
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
@@ -9,6 +10,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 import GameManager.Game;
 import GameManager.HumanPlayer;
+import GameManager.Player;
 import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
@@ -31,6 +33,7 @@ import water.WaterTile;
 public class SinglePlayer implements GameState, Observer {
 	
 	private Game game;
+	private Player player;
 
 	private Course course;
 	private Ball ball;
@@ -54,10 +57,11 @@ public class SinglePlayer implements GameState, Observer {
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 		
-		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,20),0,0,0,1);
+		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,0),0,0,0,1);
 		camera = new Camera(ball);
 		HumanPowerController humanPowerController = new HumanPowerController();
-		game = new Game(new HumanPlayer(ball, humanPowerController));
+		player = new HumanPlayer(ball, humanPowerController);
+		game = new Game(player);
 
 		course.addEntity(ball);
 		waterShader = new WaterShader();
@@ -70,6 +74,7 @@ public class SinglePlayer implements GameState, Observer {
 	public void update() {
 		checkImputs();
 		if(!game.isPause()){
+				player.shoot();
 			ball.move(course.getEntities());
 			camera.move();
 		}

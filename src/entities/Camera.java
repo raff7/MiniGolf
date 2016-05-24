@@ -10,7 +10,7 @@ public class Camera {
 	private float distanceFromBall = 70;
 	private float angleAroundBall = 0;
 	
-	private Vector3f position= new Vector3f(0,5,0); 
+	private Vector3f position = new Vector3f(); 
 	private float pitch = 5;
 	private float yaw ;
 	private float roll;
@@ -22,7 +22,6 @@ public class Camera {
 
 	
 	public void move(){
-		
 			calculateZoom();
 			calculatePitch();
 			calculateAngleAroundBall();
@@ -34,6 +33,9 @@ public class Camera {
 	}
 
 	public Vector3f getPosition() {
+		float horizontalDistance = calculateHorizontalDistance();
+		float verticalDistance = calculateVerticalDistance();
+		calculateCameraPosition(horizontalDistance, verticalDistance);
 		return position;
 	}
 
