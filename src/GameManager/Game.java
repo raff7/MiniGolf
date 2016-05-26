@@ -3,7 +3,10 @@ package GameManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import gui.GuiTexture;
+import renderEngine.Loader;
 
 public class Game implements Observer {
 	
@@ -16,6 +19,8 @@ public class Game implements Observer {
 	private boolean isPause=false;
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
+	GuiTexture shotPower = null ;
+	public int redID ;
 	
 	
 	public Game(ArrayList<Player> players){
@@ -27,6 +32,19 @@ public class Game implements Observer {
 		players = new ArrayList<Player>();
 		players.add(player);
 		activePlayer=player;
+	}
+	
+	public void getShotPowerGraphics(){
+		Loader load = Loader.getLoader() ;
+		redID = load.loadTexture("red") ;
+		Vector2f position = new Vector2f(-1.9f, -0.75f);
+		Vector2f scale = new Vector2f(1f, (float)(activePlayer.getPower() /500) * 3);
+		shotPower = new GuiTexture(redID, position, scale) ;
+		guis.add(shotPower) ;
+	}
+	
+	public void removeShotPowerGraphics(){
+		guis.clear();
 	}
 
 	public void updateObserver(){

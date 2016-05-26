@@ -19,11 +19,14 @@ public class SampleCourse {
 		Course course = new Course();
 		
 		course.setStartingPosition(new Vector3f(20,2,0));
+
 		
-		RawModel rw = OBJLoader.loadObjModel("hole", loader);
+		RawModel rw = OBJLoader.loadObjModel("finishPoint", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
+		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
-		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,28);
+
+		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,15);
 		
 //Testing cubes
 RawModel rw2 = OBJLoader.loadObjModel("cube", loader);
@@ -35,6 +38,7 @@ Entity ent4 = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,-10),
 course.addEntity(ent2);
 //course.addEntity(ent3);
 //course.addEntity(ent4);
+
 
 		course.addEntity(ent);
 		
@@ -120,7 +124,7 @@ course.addEntity(ent2);
 		course.addLight(lamp.getLight());
 		course.addLight(lamp1.getLight());
 		course.addLight(lamp2.getLight());*/
-		Light sun = new Light(new Vector3f(100,20000,-10000),new Vector3f(1f,1f,1f));
+		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
 		

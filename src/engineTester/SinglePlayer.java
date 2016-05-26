@@ -75,8 +75,10 @@ player = new Bot(ball, course);
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.increasePower();
+				game.getShotPowerGraphics();
 				}else if(player.getPower() != 0){
 				player.shoot();
+				game.removeShotPowerGraphics();
 				player.setPower(0);
 				}	
 			}
