@@ -18,15 +18,28 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-		course.setStartingPosition(new Vector3f(20,80,0));
+		course.setStartingPosition(new Vector3f(20,2,0));
 		
 		RawModel rw = OBJLoader.loadObjModel("hole", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setHasTransparency(true);
 		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,28);
+		
+//Testing cubes
+RawModel rw2 = OBJLoader.loadObjModel("cube", loader);
+ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("gold"));
+Entity ent2 = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(-10,0,0),0,0,0,3);
+/*Entity ent3 = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,10),0,0,0,3);
+Entity ent4 = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,-10),0,0,0,3);*/
+
+course.addEntity(ent2);
+//course.addEntity(ent3);
+//course.addEntity(ent4);
 
 		course.addEntity(ent);
 		
+
+
 		course.addTerrain(new Terrain(0,0,loader,new ModelTexture(loader.loadTexture("grass")),"heightMap"));
 		
 		course.addWater(new WaterTile(400,360,-5));

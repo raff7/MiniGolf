@@ -36,13 +36,22 @@ public class Ball extends Entity{
 	ArrayList<Observer> observers = new ArrayList<Observer>();
 	private boolean ballIsInHole=false;
 	private boolean isShoted = false;
+	
 	//private Hole hole;
 
+	//only fors testBall
+	private ArrayList<Entity> entitiesListTestBall;
 
 	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
+	}
+	//constructor for testBall
+	public Ball(TexturedModel model, Vector3f position, ArrayList<Entity> entitiesList, float rotX, float rotY, float rotZ, float scale){
+		super(model,0, position, rotX, rotY, rotZ, scale);
+		velocity = new Vector3f(0,0,0);
+		this.entitiesListTestBall = entitiesList;
 	}
 	
 	// move as a free camera
@@ -64,11 +73,12 @@ public class Ball extends Entity{
 		
 		for(Entity entity:entitiesList){
 		trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+	//System.out.println("triangles list size: "+trianglesList.size());
 		boxes.add(entity.getBox());
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
-					frictionEffect() ;
+					frictionEffect();
 					break;
 				}
 		}
@@ -76,7 +86,7 @@ public class Ball extends Entity{
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
-		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+//velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	
@@ -237,14 +247,14 @@ public class Ball extends Entity{
 
 				//do collision
 				
-				Vector3f normal = new Vector3f( triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
-				//System.out.println("velocity before: "+getVelocity());
+				Vector3f normal = new Vector3f(triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
+			
 				if(Vector3f.dot(velocity,normal) >= 0){
 					return false;
 				}
 			
 				float dotTimes2 = 2*(Vector3f.dot(normal, getVelocity()));
-				//System.out.println("dot times 2: "+dotTimes2);
+			
 				Vector3f almostFinalVelocity = Operation.multiplyByScalar(dotTimes2, normal);
 				Vector3f finalVelocity = Operation.subtract(almostFinalVelocity, getVelocity());
 				
@@ -270,17 +280,22 @@ public class Ball extends Entity{
 		return false;
 	}
 	private void frictionEffect(){
-
-		velocity.scale(friction) ;
+		velocity.scale(friction);
 		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, velocity.y, 0f) ;
+			velocity.set(0f, velocity.y, 0f);
 		}
 	}
+
+	public float getFriction(){
+		return friction;
+	}
 	
-	
+	public float getMinimalSpeed() {
+		return minimalSpeed;
+	}
 	
 	//observer: game
-	
+
 	public void Notify(){
 		for(Observer observer:observers){
 			observer.updateObserver();
@@ -295,6 +310,23 @@ public class Ball extends Entity{
 
 	public boolean getBallIsInHole() {
 		return ballIsInHole;
+	}
+	
+	public void simulateShot(ArrayList<Entity> ground){
+		// !(getVelocity().x == 0 && Math.abs(getVelocity().y) < 4 && getVelocity().z ==0)
+		
+		while( Math.abs(velocity.length()) > minimalSpeed+2){
+			/*for(int i =0; i< ground.size(); i++){
+				System.out.println("scale: "+ground.get(i).getScale());
+			}*/
+			//System.out.println(ground.size());
+			//System.out.println("loop");
+			move(ground);
+			System.out.println("velocity: "+velocity);
+		}
+	}
+	public float getDistanceFromHole(Vector3f hole){
+		return Operation.subtract(hole, getPosition() ).length();
 	}
 
 }

@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
+import GameManager.Bot;
 import GameManager.Game;
 import GameManager.HumanPlayer;
 import GameManager.Player;
@@ -57,7 +58,8 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
-		player = new HumanPlayer(ball);
+//player = new HumanPlayer(ball);
+player = new Bot(ball, course);
 		game = new Game(player);
 
 		course.addEntity(ball);

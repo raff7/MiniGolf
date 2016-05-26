@@ -31,7 +31,6 @@ public class Course implements Serializable{
 		lights = new ArrayList<Light>();
 		waters = new ArrayList<WaterTile>();
 		//worldNodes = new Node[x][y][z] ;
-
 	}
 	public ArrayList<Entity> getEntities() {
 		return entities;

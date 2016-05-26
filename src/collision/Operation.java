@@ -30,13 +30,19 @@ public class Operation {
 	}
 
 	public static Vector3f multiplyByScalar(float k, Vector3f v){
-	//System.out.println("Values of x,y,z,k BEFORE :"+v.getX()+"  "+v.getY()+"  "+v.getZ()+"  "+k);
 		float x = (float) v.getX()*k;
 		float y = (float) v.getY()*k;
 		float z = (float) v.getZ()*k;
-	//System.out.println("Values of x,y,z AFTER:"+x+"  "+y+"  "+z);
+		
 		return new Vector3f(x,y,z);
 	}
+	public static Vector3f divideByScalar(float k, Vector3f v){
+			float x = (float) v.getX()/k;
+			float y = (float) v.getY()/k;
+			float z = (float) v.getZ()/k;
+		
+			return new Vector3f(x,y,z);
+		}
 
 	public static boolean getLowestRoot(float a, float b, float c, double maxR) {
 		// Check if a solution exists
