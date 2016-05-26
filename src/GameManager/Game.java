@@ -44,7 +44,7 @@ public class Game implements Observer {
 	}
 	
 	public void removeShotPowerGraphics(){
-		guis.remove(redID) ;
+		guis.clear();
 	}
 
 	public void updateObserver(){
