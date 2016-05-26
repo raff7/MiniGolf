@@ -38,7 +38,7 @@ public class Game implements Observer {
 		Loader load = Loader.getLoader() ;
 		redID = load.loadTexture("red") ;
 		Vector2f position = new Vector2f(-1.9f, -0.75f);
-		Vector2f scale = new Vector2f(1f, (float)(activePlayer.getPower() /500) * 10);
+		Vector2f scale = new Vector2f(1f, (float)(activePlayer.getPower() /500) * 3);
 		shotPower = new GuiTexture(redID, position, scale) ;
 		guis.add(shotPower) ;
 	}
