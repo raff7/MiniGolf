@@ -58,8 +58,8 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
-//player = new HumanPlayer(ball);
-player = new Bot(ball, course);
+        player = new HumanPlayer(ball);
+//player = new Bot(ball, course);
 		game = new Game(player);
 
 		course.addEntity(ball);
