@@ -58,8 +58,8 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
-//player = new HumanPlayer(ball);
-player = new Bot(ball, course);
+        player = new HumanPlayer(ball);
+//player = new Bot(ball, course);
 		game = new Game(player);
 
 		course.addEntity(ball);
@@ -73,6 +73,7 @@ player = new Bot(ball, course);
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
+				game.addShotArrow();
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.increasePower();
 				game.getShotPowerGraphics();

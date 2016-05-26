@@ -20,7 +20,8 @@ public class Game implements Observer {
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	GuiTexture shotPower = null ;
-	public int redID ;
+	GuiTexture shotArrow = null ;
+	public int redID, arrowID ;
 	
 	
 	public Game(ArrayList<Player> players){
@@ -41,6 +42,17 @@ public class Game implements Observer {
 		Vector2f scale = new Vector2f(1f, (float)(activePlayer.getPower() /500) * 3);
 		shotPower = new GuiTexture(redID, position, scale) ;
 		guis.add(shotPower) ;
+	}
+	
+	public void addShotArrow(){
+		Loader load = Loader.getLoader() ;
+		arrowID = load.loadTexture("arrow_up") ;
+		Vector2f position = new Vector2f(0f, -0.2f) ;
+		Vector2f scale = new Vector2f(0.03125f, 0.0625f) ;
+		shotArrow = new GuiTexture(arrowID, position, scale) ;
+		guis.add(shotArrow) ;
+		
+		
 	}
 	
 	public void removeShotPowerGraphics(){
