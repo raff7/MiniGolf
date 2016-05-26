@@ -77,7 +77,7 @@ public class SinglePlayer implements GameState, Observer {
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.increasePower();
 				game.getShotPowerGraphics();
-				}else if(player.getPower() != 0){
+				} else if(player.getPower() != 0){
 				player.shoot();
 				game.removeShotPowerGraphics();
 				player.setPower(0);
