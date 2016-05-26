@@ -101,5 +101,4 @@ public class Game implements Observer {
 	public ArrayList<Player> getDonePlayers(){
 		return donePlayers;
 	}
-	
 }
