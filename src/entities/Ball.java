@@ -86,7 +86,7 @@ public class Ball extends Entity{
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
-//velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
 	
@@ -314,7 +314,7 @@ public class Ball extends Entity{
 	
 	public void simulateShot(ArrayList<Entity> ground){
 		// !(getVelocity().x == 0 && Math.abs(getVelocity().y) < 4 && getVelocity().z ==0)
-		
+		System.out.println("velo length: "+velocity.length());
 		while( Math.abs(velocity.length()) > minimalSpeed+2){
 			/*for(int i =0; i< ground.size(); i++){
 				System.out.println("scale: "+ground.get(i).getScale());
@@ -322,7 +322,11 @@ public class Ball extends Entity{
 			//System.out.println(ground.size());
 			//System.out.println("loop");
 			move(ground);
-			System.out.println("velocity: "+velocity);
+			System.out.println("position testBall: " +getPosition());
+			if(velocity.x > 100 || velocity.y > 100 || velocity.z > 100)
+				setVelocity(new Vector3f(0,0,0));
+				
+			//System.out.println("velocity: "+velocity);
 		}
 	}
 	public float getDistanceFromHole(Vector3f hole){

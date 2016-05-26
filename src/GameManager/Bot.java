@@ -17,7 +17,7 @@ import terrains.Terrain;
 public class Bot extends Player{
 	ArrayList<Entity> ground = new ArrayList<Entity>();
 	ArrayList<Entity> obstaclesList = new ArrayList<Entity>();
-	Vector3f hole = new Vector3f(2,2,2);
+	Vector3f hole = new Vector3f(0.81f,10.2f,16.26f);
 	Vector3f straightShot;
 	private final float CONSTANT = 30;
 	public Entity collisionObject;
@@ -45,8 +45,9 @@ public class Bot extends Player{
 			straightShot.normalise();
 			Ball testBall = new Ball(getBall().getModel(), getBall().getPosition(), ground, getBall().getRotX(), getBall().getRotY(), getBall().getRotZ(), getBall().getScale());
 			float a=0;
-			float b = 250;
+			float b = 100;
 			float d = Operation.subtract(getBall().getPosition(),hole).length();
+		
 			float d2;
 			Vector3f shot = new Vector3f(straightShot.x, straightShot.y ,straightShot.z);
 			testBall.setPosition(getBall().getPosition());
@@ -62,17 +63,22 @@ public class Bot extends Player{
 			//System.out.println("shot: "+shot);
 				shot = Operation.multiplyByScalar(power, shot);
 				testBall.setVelocity(shot);
+				//System.out.println("shot: "+shot);
+				System.out.println("fake ball position before: "+testBall.getPosition());
+				//System.out.println("real ball position: "+ getBall().getPosition());
 				testBall.simulateShot(ground);
+				System.out.println("fake ball position after: "+testBall.getPosition());
 			
 				d2=Operation.subtract(getBall().getPosition(),testBall.getPosition()).length();
-
+				
 			//	System.out.println(getBall().getPosition()+"  "+testBall.getPosition());
-				//System.out.println("d2 "+d2);
+				System.out.println("d: "+d+ "d2: "+d2);
 				if(d2 > d){
 					b = power;
 				}else{
 					a= power;
 				}
+			
 				System.out.println(power);
 			}
 			straightShot=Operation.multiplyByScalar(power, straightShot);
