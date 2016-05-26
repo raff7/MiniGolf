@@ -19,6 +19,8 @@ public class Game implements Observer {
 	private boolean isPause=false;
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
+	GuiTexture shotPower = null ;
+	public int redID ;
 	
 	
 	public Game(ArrayList<Player> players){
@@ -32,14 +34,18 @@ public class Game implements Observer {
 		activePlayer=player;
 	}
 	
-	/*public void getShotPowerGraphics(){
+	public void getShotPowerGraphics(){
 		Loader load = Loader.getLoader() ;
-		int textureID = load.loadTexture("red.png") ;
-		Vector2f position = new Vector2f(10f , 10f);
-		Vector2f scale = new Vector2f(1f , (float)(activePlayer.getPower() /500) * 100);
-		GuiTexture shotPower = new GuiTexture(textureID, position, scale) ;
+		redID = load.loadTexture("red") ;
+		Vector2f position = new Vector2f(-1.9f, -0.75f);
+		Vector2f scale = new Vector2f(1f, (float)(activePlayer.getPower() /500) * 10);
+		shotPower = new GuiTexture(redID, position, scale) ;
 		guis.add(shotPower) ;
-	}*/
+	}
+	
+	public void removeShotPowerGraphics(){
+		guis.clear();
+	}
 
 	public void updateObserver(){
 		if(activePlayer.getBall().getBallIsInHole()){
