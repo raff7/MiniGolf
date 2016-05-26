@@ -82,21 +82,23 @@ public class Bot extends Player{
 				System.out.println(power);
 			}
 			straightShot=Operation.multiplyByScalar(power, straightShot);
-			 super.getBall().setVelocity(straightShot);
+			 getBall().setVelocity(straightShot);
 			 
 		}else{
 			System.out.println();
 			System.out.println("path stuck try something else");
 			//try MinX side	
 			System.out.println("colObj "+collisionObject.getPosition());
-			Vector3f newDestination = new Vector3f(collisionObject.getPosition().x, collisionObject.getPosition().y, collisionObject.getPosition().z+CONSTANT);
+			Vector3f newDestination = new Vector3f(collisionObject.getPosition().x+CONSTANT, collisionObject.getPosition().y, collisionObject.getPosition().z);
 			Vector3f otherShot = Operation.subtract(newDestination, getBall().getPosition());
 			Vector3f newPosition = Operation.add(getBall().getPosition(), otherShot);
 			System.out.println("new pos: "+newPosition);
-			if(isPathClear(newPosition)){
+			
+			 super.getBall().setVelocity(otherShot);
+			/*if(isPathClear(newPosition)){
 				System.out.println("other shot");
 				 super.getBall().setVelocity(otherShot);
-			}
+			}*/
 		}	
 	}
 	
