@@ -8,6 +8,7 @@ public abstract class Player {
 	private Ball ball;
 	private Camera camera;
 	protected float power;
+	private final float MAX_POWER = 500;
 	
 	public Ball getBall() {
 		return ball;
@@ -27,7 +28,9 @@ public abstract class Player {
 	public abstract void shoot();
 	
 	public void increasePower(){
-		power += 1;
+		power += 1.5;
+		if(power > MAX_POWER)
+			power = MAX_POWER;
 	}
 	
 	public float getPower(){
