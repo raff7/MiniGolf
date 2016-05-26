@@ -48,7 +48,7 @@ public class SinglePlayer implements GameState, Observer {
 	
 	public SinglePlayer(){
 		
-		loader = new Loader();
+		loader = Loader.getLoader();
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();

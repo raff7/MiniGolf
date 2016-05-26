@@ -20,10 +20,11 @@ public class SampleCourse {
 		
 		course.setStartingPosition(new Vector3f(20,80,0));
 		
-		RawModel rw = OBJLoader.loadObjModel("hole", loader);
-		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
+		RawModel rw = OBJLoader.loadObjModel("stall", loader);
+		ModelTexture rwModel = new ModelTexture(loader.loadTexture("stallTexture"));
+		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
-		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,28);
+		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,15);
 
 		course.addEntity(ent);
 		
@@ -107,7 +108,7 @@ public class SampleCourse {
 		course.addLight(lamp.getLight());
 		course.addLight(lamp1.getLight());
 		course.addLight(lamp2.getLight());*/
-		Light sun = new Light(new Vector3f(100,20000,-10000),new Vector3f(1f,1f,1f));
+		Light sun = new Light(new Vector3f(-2000,3000,0),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
 		

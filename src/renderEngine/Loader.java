@@ -28,9 +28,13 @@ import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 public class Loader {
 	
+	static private Loader loader;
+	
 	private List<Integer> vaos = new ArrayList<Integer>();
 	private List<Integer> vbos = new ArrayList<Integer>();
 	private List<Integer> textures = new ArrayList<Integer>();
+	private  Loader(){
+	}
 	
 	public RawModel loadToVAO(float[] positions,float[] textureCoords,float[] normals,int[] indices){
 		int vaoID = createVAO();
@@ -40,6 +44,12 @@ public class Loader {
 		storeDataInAttributeList(2,3,normals);
 		unbindVAO();
 		return new RawModel(vaoID,indices.length);
+	}
+	static public Loader getLoader(){
+		if(loader==null){
+			loader = new Loader();
+		}
+		return loader;
 	}
 	
 	public RawModel loadToVAO(float[] positions, int dimension){

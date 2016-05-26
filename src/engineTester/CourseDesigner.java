@@ -44,7 +44,7 @@ public class CourseDesigner implements GameState{
 	
 
 	public CourseDesigner(){
-		loader = new Loader();
+		loader = Loader.getLoader();
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		

@@ -23,7 +23,7 @@ public class Option implements GameState{
 	
 	public Option(GameState activeGameState){
 
-		loader = new Loader();
+		loader = Loader.getLoader();
 		guiRenderer = new GuiRenderer(loader);
 		
 		this.activeGameState = activeGameState;

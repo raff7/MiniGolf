@@ -22,7 +22,7 @@ public class MainMenu implements GameState{
 	
 	public MainMenu(){
 		
-		loader = new Loader();
+		loader = Loader.getLoader();
 		guiRenderer = new GuiRenderer(loader);
 
 		menuGuis = new ArrayList<GuiTexture>();
@@ -70,7 +70,7 @@ public class MainMenu implements GameState{
         if (y > -80 && y < -41 && x > -99 && x < 87) {
 				menuButtons.get(2).setSel(true);
 				if(Mouse.isButtonDown(0)){
-					changeGameState(null);//changeGameState(new CourseDesigner());//go to courseDesigner menu
+					changeGameState(new CourseDesigner());//go to courseDesigner menu
 				}
 			}else{
 				menuButtons.get(2).setSel(false);
