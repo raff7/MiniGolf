@@ -3,7 +3,10 @@ package GameManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import gui.GuiTexture;
+import renderEngine.Loader;
 
 public class Game implements Observer {
 	
@@ -28,6 +31,15 @@ public class Game implements Observer {
 		players.add(player);
 		activePlayer=player;
 	}
+	
+	/*public void getShotPowerGraphics(){
+		Loader load = Loader.getLoader() ;
+		int textureID = load.loadTexture("red.png") ;
+		Vector2f position = new Vector2f(10f , 10f);
+		Vector2f scale = new Vector2f(1f , (float)(activePlayer.getPower() /500) * 100);
+		GuiTexture shotPower = new GuiTexture(textureID, position, scale) ;
+		guis.add(shotPower) ;
+	}*/
 
 	public void updateObserver(){
 		if(activePlayer.getBall().getBallIsInHole()){
