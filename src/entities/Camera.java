@@ -67,12 +67,16 @@ public class Camera {
 	
 	private void calculateZoom(){
 		float zoomLevel = Mouse.getDWheel()*0.05f;
-		distanceFromBall = Math.min(Math.max(distanceFromBall-zoomLevel,50),400);
+		distanceFromBall = Math.min(Math.max(distanceFromBall-zoomLevel,10),1000);
 	}
 	private void calculatePitch(){
 		if(Mouse.isButtonDown(1)){
 			float pitchChange = Mouse.getDY()*0.1f;
 			pitch -= pitchChange;//to put limits			pitch = Math.min(Math.max(pitch-pitchChange,5),80);
+		}else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			pitch +=0.5f;
+		}else if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+			pitch -=0.5f;
 		}
 	}
 	private void calculateAngleAroundBall(){
@@ -85,5 +89,11 @@ public class Camera {
 
 	public void invertPitch() {
 		this.pitch = -this.pitch;
+	}
+
+
+	public Ball getBall() {
+		
+		return ball;
 	}
 }

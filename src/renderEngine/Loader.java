@@ -102,7 +102,7 @@ public class Loader {
 			PNGDecoder decoder = new PNGDecoder(in);
 			width = decoder.getWidth();
 			height = decoder.getHeight();
-			buffer = ByteBuffer.allocateDirect(4 * width * height);
+			buffer = ByteBuffer.allocateDirect(4 * width * height);		
 			decoder.decode(buffer, width * 4, Format.RGBA);
 			buffer.flip();
 			in.close();

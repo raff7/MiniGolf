@@ -6,9 +6,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import GameManager.Game;
 import GameManager.Observer;
 import collision.BoundingBox;
 import collision.Operation;
+import geometry.Line;
 import geometry.Triangle;
 import geometry.Triangle2D;
 import models.TexturedModel;
@@ -18,10 +20,10 @@ import toolbox.Maths;
 public class Ball extends Entity{
 	
 	private static final float RUN_SPEED = 50;
-	private static final float 	TURN_SPEED = 100;
+	private static final float 	TURN_SPEED = 50;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
-	private static final float FRICTION = 0.01f;
+	private static final float FRICTION = 0.007f;
 	private static final float MAX_RUN_SPEED = 1000;
 	private float currentTurnSpeed = 0;
 		
@@ -36,6 +38,8 @@ public class Ball extends Entity{
 	ArrayList<Observer> observers = new ArrayList<Observer>();
 	private boolean ballIsInHole=false;
 	private boolean isShoted = false;
+	private int stopCr;
+
 	
 	//private Hole hole;
 
@@ -64,17 +68,20 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	}
 	//move as a ball
-	public void move(ArrayList<Entity> entitiesList){
-		checkTestingInputs();
+	public void moveNonPlayer(ArrayList<Entity> entitiesList){
 		
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
 		ArrayList<BoundingBox> boxes = new ArrayList();
 		
 		for(Entity entity:entitiesList){
-		trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
-	//System.out.println("triangles list size: "+trianglesList.size());
-		boxes.add(entity.getBox());
+			if(entity!=this){
+				if(!(entity instanceof Ball)){
+					trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+					//System.out.println("triangles list size: "+trianglesList.size());
+					boxes.add(entity.getBox());
+				}
+			}
 		}
 		for(Triangle triangle:trianglesList){
 				if(collide(triangle)){
@@ -93,8 +100,77 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	
 	}
-	
+	public void move(ArrayList<Entity> entitiesList){
+		checkingInputs();
+		
+		//collision
+		ArrayList<Triangle> trianglesList = new ArrayList();
+		ArrayList<BoundingBox> boxes = new ArrayList();
+		
+		for(Entity entity:entitiesList){
+			if(entity!=this){
+				if(!(entity instanceof Ball)){
+					trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+					//System.out.println("triangles list size: "+trianglesList.size());
+					boxes.add(entity.getBox());
+				}else{
+					ballToBallCollision((Ball)entity);
+				}
+			}
+		}
+		for(Triangle triangle:trianglesList){
+				if(collide(triangle)){
+					frictionEffect();
+					break;
+				}
+		}
+		//end of collision
+		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
+		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
+		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
 
+		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+
+		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
+		super.increasePosition(dx, dy, dz);
+		
+		if(velocity.length()>2){
+			isShoted=true;
+		}
+		if(velocity.length()<2&&isShoted){
+			stopCr++;
+			if(stopCr>100){
+
+					isShoted=false;
+					Notify();
+			}
+		}else{
+			stopCr=0;
+		}
+	
+	}
+
+	private void ballToBallCollision(Ball otherBall) {
+		if(Maths.distancePointPoint(this.getPosition(), otherBall.getPosition())<=2*RADIUS){
+			Vector2f p1=new Vector2f(this.getPosition().x,this.getPosition().z);
+			Vector2f p2=new Vector2f(otherBall.getPosition().x,otherBall.getPosition().y);
+			Vector2f V = new Vector2f(this.getVelocity().x,this.getVelocity().z);
+			Line l1 = new Line(p1,p2);
+			Line l2 = l1.getPerpendicoular(p1);
+			Line lV1 = l1.getPerpendicoular(V);
+			Vector2f A = l1.getInterseptionPoint(lV1);
+			Line lV2 = l2.getPerpendicoular(V);
+			Vector2f B = l2.getInterseptionPoint(lV2);
+			Vector2f velocity2D1= new Vector2f(A.x-p1.x,A.y-p1.y);
+			Vector2f velocity2D2= new Vector2f(B.x-p1.x,B.y-p1.y);
+			float y1=0;
+			float y2=0;
+			this.setVelocity(new Vector3f(velocity2D1.x,y1,velocity2D1.y));
+			otherBall.setVelocity(new Vector3f(velocity2D2.x,y2,velocity2D2.y));
+			System.out.println(otherBall.getVelocity());
+
+		}
+	}
 	private void jump(){
 			this.velocity.y=JUMP_POWER;
 	}
@@ -120,6 +196,20 @@ public class Ball extends Entity{
 			jump();
 		}
 		if(Mouse.isButtonDown(0)){
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			velocity.x = 0;
+			velocity.z = 0;
+		}
+	}
+	private void checkingInputs(){
+		 if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			this.currentTurnSpeed = -TURN_SPEED;
+		}
+		else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+			this.currentTurnSpeed = TURN_SPEED;
+		}else{
+			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;

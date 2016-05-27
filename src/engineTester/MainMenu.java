@@ -61,7 +61,7 @@ public class MainMenu implements GameState{
         if (y > -40 && y < -1 && x > -99 && x < 87) {
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				changeGameState(null);//changeGameState(new MultiPlayer());//go to MultiPlayer menu
+				changeGameState(new MultiPlayer());//go to MultiPlayer menu
 			}
 		}else{
 			menuButtons.get(1).setSel(false);
