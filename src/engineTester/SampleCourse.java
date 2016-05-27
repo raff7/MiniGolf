@@ -24,7 +24,7 @@ public class SampleCourse {
 
 
 		
-		RawModel rw = OBJLoader.loadObjModel("mappozza", loader);
+		RawModel rw = OBJLoader.loadObjModel("mappa", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
