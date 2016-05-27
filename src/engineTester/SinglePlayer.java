@@ -1,5 +1,7 @@
 package engineTester;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -100,7 +102,7 @@ public class SinglePlayer implements GameState, Observer {
 			float distance = 2*(camera.getPosition().y-water.getHeight());
 			camera.getPosition().y -= distance;
 			camera.invertPitch();
-			renderer.renderScene(course.getEntities(), course.getTerrains(), course.getLights(), camera, new Vector4f(0,1,0,-water.getHeight()));
+			renderer.renderScene(new ArrayList<Entity>(), course.getTerrains(), course.getLights(), camera, new Vector4f(0,1,0,-water.getHeight()));
 			camera.getPosition().y += distance;
 			camera.invertPitch();
 			
