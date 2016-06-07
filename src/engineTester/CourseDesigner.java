@@ -48,7 +48,7 @@ public class CourseDesigner implements GameState{
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		
-		ititializeGuis();
+		initializeGuis();
 		
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
@@ -105,7 +105,7 @@ public class CourseDesigner implements GameState{
 		//TODO
 	}
 	
-	private void ititializeGuis() {
+	private void initializeGuis() {
 		guis = new ArrayList<GuiTexture>();
 		
 	}
