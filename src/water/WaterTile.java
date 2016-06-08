@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class WaterTile implements Serializable{
 	
-	public static final float TILE_SIZE = 500;
+	public static final float TILE_SIZE = 300;
 	
 	private float height;
 	private float x,z;

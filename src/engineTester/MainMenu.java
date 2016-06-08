@@ -48,10 +48,9 @@ public class MainMenu implements GameState{
 		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
 		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
 		//SinglePlayer
-		if (y > 20 && y < 130 && x > -270 && x < 275) {
+		if (y > 0 && y < 50 && x > -99 && x < 95) {
 			menuButtons.get(0).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				Option.changeScreenSize();
 				changeGameState(new SinglePlayer());//go to singlePlayer menu
 			}
 		}else{
@@ -59,20 +58,18 @@ public class MainMenu implements GameState{
 		}
 		
 		//MultiPlayer
-        if (y > -90 && y < 19 && x > -270 && x < 275) {
+        if (y > -40 && y < -1 && x > -99 && x < 87) {
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				Option.changeScreenSize();
 				changeGameState(null);//changeGameState(new MultiPlayer());//go to MultiPlayer menu
 			}
 		}else{
 			menuButtons.get(1).setSel(false);
 		}
 		//EditCourse
-        if (y > -200 && y < -91 && x > -270 && x < 275) {
+        if (y > -80 && y < -41 && x > -99 && x < 87) {
 				menuButtons.get(2).setSel(true);
 				if(Mouse.isButtonDown(0)){
-					Option.changeScreenSize();
 					changeGameState(new CourseDesigner());//go to courseDesigner menu
 				}
 			}else{
@@ -80,7 +77,7 @@ public class MainMenu implements GameState{
 			}
 		
 		//options
-        if (y > -310 && y < -201 && x > -190 && x < 195) {
+        if (y > -120 && y < -81 && x > -69 && x < 67) {
 			menuButtons.get(3).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(new Option(this));//go to Options menu
@@ -89,7 +86,7 @@ public class MainMenu implements GameState{
 			menuButtons.get(3).setSel(false);
 		}
 		//quit
-        if (y > -420 && y < -311 && x > -130 && x < 135) {
+        if (y > -160 && y < -121 && x > -39 && x < 39) {
 			menuButtons.get(4).setSel(true);
 			if(Mouse.isButtonDown(0)){
 				changeGameState(null);

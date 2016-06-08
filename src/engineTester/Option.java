@@ -2,10 +2,7 @@ package engineTester;
 
 import java.util.ArrayList;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector2f;
 
 import gui.Button;
@@ -23,12 +20,6 @@ public class Option implements GameState{
 
 	private Loader loader;
 	private GuiRenderer guiRenderer;
-
-	private boolean isPressed = false;
-
-	private static int count = 0;
-	private static int tempWidth = DisplayManager.getWidth();
-	private static int tempHeight = DisplayManager.getHeight();
 	
 	public Option(GameState activeGameState){
 
@@ -58,30 +49,19 @@ public class Option implements GameState{
 		int x = Mouse.getX()-(DisplayManager.getWidth()/2);
 		int y =Mouse.getY()-(DisplayManager.getHeight()/2);
 		//ScreenSize
-		if((y > 20 && y < 130 && x > -270 && x < 275)){
+		if((y > 0) && (y < 50) && (x > -99) && (x < 95)){
 			menuButtons.get(0).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				if(!isPressed){
-				scrollScreenSize();
-				isPressed = true;}
-			}
-			else{
-				isPressed = false;
+				//TODO change screen size 
 			}
 		}else{
 			menuButtons.get(0).setSel(false);
 		}
-		//back
-		if((y > -420 && y < -311 && x > -130 && x < 135)){
+		//quit
+		if((y > -160) && (y < -121) && (x > -39) && (x < 39)){
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				if(!isPressed) {
-
-					changeGameState(activeGameState);//go back to main menu
-					isPressed = true;}
-			}
-			else{
-				isPressed = false;
+				changeGameState(null);//go back to main menu
 			}
 		}else{
 			menuButtons.get(1).setSel(false);
@@ -89,90 +69,6 @@ public class Option implements GameState{
 		
 	}
 
-
-	public static void scrollScreenSize(){
-		if(count == 0){
-			count++;
-
-			tempWidth = 850;
-			tempHeight = 500;
-
-			System.out.println(tempWidth + " x " + tempHeight);
-
-		}
-
-		else if(count == 1){
-			count++;
-
-			tempWidth = 1300;
-			tempHeight = 800;
-
-			System.out.println(tempWidth + " x " + tempHeight);
-
-		}
-
-		else if(count == 2){
-			count++;
-
-			tempWidth = 1920;
-			tempHeight = 1080;
-
-			System.out.println(tempWidth + " x " + tempHeight);
-
-		}
-
-		else if(count == 3){
-			count = 0;
-
-			tempWidth = 650;
-			tempHeight = 400;
-
-			System.out.println(tempWidth + " x " + tempHeight);
-
-		}
-
-	}
-
-	public static void changeScreenSize(){
-
-		if(count == 1){
-
-			try{
-				Display.setDisplayMode(new DisplayMode(tempWidth,tempHeight));}
-			catch (LWJGLException e) {
-				e.printStackTrace();
-			}
-		}
-		else if(count == 2){
-
-			try{
-				Display.setDisplayMode(new DisplayMode(tempWidth,tempHeight));}
-			catch (LWJGLException e) {
-				e.printStackTrace();
-			}
-		}
-		else if(count == 3){
-
-			try{
-				Display.setDisplayMode(new DisplayMode(tempWidth,tempHeight));}
-			catch (LWJGLException e) {
-				e.printStackTrace();
-			}
-
-
-		}
-		else if(count == 0){
-
-			try{
-				Display.setDisplayMode(new DisplayMode(tempWidth,tempHeight));}
-			catch (LWJGLException e) {
-				e.printStackTrace();
-			}
-
-
-		}
-
-	}
 	@Override
 	public void render() {
 		guiRenderer.renderMenu(menuGuis,menuButtons);
@@ -184,7 +80,7 @@ public class Option implements GameState{
 			
 		loader.cleanUp();
 		guiRenderer.cleanUp();
-
+		
 		try {
 			Thread.sleep(150);
 		} catch (InterruptedException e) {

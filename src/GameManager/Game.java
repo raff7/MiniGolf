@@ -2,9 +2,7 @@ package GameManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.lwjgl.util.vector.Vector2f;
-
 import gui.GuiTexture;
 import renderEngine.Loader;
 
@@ -27,8 +25,10 @@ public class Game implements Observer {
 	public Game(ArrayList<Player> players){
 		this.players=players;
 		activePlayer = players.get(playerID);
+
 		for(Player player:players)
 			player.getBall().attach(this);
+
 	}
 	
 	public Game(Player player) {
@@ -107,7 +107,5 @@ public class Game implements Observer {
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
-
-
 	
 }

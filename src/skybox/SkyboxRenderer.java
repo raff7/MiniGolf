@@ -13,7 +13,7 @@ import renderEngine.MasterRenderer;
 
 public class SkyboxRenderer {
 	
-	private static int skyboxID=3;
+	private static int skyboxID=0;
 	private static int skybox2ID=1;
 
 

@@ -3,15 +3,16 @@ package GameManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-import collision.Operation;
+
 import entities.Ball;
 import entities.Camera;
+import toolbox.Operation;
 
 public class HumanPlayer extends Player{
 	
-	public HumanPlayer(Camera camera){
-		super.setBall(camera.getBall());
-		super.setCamera(camera);
+	public HumanPlayer(Ball ball){
+		super.setBall(ball);
+		super.setCamera(new Camera(ball));
 	}
 	@Override
 	public void shoot(){

@@ -55,15 +55,6 @@ public class Maths {
 		// return the distance between a point and a line
 		return (float) Math.abs((line.a*point.x+line.b*point.y+line.c)/(Math.sqrt((line.a*line.a)+(line.b*line.b))));
 	}
-	public static float distancePointPoint(Vector3f p1, Vector3f p2){
-		float x1=p1.x;
-		float x2=p2.x;
-		float y1=p1.y;
-		float y2=p2.y;
-		float z1=p1.z;
-		float z2=p2.z;
-		return (float) Math.sqrt(Math.pow(x2-x1, 2)+Math.pow(y2-y1, 2)+Math.pow(z2-z1, 2));
-	}
 	public static boolean isInBetween(Vector2f point, Line line1, Line line2) {
 		// check if a point is in between 2 parallel lines
 		if(line1.m!=line2.m){

@@ -1,7 +1,6 @@
 package geometry;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 public class Line {
 	
@@ -73,23 +72,5 @@ public class Line {
 			return "y="+m+"x+"+p;
 		return "Vertical line, x="+pa.x;
 	}
-
-	public Vector2f getInterseptionPoint(Line l) {
-		float x = -(p-l.getP())/(m-l.getM());
-		float y = this.getY(x);
-		return new Vector2f(x,y);
-	}
-
-	private float getY(float x) {
-		return m*x+p;
-	}
-
-	private float getM() {
-		return m;
-	}
-
-	private float getP() {
-		return p;
-		}
 
 }
