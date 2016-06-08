@@ -20,7 +20,7 @@ public class SampleCourse {
 		Course course = new Course();
 		
 
-		course.setStartingPosition(new Vector3f(20,41.9f,20));
+		course.setStartingPosition(new Vector3f(20,60,20));
 
 
 		
