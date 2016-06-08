@@ -22,9 +22,9 @@ public class Bot extends Player{
 	private final float CONSTANT = 30;
 	public Entity collisionObject;
 	
-	public Bot(Camera camera, Course course){
-		super.setBall(camera.getBall());
-		super.setCamera(camera);
+	public Bot(Ball ball, Course course){
+		super.setBall(ball);
+		super.setCamera(new Camera(ball));
 		ground = course.getEntities();
 		obstaclesList = new ArrayList<Entity>();
 		obstaclesList.add(course.getEntities().get(0));

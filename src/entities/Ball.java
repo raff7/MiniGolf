@@ -9,6 +9,7 @@ import GameManager.Observer;
 import collision.BoundingBox;
 import collision.CollisionHandler;
 import geometry.Line;
+import toolbox.Operation;
 import geometry.Triangle;
 import models.TexturedModel;
 import renderEngine.DisplayManager;
@@ -18,10 +19,10 @@ import toolbox.Operation;
 public class Ball extends Entity{
 	
 	private static final float RUN_SPEED = 50;
-	private static final float 	TURN_SPEED = 50;
+	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
-	private static final float FRICTION = 0.007f;
+	private static final float FRICTION = 0.01f;
 	private static final float MAX_RUN_SPEED = 1000;
 	private float currentTurnSpeed = 0;
 		
@@ -36,6 +37,7 @@ public class Ball extends Entity{
 	ArrayList<Observer> observers = new ArrayList<Observer>();
 	private boolean ballIsInHole=false;
 	private boolean isShoted = false;
+
 	private int stopCr;
 	
 	//private Hole hole;
@@ -98,23 +100,18 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	}
 	
+
 	public void move(ArrayList<Entity> entitiesList){
-		checkingInputs();
+		checkTestingInputs();
 		
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
 		ArrayList<BoundingBox> boxes = new ArrayList();
 		
 		for(Entity entity:entitiesList){
-			if(entity!=this){
-				if(!(entity instanceof Ball)){
-					trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
-					//System.out.println("triangles list size: "+trianglesList.size());
-					boxes.add(entity.getBox());
-				}else{
-					ballToBallCollision((Ball)entity);
-				}
-			}
+		trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+	//System.out.println("triangles list size: "+trianglesList.size());
+		boxes.add(entity.getBox());
 		}
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
@@ -131,24 +128,11 @@ public class Ball extends Entity{
 
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
-		
-		if(velocity.length()>2){
-			isShoted=true;
-		}
-		if(velocity.length()<2&&isShoted){
-			stopCr++;
-			if(stopCr>100){
-
-					isShoted=false;
-					Notify();
-			}
-		}else{
-			stopCr=0;
-		}
 	
 	}
+	
 
-	private void ballToBallCollision(Ball otherBall) {
+	/*private void ballToBallCollision(Ball otherBall) {
 		if(Maths.distancePointPoint(this.getPosition(), otherBall.getPosition())<=2*RADIUS){
 			Vector2f p1=new Vector2f(this.getPosition().x,this.getPosition().z);
 			Vector2f p2=new Vector2f(otherBall.getPosition().x,otherBall.getPosition().y);
@@ -167,7 +151,7 @@ public class Ball extends Entity{
 			otherBall.setVelocity(new Vector3f(velocity2D2.x,y2,velocity2D2.y));
 			System.out.println(otherBall.getVelocity());
 		}
-	}
+	}*/
 	
 	private void jump(){
 			this.velocity.y=JUMP_POWER;
@@ -211,6 +195,7 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = TURN_SPEED;
 		}else{
 			this.currentTurnSpeed = 0;
+
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			velocity.x = 0;

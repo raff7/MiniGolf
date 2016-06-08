@@ -13,6 +13,7 @@ import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import fileHandler.CourseLoader;
 import gui.GuiRenderer;
 import models.RawModel;
 import models.TexturedModel;
@@ -55,8 +56,9 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
-        player = new HumanPlayer(camera);
-//player = new Bot(camera, course);
+
+        player = new HumanPlayer(ball);
+
 		game = new Game(player);
 
 		course.addEntity(ball);
@@ -71,7 +73,7 @@ public class SinglePlayer implements GameState, Observer {
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
-				//game.addShotArrow();
+				game.addShotArrow();
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				player.increasePower();
 				game.getShotPowerGraphics();
@@ -81,7 +83,6 @@ public class SinglePlayer implements GameState, Observer {
 				player.setPower(0);
 				}	
 			}
-		
 			ball.move(course.getEntities());
 			camera.move();
 		}

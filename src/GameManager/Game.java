@@ -25,9 +25,10 @@ public class Game implements Observer {
 	public Game(ArrayList<Player> players){
 		this.players=players;
 		activePlayer = players.get(playerID);
-		
+
 		for(Player player:players)
 			player.getBall().attach(this);
+
 	}
 	
 	public Game(Player player) {
