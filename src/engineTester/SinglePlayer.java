@@ -1,10 +1,8 @@
 package engineTester;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import GameManager.Bot;
@@ -58,8 +56,9 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
+
         player = new HumanPlayer(ball);
-//player = new Bot(ball, course);
+
 		game = new Game(player);
 
 		course.addEntity(ball);
@@ -68,8 +67,9 @@ public class SinglePlayer implements GameState, Observer {
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
 								
 	}
+	
 	@Override
-	public void update() {
+	public void update(){
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){

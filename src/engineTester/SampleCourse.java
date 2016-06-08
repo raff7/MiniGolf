@@ -18,10 +18,7 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-
-		course.setStartingPosition(new Vector3f(20,120,20));
-
-
+		course.setStartingPosition(new Vector3f(20,60,20));
 		
 		RawModel rw = OBJLoader.loadObjModel("finishPoint", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import collision.BoundingBox;
-import collision.Operation;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
@@ -13,6 +12,7 @@ import entities.Entity;
 import GameManager.Player;
 import geometry.Line;
 import terrains.Terrain;
+import toolbox.Operation;
 
 public class Bot extends Player{
 	ArrayList<Entity> ground = new ArrayList<Entity>();
@@ -51,17 +51,18 @@ public class Bot extends Player{
 			float d2;
 			Vector3f shot = new Vector3f(straightShot.x, straightShot.y ,straightShot.z);
 			testBall.setPosition(getBall().getPosition());
+			float botPower=0;
 			
 			while( testBall.getDistanceFromHole(hole) > 2){
 				System.out.println("ball: "+testBall.getPosition());
 				//System.out.println("while loop");
 				//System.out.println("distance from hole: "+testBall.getDistanceFromHole(hole));
 				
-				float power = (a+b)/2;
+				botPower = (a+b)/2;
 				testBall.setPosition(getBall().getPosition());
 				shot = new Vector3f(straightShot.x, straightShot.y ,straightShot.z);
 			//System.out.println("shot: "+shot);
-				shot = Operation.multiplyByScalar(power, shot);
+				shot = Operation.multiplyByScalar(botPower, shot);
 				testBall.setVelocity(shot);
 				//System.out.println("shot: "+shot);
 				System.out.println("fake ball position before: "+testBall.getPosition());
@@ -74,14 +75,14 @@ public class Bot extends Player{
 			//	System.out.println(getBall().getPosition()+"  "+testBall.getPosition());
 				System.out.println("d: "+d+ "d2: "+d2);
 				if(d2 > d){
-					b = power;
+					b = botPower;
 				}else{
-					a= power;
+					a= botPower;
 				}
 			
-				System.out.println(power);
+				System.out.println(botPower);
 			}
-			straightShot=Operation.multiplyByScalar(power, straightShot);
+			straightShot=Operation.multiplyByScalar(botPower, straightShot);
 			 getBall().setVelocity(straightShot);
 			 
 		}else{
