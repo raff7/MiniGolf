@@ -205,13 +205,13 @@ public class Ball extends Entity{
 	
 	private void checkFreeCameraInputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			this.velocity.x = (float) (RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.velocity.z = (float) (RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (RUN_SPEED*2*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (RUN_SPEED*2*Math.cos(Math.toRadians(getRotY())));	
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.velocity.x = (float) (-RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.velocity.z = (float) (-RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (-RUN_SPEED*2*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (-RUN_SPEED*2*Math.cos(Math.toRadians(getRotY())));	
 		
 			}else{
 			this.velocity.x=0;
@@ -226,9 +226,9 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			velocity.y=-GRAVITY*1.5f;
+			velocity.y=-GRAVITY;
 		}else if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
-			velocity.y=GRAVITY*1.5f;
+			velocity.y=GRAVITY;
 		}else{
 			velocity.y=0;
 		}

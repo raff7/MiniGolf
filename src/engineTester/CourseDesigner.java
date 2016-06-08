@@ -44,15 +44,11 @@ public class CourseDesigner implements GameState{
 	
 
 	public CourseDesigner(){
-		loader = Loader.getLoader();
+		loader = new Loader() ;
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 		
 		initializeGuis();
-		
-		waterShader = new WaterShader();
-		buffers = new WaterFrameBuffers();
-		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
 		
 		//choseCourseLoop();
 		course=SampleCourse.getCourse(loader);//for testing
@@ -60,6 +56,11 @@ public class CourseDesigner implements GameState{
 		RawModel model = OBJLoader.loadObjModel("grassModel", loader);
 		ball = new Ball(new TexturedModel(model,new ModelTexture(loader.loadTexture("invisible"))),new Vector3f(0,0,0),0,0,0,1);
 		camera = new Camera(ball);
+		
+		waterShader = new WaterShader();
+		buffers = new WaterFrameBuffers();
+		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+		
 	}
 
 
@@ -113,5 +114,6 @@ public class CourseDesigner implements GameState{
 	private void checkImputs(){
 		//TODO
 	}
-
+	
+	
 }
