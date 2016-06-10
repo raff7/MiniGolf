@@ -10,52 +10,52 @@ public class Node {
 	
 	private void setDistance(int dist){
 		
-		distance = dist ;
+		distance = dist;
 	}
 	
 	private int getDistance(){
 		
-		return distance ;
+		return distance;
 	}
 	
 	private void setOccupied(){
 		
-		isFree = false ;
+		isFree = false;
 	}
 	
 	private void setFree(){
 		
-		isFree = true ;
+		isFree = true;
 	}
 	
 	private boolean isFree(){
 		
-		return isFree ;
+		return isFree;
 	}
 	
 	private void addHole(){
 		
-		hasHole = true ;
+		hasHole = true;
 	}
 	
 	private void noHole(){
 		
-		hasHole = false ;
+		hasHole = false;
 	}
 	
 	private boolean hasHole(){
 		
-		return hasHole ;
+		return hasHole;
 	}
 	
 	private void addBall(){
 		
-		hasBall = true ;
+		hasBall = true;
 	}
 	
 	private void removeBall(){
 		
-		hasBall = false ;
+		hasBall = false;
 	}
 	
 	//backtracking ability.. incase you run in to dead end when adding fitness++ while expanding AWAY from hole.. (how the nodes will be constructed)

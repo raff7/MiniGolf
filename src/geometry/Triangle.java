@@ -1,6 +1,7 @@
 package geometry;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -79,6 +80,47 @@ public class Triangle implements Serializable{
 	}
 	public Vector3f getEdgeP2P3() {
 		return edgeP2P3;
+	}
+	
+	public ArrayList<Triangle> getNeighbourtriangles(ArrayList<Triangle> trianglesList){
+		int counter;
+		ArrayList<Triangle> connectedTriangles = new ArrayList<Triangle>();
+		for(Triangle triangle:trianglesList){
+			counter=0;
+			
+				if(triangle.getP1() == p1){
+					counter++;
+				}
+				if(triangle.getP1() == p2){
+					counter++;
+				}
+				if(triangle.getP1() == p3){
+					counter++;
+				}
+				if(triangle.getP2() == p1){
+					counter++;
+				}
+				if(triangle.getP2() == p2){
+					counter++;
+				}
+				if(triangle.getP2() == p3){
+					counter++;
+				}
+				if(triangle.getP3() == p1){
+					counter++;
+				}
+				if(triangle.getP3() == p2){
+					counter++;
+				}
+				if(triangle.getP3() == p3){
+					counter++;
+				}
+				
+				if(counter == 2){
+					connectedTriangles.add(triangle);
+				}
+		}
+		return connectedTriangles;
 	}
 
 }

@@ -1,7 +1,6 @@
 package engineTester;
 
 import org.lwjgl.util.vector.Vector3f;
-
 import entities.Course;
 import entities.Entity;
 import entities.Light;
