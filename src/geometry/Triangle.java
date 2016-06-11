@@ -70,7 +70,6 @@ public class Triangle implements Serializable{
 	public void upDateEquation(Vector3f p1){
 		origin=p1;
 		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
-		
 	}
 	public Vector3f getEdgeP1P2() {
 		return edgeP1P2;
@@ -82,10 +81,11 @@ public class Triangle implements Serializable{
 		return edgeP2P3;
 	}
 	
-	public ArrayList<Triangle> getNeighbourtriangles(ArrayList<Triangle> trianglesList){
+	public ArrayList<Integer> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
 		int counter;
-		ArrayList<Triangle> connectedTriangles = new ArrayList<Triangle>();
-		for(Triangle triangle:trianglesList){
+		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		for(int i=0; i<trianglesList.size(); i++){
+			Triangle triangle = trianglesList.get(i);
 			counter=0;
 			
 				if(triangle.getP1() == p1){
@@ -117,10 +117,10 @@ public class Triangle implements Serializable{
 				}
 				
 				if(counter == 2){
-					connectedTriangles.add(triangle);
+					connectedTrianglesIndexes.add(i);
 				}
 		}
-		return connectedTriangles;
+		return connectedTrianglesIndexes;
 	}
 
 }
