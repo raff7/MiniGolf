@@ -39,4 +39,14 @@ public class NodeNetwork {
 	public boolean areConnected(int i, int j){
 		return nodesList.get(i).isConnected(nodesList.get(j));
 	}
+	
+	public ArrayList<Node> getAdjacentNodes(int i){
+		ArrayList<Node> adjacentNodes = new ArrayList<Node>();
+		for(int j=0; j < nodesList.size(); j++){
+			if(j != i){
+				if(nodesList.get(i).isConnected(nodesList.get(j)))
+					adjacentNodes.add(nodesList.get(j));
+			}
+		}return adjacentNodes;
+	}
 }

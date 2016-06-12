@@ -38,6 +38,7 @@ public class Triangle implements Serializable{
 		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
 		equation[3]= origin.z;
 	}
+	
 	public Vector3f getP1(){
 		return p1;
 	}

@@ -3,17 +3,15 @@ package bot;
 import java.util.ArrayList;
 import geometry.Triangle;
 
-public class Node {
+public class Node extends Triangle {
 	
 	private int distance;
-	private boolean hasBall = false;
-	private boolean hasHole = false;
-	private boolean isFree = false;
 	private Triangle triangle;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	
 	
 	public Node(Triangle triangle){
+		super(triangle.getP1(), triangle.getP2(), triangle.getP3());
 		this.triangle = triangle;
 	}
 	
@@ -46,51 +44,8 @@ public class Node {
 		}
 		return false;
 	}
-	
-	
-
-	private void setDistance(int dist){
-		distance = dist;
-	}
-	
-	private int getDistance(){
+	public float getDistance(){
 		return distance;
 	}
-	
-	private void setOccupied(){
-		isFree = false;
-	}
-	
-	private void setFree(){
-		isFree = true;
-	}
-	
-	private boolean isFree(){
-		
-		return isFree;
-	}
-	
-	private void addHole(){	
-		hasHole = true;
-	}
-	
-	private void noHole(){	
-		hasHole = false;
-	}
-	
-	private boolean hasHole(){	
-		return hasHole;
-	}
-	
-	private void addBall(){	
-		hasBall = true;
-	}
-	
-	private void removeBall(){
-		hasBall = false;
-	}
-	
-	//backtracking ability.. incase you run in to dead end when adding fitness++ while expanding AWAY from hole.. (how the nodes will be constructed)
-	
 
 }
