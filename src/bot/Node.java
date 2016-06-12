@@ -45,12 +45,24 @@ public class Node extends Triangle {
 	public boolean isConnected(Node node2){
 		for(int i=0; i<edgesList.size(); i++){
 			for(int j=0; j<node2.getEdgesList().size(); j++){
-				if( edgesList.get(i) == node2.getEdgesList().get(i) )
+				if( edgesList.get(i) == node2.getEdgesList().get(j) )
 					return true;
 			}
 		}
 		return false;
 	}
+	
+	public Edge getConnectionEdge(Node node2){
+		for(int i=0; i<edgesList.size(); i++){
+			for(int j=0; j<node2.getEdgesList().size(); j++){
+				if( edgesList.get(i) == node2.getEdgesList().get(j) )
+					return edgesList.get(i);
+			}
+		}
+		System.out.println("No connecting edge");
+		return null;
+	}
+	
 	public float getDistance(){
 		return distance;
 	}
