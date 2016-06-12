@@ -17,10 +17,9 @@ public class Entity implements Serializable{
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
 	private float scale;
-	
 	private int textureIndex = 0;
-	
 	private BoundingBox box;
+	private ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
 
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -33,7 +32,7 @@ public class Entity implements Serializable{
 		/* REALLY IMPORTANT 
 		 * Here we set the coordinates of the vertices from the relative coordinates system
 		 * to the world coordinates system.*/
-		setVertexRealCoordinates();
+		setTrianglesRealCoordinates();
 		//update the value of every plane's constant to correspond to the R3 (in game) value
 		upDatePlaneConstant();
 		box = new BoundingBox(model,this);
@@ -120,12 +119,26 @@ public class Entity implements Serializable{
 	public BoundingBox getBox(){
 		return box;
 	}
-	public void setVertexRealCoordinates(){
-		List<Vector3f> verticesList = model.getRawModel().getVertices();
-		for(Vector3f vertex: verticesList)
-			vertex.set( (vertex.x*getScale()) + getPosition().x, (vertex.y*getScale()) + getPosition().y, (vertex.z*getScale()) + getPosition().z);
-		
-		if(rotX !=0){
+	
+	public ArrayList<Triangle> getTriangles(){
+		return trianglesList;
+	}
+	public void setTrianglesRealCoordinates(){
+		List<Triangle> rwTrianglesList = model.getRawModel().getTriangles();
+		trianglesList = new ArrayList<Triangle>(rwTrianglesList);
+		for(Triangle triangle: trianglesList){
+			Vector3f p1 = triangle.getP1();
+			Vector3f p2 = triangle.getP2();
+			Vector3f p3 = triangle.getP3();
+			Vector3f newP1 = new Vector3f( (p1.x*getScale()) + getPosition().x, (p1.y*getScale()) + getPosition().y, (p1.z*getScale()) + getPosition().z );
+			Vector3f newP2 = new Vector3f( (p2.x*getScale()) + getPosition().x, (p2.y*getScale()) + getPosition().y, (p2.z*getScale()) + getPosition().z );
+			Vector3f newP3 = new Vector3f( (p3.x*getScale()) + getPosition().x, (p3.y*getScale()) + getPosition().y, (p3.z*getScale()) + getPosition().z );
+			triangle.setP1(newP1);
+			triangle.setP2(newP2);
+			triangle.setP3(newP3);
+		}
+			
+		/*if(rotX !=0){
 			float[][] rotMatrixX = new float[][]{{1f,	0f,						0f},
 												 {0f,	(float)Math.cos(rotX), (float)-Math.sin(rotX)},
 												 {0f, 	(float)Math.sin(rotX), (float) Math.cos(rotX)}};
@@ -137,10 +150,10 @@ public class Entity implements Serializable{
 				vertex.set(x,y,z);
 				System.out.println("After: "+vertex);
 			}
-		}
+		}*/
 	}
+	
 	public void upDatePlaneConstant(){
-		ArrayList<Triangle> trianglesList = model.getRawModel().getTriangles();
 		for(Triangle triangle:trianglesList){
 			triangle.upDateEquation(triangle.getP1());
 		}

@@ -77,7 +77,7 @@ public class Ball extends Entity{
 		for(Entity entity:entitiesList){
 			if(entity!=this){
 				if(!(entity instanceof Ball)){
-					trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+					trianglesList.addAll(entity.getTriangles());
 					//System.out.println("triangles list size: "+trianglesList.size());
 					boxes.add(entity.getBox());
 				}
@@ -109,7 +109,7 @@ public class Ball extends Entity{
 		ArrayList<BoundingBox> boxes = new ArrayList();
 		
 		for(Entity entity:entitiesList){
-		trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+		trianglesList.addAll(entity.getTriangles());
 	//System.out.println("triangles list size: "+trianglesList.size());
 		boxes.add(entity.getBox());
 		}
@@ -205,13 +205,13 @@ public class Ball extends Entity{
 	
 	private void checkFreeCameraInputs() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			this.velocity.x = (float) (RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.velocity.z = (float) (RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (RUN_SPEED*2*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (RUN_SPEED*2*Math.cos(Math.toRadians(getRotY())));	
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			this.velocity.x = (float) (-RUN_SPEED*100*Math.sin(Math.toRadians(getRotY())));	
-			this.velocity.z = (float) (-RUN_SPEED*100*Math.cos(Math.toRadians(getRotY())));	
+			this.velocity.x = (float) (-RUN_SPEED*2*Math.sin(Math.toRadians(getRotY())));	
+			this.velocity.z = (float) (-RUN_SPEED*2*Math.cos(Math.toRadians(getRotY())));	
 		
 			}else{
 			this.velocity.x=0;
@@ -226,9 +226,9 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			velocity.y=-GRAVITY*1.5f;
+			velocity.y=-GRAVITY;
 		}else if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
-			velocity.y=GRAVITY*1.5f;
+			velocity.y=GRAVITY;
 		}else{
 			velocity.y=0;
 		}
@@ -286,17 +286,12 @@ public class Ball extends Entity{
 	}
 	
 	public void simulateShot(ArrayList<Entity> ground){
-		// !(getVelocity().x == 0 && Math.abs(getVelocity().y) < 4 && getVelocity().z ==0)
 		System.out.println("velo length: "+velocity.length());
 		while( Math.abs(velocity.length()) > minimalSpeed+2){
-			//System.out.println(ground.size());
-			//System.out.println("loop");
 			move(ground);
 			System.out.println("position testBall: " +getPosition());
 			if(velocity.x > 100 || velocity.y > 100 || velocity.z > 100)
 				setVelocity(new Vector3f(0,0,0));
-				
-			//System.out.println("velocity: "+velocity);
 		}
 	}
 	
