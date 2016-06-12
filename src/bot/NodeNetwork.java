@@ -47,6 +47,7 @@ public class NodeNetwork {
 				if(nodesList.get(i).isConnected(nodesList.get(j)))
 					adjacentNodes.add(nodesList.get(j));
 			}
-		}return adjacentNodes;
+		}
+		return adjacentNodes;
 	}
 }
