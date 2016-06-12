@@ -1,6 +1,9 @@
 package bot;
 
 import java.util.ArrayList;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import geometry.Triangle;
 
 public class Node extends Triangle {
@@ -9,6 +12,10 @@ public class Node extends Triangle {
 	private Triangle triangle;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	
+	public Node(float distance){		
+		super(new Vector3f(0,0,0),new Vector3f(0,0,0),new Vector3f(0,0,0));
+		this.distance= distance;
+	}
 	
 	public Node(Triangle triangle){
 		super(triangle.getP1(), triangle.getP2(), triangle.getP3());
