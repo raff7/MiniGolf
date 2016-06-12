@@ -40,14 +40,26 @@ public class NodeNetwork {
 		return nodesList.get(i).isConnected(nodesList.get(j));
 	}
 	
-	public ArrayList<Node> getAdjacentNodes(int i){
+	public ArrayList<Node> getAdjacentNodes(Node node){
 		ArrayList<Node> adjacentNodes = new ArrayList<Node>();
-		for(int j=0; j < nodesList.size(); j++){
-			if(j != i){
-				if(nodesList.get(i).isConnected(nodesList.get(j)))
-					adjacentNodes.add(nodesList.get(j));
+		for(int i=0; i < nodesList.size(); i++){
+			if(nodesList.get(i) != node){
+				if(node.isConnected(nodesList.get(i)))
+					adjacentNodes.add(nodesList.get(i));
 			}
 		}
 		return adjacentNodes;
+	}
+	
+	public Edge getEdge(Node node1, Node node2){
+		return node1.getConnectionEdge(node2);
+	}
+	
+	public String toString(){
+		String s =" ";
+		for(Node node: nodesList)
+		s += node.getDistance()+"  "+node.getEdgesList();
+		
+		return s;
 	}
 }
