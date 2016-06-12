@@ -32,12 +32,7 @@ public class Testing {
 		
 		heap.removeMin();
 		System.out.println(heap);
-		heap.removeMin();
-		System.out.println(heap);
-		heap.removeMin();
-		System.out.println(heap);
-		heap.removeMin();
-		System.out.println(heap);
+		
 
 	}
 }

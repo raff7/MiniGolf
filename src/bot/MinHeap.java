@@ -44,8 +44,7 @@ public class MinHeap {
 		}	
 	}
 	private void downHeap(){
-		System.out.println();
-		int index = 1;
+		int index = 1; //index from 1 to heap.size, subtract 1 ONLY when accessing the element in the arrayList.
 		int childIndex;
 		if(3<=heap.size()){
 			if(heap.get(1).getDistance()< heap.get(2).getDistance())
@@ -56,17 +55,20 @@ public class MinHeap {
 			childIndex=2;
 		}else
 			return;
-		System.out.println("enter the while loop, index: "+index+" childrenIndex:"+childIndex);
 		while((heap.get(index-1).getDistance())> (heap.get(childIndex-1).getDistance())){
+
 			Node temp = heap.get(index-1);
 			heap.set(index-1, heap.get(childIndex-1));
 			heap.set(childIndex-1, temp);
 			index=childIndex;
 			if((index*2)+1<=heap.size()){
-				if(heap.get(((index)*2)-1).getDistance()< heap.get(((index)*2)).getDistance())
-					childIndex=((index)*2)-1;
-				else
-					childIndex=(index)*2;
+				if(heap.get(((index)*2)-1).getDistance()< heap.get(((index)*2)).getDistance()){
+					childIndex=((index)*2);
+
+				}
+				else{
+					childIndex=(index)*2+1;
+				}
 			}else if((index*2)<=heap.size()){
 				childIndex=(index)*2;
 			}else{
@@ -75,7 +77,7 @@ public class MinHeap {
 			
 		}
 	}
-	
+	@Override
 	public String toString(){
 		String res = null;
 		for(Node node:heap){
@@ -87,5 +89,11 @@ public class MinHeap {
 		}
 		return res;
 		
+	}
+	public int size(){
+		return heap.size();
+	}
+	public boolean contains(Node node) {
+		return heap.contains(node);
 	}
 }
