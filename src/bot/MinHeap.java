@@ -19,11 +19,13 @@ public class MinHeap {
 		downHeap();
 		return temp;
 	}
+	
 	public void addElement(Node node){
 		heap.add(node);
 		if(heap.size()>1)
 			upHeap();
 	}
+	
 	private void upHeap(){
 		int index = heap.size();
 		int parentIndex;
@@ -43,6 +45,7 @@ public class MinHeap {
 
 		}	
 	}
+	
 	private void downHeap(){
 		int index = 1; //index from 1 to heap.size, subtract 1 ONLY when accessing the element in the arrayList.
 		int childIndex;

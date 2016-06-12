@@ -57,8 +57,10 @@ public class NodeNetwork {
 	
 	public String toString(){
 		String s =" ";
-		for(Node node: nodesList)
-		s += node.getDistance()+"  "+node.getEdgesList();
+		for(Node node: nodesList){
+		s += "node: "+node.getDistance()+"  node's edges distance: "+node.getEdgesList();
+		s +="\n";
+		}
 		
 		return s;
 	}

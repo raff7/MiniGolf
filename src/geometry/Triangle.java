@@ -82,6 +82,13 @@ public class Triangle implements Serializable{
 		return edgeP2P3;
 	}
 	
+	public Vector3f getCentroid(){
+		float x = (p1.getX()+p2.getX()+p3.getX()) /3;
+		float y = (p1.getY()+p2.getY()+p3.getY()) /3;
+		float z = (p1.getZ()+p2.getZ()+p3.getZ()) /3;
+		return new Vector3f(x,y,z);
+	}
+	
 	public ArrayList<Integer> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
 		int counter;
 		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
