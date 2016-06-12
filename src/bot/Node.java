@@ -9,17 +9,14 @@ import geometry.Triangle;
 public class Node extends Triangle {
 	
 	private float distance;
-	private Triangle triangle;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	
-	public Node(float distance){		
+	public Node(){		
 		super(new Vector3f(0,0,0),new Vector3f(0,0,0),new Vector3f(0,0,0));
-		this.distance= distance;
 	}
 	
 	public Node(Triangle triangle){
 		super(triangle.getP1(), triangle.getP2(), triangle.getP3());
-		this.triangle = triangle;
 	}
 	
 	public ArrayList<Edge> getEdgesList(){
@@ -32,10 +29,6 @@ public class Node extends Triangle {
 	
 	public void addEdge(Edge edge){
 		edgesList.add(edge);
-	}
-	
-	public Triangle getTriangle(){
-		return triangle;
 	}
 	
 	public int getDegree(){

@@ -6,33 +6,54 @@ import geometry.Triangle;
 
 public class Testing {
 	public static void main(String[] arg){
-		
-		ArrayList list = new ArrayList<Node>();
-		Node temp;
-		temp = new Node(10);
-		list.add(temp);
-		temp = new Node(5);
-		list.add(temp);
-		temp = new Node(11);
-		list.add(temp);
-		temp = new Node(72);
-		list.add(temp);
-		temp = new Node(72);
-		list.add(temp);
-		temp = new Node(62);
-		list.add(temp);
-		temp = new Node(101);
-		list.add(temp);
-		temp = new Node(23);
-		list.add(temp);
-		
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		Edge first = new Edge(1);
+		Edge second = new Edge(5);
+		Edge third = new Edge(6);
+		Edge fourth = new Edge(2);
+		Edge fifth = new Edge(7);
+		Edge sixth = new Edge(4);
+		Edge seventh = new Edge(3);
+		Edge eighth = new Edge(2);
+		Edge nineth = new Edge(10);
+		Edge tenth = new Edge(8);
 
-		MinHeap heap = new MinHeap(list);
-		System.out.println(heap);
+		Node startNode = new Node();
+		startNode.addEdge(first);
+		startNode.addEdge(second);
+		Node endNode = new Node();
+		endNode.addEdge(nineth);
+		endNode.addEdge(tenth);
+		nodes.add(endNode);
+		nodes.add(startNode);
+		Node firstNode = new Node();
+		firstNode.addEdge(first);
+		firstNode.addEdge(fourth);
+		firstNode.addEdge(third);
+		firstNode.addEdge(seventh);
+		nodes.add(firstNode);
+		Node secondNode = new Node();
+		secondNode.addEdge(second);
+		secondNode.addEdge(third);
+		secondNode.addEdge(fifth);
+		secondNode.addEdge(sixth);
+		nodes.add(secondNode);
+		Node thirdNode = new Node();
+		thirdNode.addEdge(fourth);
+		thirdNode.addEdge(sixth);
+		thirdNode.addEdge(eighth);
+		thirdNode.addEdge(nineth);
+		nodes.add(thirdNode);
+		Node fourthNode = new Node();
+		fourthNode.addEdge(fifth);
+		fourthNode.addEdge(seventh);
+		fourthNode.addEdge(eighth);
+		fourthNode.addEdge(tenth);
+		nodes.add(fourthNode);
 		
-		heap.removeMin();
-		System.out.println(heap);
 		
+		NodeNetwork net = new NodeNetwork(nodes);
 
+		System.out.println("SOLUTION: "+DijkstrasAlgorithm.dijkstrasAlgorithm(net, startNode, endNode));
 	}
 }

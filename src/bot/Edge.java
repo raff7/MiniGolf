@@ -1,17 +1,17 @@
 package bot;
 
 public class Edge {
-	int distance;
+	float distance;
 	
-	public Edge(){
-		
+	public Edge(float distance){
+		this.distance=distance;
 	}
 	
-	public int getDistance(){
+	public float getDistance(){
 		return distance;
 	}
 	
-	public void setDistance(int distance){
+	public void setDistance(float distance){
 		this.distance = distance;
 	}
 }
