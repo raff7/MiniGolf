@@ -5,7 +5,7 @@ import geometry.Triangle;
 
 public class Node extends Triangle {
 	
-	private int distance;
+	private float distance;
 	private Triangle triangle;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	

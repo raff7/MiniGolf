@@ -50,4 +50,12 @@ public class NodeNetwork {
 		}
 		return adjacentNodes;
 	}
+	
+	public String toString(){
+		String s =" ";
+		for(Node node: nodesList)
+		s += node.getDistance()+"  "+node.getEdgesList();
+		
+		return s;
+	}
 }
