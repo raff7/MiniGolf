@@ -3,15 +3,15 @@ package bot;
 public class Edge {
 	float distance;
 	
-	public Edge(){
-		
+	public Edge(float distance){
+		this.distance=distance;
 	}
 	
 	public float getDistance(){
 		return distance;
 	}
 	
-	public void setDistance(int distance){
+	public void setDistance(float distance){
 		this.distance = distance;
 	}
 	public String toString(){

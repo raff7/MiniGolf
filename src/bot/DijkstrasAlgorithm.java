@@ -4,30 +4,34 @@ import java.util.ArrayList;
 
 public class DijkstrasAlgorithm {
 	public static float dijkstrasAlgorithm(NodeNetwork net, Node startingNode, Node endNode){
-		ArrayList<Node> nodes = new ArrayList<Node>();
-		nodes = net.getNodesList();
+		ArrayList<Node> nodes =  net.getNodesList();
 		for(Node node:nodes){
 			node.setDistance(Float.MAX_VALUE);
 		}
 		startingNode.setDistance(0);
-		MinHeap heap = new MinHeap(nodes);
-		
+		MinHeap heap = new MinHeap(nodes);		
 		Node expl=null;
 		ArrayList<Node> adiacentNodes = null;
 		Edge edge = null;
-		while(heap.contains(endNode)){
+		System.out.println(heap);
+		while(heap.size()>0){
 			expl=heap.removeMin();
-			adiacentNodes = net.getAdiacentNodes(expl);
+			adiacentNodes = net.getAdjacentNodes(expl);
 			for(Node node:adiacentNodes){
-				edge = net.getEdge(expl,node);
-				if(node.getDistance()> ( expl.getDistance()+edge.getDistance())){
-					node.setDistance(expl.getDistance()+edge.getDistance());
+				if(heap.contains(node)){
+					edge = net.getEdge(expl,node);
+					System.out.println(edge.getDistance());
+					if(node.getDistance()> ( expl.getDistance()+edge.getDistance())){
+						heap.changeValue(node,expl.getDistance()+edge.getDistance());
+					}
 				}
-			}
-			return endNode.getDistance();
-			
+			}	
+			System.out.println();
+			System.out.println(heap);
+			System.out.println();
+
 		}
-		
+		return endNode.getDistance();
 		
 	}
 }
