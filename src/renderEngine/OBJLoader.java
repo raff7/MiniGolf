@@ -29,6 +29,7 @@ public class OBJLoader {
 		List<Vector3f> vertices = new ArrayList<Vector3f>();
 		List<Vector2f> textures = new ArrayList<Vector2f>();
 		List<Vector3f> normals = new ArrayList<Vector3f>();
+		List<Vector3f> hole = new ArrayList<Vector3f>();
 		List<Integer> indices = new ArrayList<Integer>();
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 
@@ -45,6 +46,9 @@ public class OBJLoader {
 					Vector3f vertex = new Vector3f(Float.parseFloat(currentLine[1]),
 							Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
 					vertices.add(vertex);
+					if(line.contains("h")){
+						hole.add(vertex);
+					}
 				} else if (line.startsWith("vt ")) {
 					Vector2f texture = new Vector2f(Float.parseFloat(currentLine[1]),
 							Float.parseFloat(currentLine[2]));
@@ -104,6 +108,7 @@ public class OBJLoader {
 		RawModel model = loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 		model.setVertices(vertices);
 		model.setTriangles(triangles);
+		model.setHole((ArrayList<Vector3f>)hole);
 		return model;
 
 	}
