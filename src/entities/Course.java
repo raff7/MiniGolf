@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import bot.Node;
+import geometry.Triangle;
 import terrains.Terrain;
 import water.WaterTile;
 
@@ -62,5 +63,15 @@ public class Course implements Serializable{
 	public void setStartingPosition(Vector3f position){
 		startingPosition=position;
 	}
+	/*public ArrayList<Node> getNodeNetwork(){
+		for(Entity entity: entities){
+			if(entity.hasHole()){
+				
+					if(triangle.getNormal().y ==0 && triangle.getNormal().z==0 ){
+		
+				}
+			}	
+		}
+	}*/
 	
 }
