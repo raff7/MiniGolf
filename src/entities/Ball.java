@@ -58,13 +58,17 @@ public class Ball extends Entity{
 	}
 	
 	// move as a free camera
-	public void move(){
+	public void moving(){
 		checkFreeCameraInputs();
+		
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
+		
+		
+		
 	}
 	
 	//move as a ball
