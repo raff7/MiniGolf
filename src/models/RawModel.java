@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import entities.Hole;
 import geometry.Triangle;
 
 public class RawModel implements Serializable {
@@ -14,6 +15,7 @@ public class RawModel implements Serializable {
 	private int vertexCount;
 	private List<Vector3f> vertices;
 	private ArrayList<Triangle> triangles=new ArrayList<Triangle>();
+	private Hole hole;
 	
 	public RawModel(int vaoID, int vertexCount){
 		this.vaoID = vaoID;
@@ -42,5 +44,12 @@ public class RawModel implements Serializable {
 
 	public void setTriangles(ArrayList<Triangle> triangles) {
 		this.triangles = triangles;
+	}
+
+	public void setHole(ArrayList<Vector3f> points) {
+		this.hole = new Hole(points);
+	}
+	public Hole getHole(){
+		return hole;
 	}
 }

@@ -50,7 +50,12 @@ public class SinglePlayer implements GameState, Observer {
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
 		
+//		CourseLoader courseLoader = new CourseLoader(0);
+//		course = courseLoader.load();
+//		System.out.println(course);
 		course = SampleCourse.getCourse(loader);
+
+		
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 
