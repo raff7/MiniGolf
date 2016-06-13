@@ -14,4 +14,7 @@ public class Edge {
 	public void setDistance(float distance){
 		this.distance = distance;
 	}
+	public String toString(){
+		return " "+distance;
+	}
 }

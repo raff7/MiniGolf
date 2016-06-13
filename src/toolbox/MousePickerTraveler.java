@@ -1,53 +1,94 @@
 package toolbox;
 
+import java.util.ArrayList;
+
 import org.lwjgl.util.vector.Vector3f;
 
+import collision.CollisionHandler;
 import entities.Camera;
+import entities.Course;
 import entities.Entity;
+import geometry.Triangle;
+import terrains.Terrain;
 
 public class MousePickerTraveler{
 	
 	Vector3f position ;
 	Vector3f direction ;
+	MousePicker picker ;
+	ArrayList<Entity> entitiesList = new ArrayList() ;
+	ArrayList<Terrain> terrains = new ArrayList() ;
+	ArrayList<Triangle> trianglesList = new ArrayList() ;
+	Vector3f collisionLocation = null ;
+	public float radius = 1f ;
 	
-	public MousePickerTraveler(Camera camera, MousePicker picker){
+	public MousePickerTraveler(Camera camera, MousePicker picker, Course course){
 		
 		this.position = camera.getPosition() ;
-		this.direction = picker.getCurrentRay() ;	
+		this.direction = picker.getCurrentRay() ;
+		this.entitiesList = course.getEntities() ;
+		this.terrains = course.getTerrains() ;
+		
+		for(Entity entity:entitiesList){
+			trianglesList.addAll(entity.getModel().getRawModel().getTriangles()) ;
+		}
+		for(Terrain terrain:terrains){
+			trianglesList.addAll(terrain.getModel().getTriangles()) ;
+		}
+		
+		
 	}
 
-	private Vector3f getPosition(){
+	public Vector3f getPosition(){
 		
 		return position ;
 	}
 	
-	private void setPosition(Vector3f newPosition){
+	public void setPosition(Vector3f newPosition){
 		
 		position = newPosition ;
 	}
 	
-	private Vector3f getDirection(){
+	public Vector3f getDirection(){
 		
 		return direction ;
 	}
 	
-	private void setDirection(Vector3f newDirection){
+	public void setDirection(Vector3f newDirection){
 		
 		direction = newDirection ;
 	}
 	
-	private Vector3f progress(){
+	public Vector3f progress(){
 	
+		
 		Vector3f dest = null ;
+		direction = (Vector3f) direction.normalise() ;
 		Vector3f.add(position, direction, dest) ;
 		return dest ;
 	}
 	
-	private Entity collisionObject(){
+	public boolean collision(){
 		
-		Entity temp = null ;
-		temp = ;
-		return temp ;
+		for(Triangle triangle:trianglesList){
+			if(CollisionHandler.collide(this, triangle)){
+				
+				return true ;
+			}
+		}
+		return false ;
+		
+	}
+	
+	public Vector3f collisionLocation(){
+			
+		for(Triangle triangle:trianglesList){
+			if(CollisionHandler.collide(this, triangle)){
+				collisionLocation = getPosition() ;
+				return collisionLocation ;
+			}
+		}
+		return null ;
 	}
 	
 	

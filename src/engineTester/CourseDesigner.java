@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import entities.Entity;
 import gui.GuiRenderer;
 import gui.GuiTexture;
 import models.RawModel;
@@ -20,6 +22,8 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import textures.ModelTexture;
+import toolbox.MousePicker;
+import toolbox.MousePickerTraveler;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
@@ -42,6 +46,12 @@ public class CourseDesigner implements GameState{
 	private Ball ball;
 	private Camera camera;
 	
+	private MousePicker picker ;
+	private MousePickerTraveler traveler ;
+	private Matrix4f projection ;
+	ArrayList<Entity> entitiesList = new ArrayList() ;
+	private Vector3f location = null ;
+	
 
 	public CourseDesigner(){
 		loader = new Loader();
@@ -61,6 +71,11 @@ public class CourseDesigner implements GameState{
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+		entitiesList = course.getEntities() ;
+		
+		projection = renderer.getProjectionMatrix() ;
+		picker = new MousePicker(camera , projection) ;
+		
 		
 	}
 
@@ -69,8 +84,20 @@ public class CourseDesigner implements GameState{
 	@Override
 	public void update() {
 		checkImputs();
-		ball.move();
+		picker.update();
+		traveler = new MousePickerTraveler(camera , picker, course) ;
+		traveler.setPosition(traveler.progress()) ;
+		if(traveler.collision() == true){
+			location = traveler.collisionLocation() ;
+		}
+		System.out.println(location.x + "   " + location.y + "    " + location.z);
+		ball.moving();
 		camera.move();
+		
+	}
+	
+	public void placeObstacle(Entity obstacle, Vector3f location){
+		
 		
 	}
 

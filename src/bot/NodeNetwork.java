@@ -2,7 +2,10 @@ package bot;
 
 import java.util.ArrayList;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import geometry.Triangle;
+import toolbox.Operation;
 
 public class NodeNetwork {
 	
@@ -60,10 +63,16 @@ public class NodeNetwork {
 		return node1.getConnectionEdge(node2);
 	}
 	
+	public float getDistance(Node node1, Node node2){
+		return Vector3f.sub(node1.getCentroid(), node2.getCentroid(), null).length();	
+	}
+	
 	public String toString(){
 		String s =" ";
-		for(Node node: nodesList)
-		s += node.getDistance()+"  "+node.getEdgesList();
+		for(Node node: nodesList){
+		s += "node: "+node.getDistance()+"  node's edges distance: "+node.getEdgesList();
+		s +="\n";
+		}
 		
 		return s;
 	}

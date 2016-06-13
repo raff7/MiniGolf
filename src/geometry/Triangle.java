@@ -2,7 +2,6 @@ package geometry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import org.lwjgl.util.vector.Vector3f;
 
 public class Triangle implements Serializable{
@@ -82,6 +81,13 @@ public class Triangle implements Serializable{
 		return edgeP2P3;
 	}
 	
+	public Vector3f getCentroid(){
+		float x = (p1.getX()+p2.getX()+p3.getX()) /3;
+		float y = (p1.getY()+p2.getY()+p3.getY()) /3;
+		float z = (p1.getZ()+p2.getZ()+p3.getZ()) /3;
+		return new Vector3f(x,y,z);
+	}
+	
 	public ArrayList<Integer> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
 		int counter;
 		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
@@ -90,36 +96,149 @@ public class Triangle implements Serializable{
 			counter=0;
 			
 				if(triangle.getP1() == p1){
-					counter++;
-				}
-				if(triangle.getP1() == p2){
-					counter++;
-				}
-				if(triangle.getP1() == p3){
-					counter++;
-				}
-				if(triangle.getP2() == p1){
-					counter++;
-				}
-				if(triangle.getP2() == p2){
-					counter++;
-				}
-				if(triangle.getP2() == p3){
-					counter++;
-				}
-				if(triangle.getP3() == p1){
-					counter++;
-				}
-				if(triangle.getP3() == p2){
-					counter++;
-				}
-				if(triangle.getP3() == p3){
-					counter++;
-				}
-				
-				if(counter == 2){
 					connectedTrianglesIndexes.add(i);
 				}
+				if(triangle.getP1() == p2){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP1() == p3){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP2() == p1){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP2() == p2){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP2() == p3){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP3() == p1){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP3() == p2){
+					connectedTrianglesIndexes.add(i);
+				}
+				if(triangle.getP3() == p3){
+					connectedTrianglesIndexes.add(i);
+				}
+		}
+		return connectedTrianglesIndexes;
+	}
+	
+
+	public ArrayList<Integer> isConnected2(ArrayList<Triangle> trianglesList){
+		
+		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		for(int i=0; i<trianglesList.size(); i++){
+			
+			Vector3f p1 = trianglesList.get(i).getP1();
+			Vector3f p2 = trianglesList.get(i).getP2();
+			Vector3f p3 = trianglesList.get(i).getP3();
+			Vector3f a = new Vector3f();
+			Vector3f b = new Vector3f();
+			float epsilon = 0.0001f;
+			
+			//First Vertex
+			Vector3f point = this.p1;
+			//A=p1, B=p2
+			a = p1;
+			b = p2;
+			float deltaX = (point.x - a.x)/(b.x - a.x);
+			float deltaY = (point.y - a.y)/(b.y - a.y);
+			float deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p1, B=p3
+			a = p1;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p2, B=p3
+			a = p2;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			
+			
+			//Second Vertex
+			point = this.p2;
+			//A=p1, B=p2
+			a = p1;
+			b = p2;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p1, B=p3
+			a = p1;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p2, B=p3
+			a = p2;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			
+			
+			//Third Vertex
+			point = this.p3;
+			//A=p1, B=p2
+			a = p1;
+			b = p2;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p1, B=p3
+			a = p1;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
+			//A=p2, B=p3
+			a = p2;
+			b = p3;
+			deltaX = (point.x - a.x)/(b.x - a.x);
+			deltaY = (point.y - a.y)/(b.y - a.y);
+			deltaZ = (point.z - a.z)/(b.z - a.z);
+			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				connectedTrianglesIndexes.add(i);
+				continue;
+			}
 		}
 		return connectedTrianglesIndexes;
 	}
