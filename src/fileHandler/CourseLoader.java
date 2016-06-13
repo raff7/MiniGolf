@@ -9,7 +9,9 @@ import java.io.ObjectInputStream;
 import entities.Course;
 
 public class CourseLoader {
+	
 	private ObjectInputStream in;
+	
 	public CourseLoader(int level){
 		String filePath="res/course/level"+level+".txt";
 		File file = new File(filePath);
