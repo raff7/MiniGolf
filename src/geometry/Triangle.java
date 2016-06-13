@@ -148,8 +148,11 @@ public class Triangle implements Serializable{
 			float deltaY = (point.y - a.y)/(b.y - a.y);
 			float deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -158,8 +161,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -168,8 +174,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			
 			
@@ -182,8 +191,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -192,8 +204,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -202,8 +217,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			
 			
@@ -216,8 +234,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -226,8 +247,11 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -236,11 +260,23 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
+				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
+						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
+				}
 			}
 		}
 		return connectedTrianglesIndexes;
 	}
+	
+	public ArrayList<Integer> isConnected3(ArrayList<Triangle> trianglesList){
+		
+		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		for(int i=0; i<trianglesList.size(); i++){
+			
+		}
+		return connectedTrianglesIndexes;
+		}
 
 }
