@@ -1,6 +1,7 @@
 package geometry;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -37,6 +38,7 @@ public class Triangle implements Serializable{
 		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
 		equation[3]= origin.z;
 	}
+	
 	public Vector3f getP1(){
 		return p1;
 	}
@@ -69,7 +71,6 @@ public class Triangle implements Serializable{
 	public void upDateEquation(Vector3f p1){
 		origin=p1;
 		equation[3] = -(normal.x*origin.x + normal.y*origin.y + normal.z*origin.z);
-		
 	}
 	public Vector3f getEdgeP1P2() {
 		return edgeP1P2;
@@ -79,6 +80,55 @@ public class Triangle implements Serializable{
 	}
 	public Vector3f getEdgeP2P3() {
 		return edgeP2P3;
+	}
+	
+	public Vector3f getCentroid(){
+		float x = (p1.getX()+p2.getX()+p3.getX()) /3;
+		float y = (p1.getY()+p2.getY()+p3.getY()) /3;
+		float z = (p1.getZ()+p2.getZ()+p3.getZ()) /3;
+		return new Vector3f(x,y,z);
+	}
+	
+	public ArrayList<Integer> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
+		int counter;
+		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		for(int i=0; i<trianglesList.size(); i++){
+			Triangle triangle = trianglesList.get(i);
+			counter=0;
+			
+				if(triangle.getP1() == p1){
+					counter++;
+				}
+				if(triangle.getP1() == p2){
+					counter++;
+				}
+				if(triangle.getP1() == p3){
+					counter++;
+				}
+				if(triangle.getP2() == p1){
+					counter++;
+				}
+				if(triangle.getP2() == p2){
+					counter++;
+				}
+				if(triangle.getP2() == p3){
+					counter++;
+				}
+				if(triangle.getP3() == p1){
+					counter++;
+				}
+				if(triangle.getP3() == p2){
+					counter++;
+				}
+				if(triangle.getP3() == p3){
+					counter++;
+				}
+				
+				if(counter == 2){
+					connectedTrianglesIndexes.add(i);
+				}
+		}
+		return connectedTrianglesIndexes;
 	}
 
 }

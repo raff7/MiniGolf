@@ -1,64 +1,67 @@
 package bot;
 
-public class Node {
+import java.util.ArrayList;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import geometry.Triangle;
+
+public class Node extends Triangle {
 	
-	private int distance ;
-	private boolean hasBall = false ;
-	private boolean hasHole = false ;
-	private boolean isFree = false ;
+	private float distance;
+	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	
-	
-	private void setDistance(int dist){
-		
-		distance = dist ;
+	public Node(){		
+		super(new Vector3f(0,0,0),new Vector3f(0,0,0),new Vector3f(0,0,0));
 	}
 	
-	private int getDistance(){
-		
-		return distance ;
+	public Node(Triangle triangle){
+		super(triangle.getP1(), triangle.getP2(), triangle.getP3());
 	}
 	
-	private void setOccupied(){
-		
-		isFree = false ;
+	public ArrayList<Edge> getEdgesList(){
+		return edgesList;
 	}
 	
-	private void setFree(){
-		
-		isFree = true ;
+	public void setEdgesList(ArrayList<Edge> edgesList){
+		this.edgesList = edgesList;
 	}
 	
-	private boolean isFree(){
-		
-		return isFree ;
+	public void addEdge(Edge edge){
+		edgesList.add(edge);
 	}
 	
-	private void addHole(){
-		
-		hasHole = true ;
+	public int getDegree(){
+		return edgesList.size();
 	}
 	
-	private void noHole(){
-		
-		hasHole = false ;
+	public boolean isConnected(Node node2){
+		for(int i=0; i<edgesList.size(); i++){
+			for(int j=0; j<node2.getEdgesList().size(); j++){
+				if( edgesList.get(i) == node2.getEdgesList().get(j) )
+					return true;
+			}
+		}
+		return false;
 	}
 	
-	private boolean hasHole(){
-		
-		return hasHole ;
+	public Edge getConnectionEdge(Node node2){
+		for(int i=0; i<edgesList.size(); i++){
+			for(int j=0; j<node2.getEdgesList().size(); j++){
+				if( edgesList.get(i) == node2.getEdgesList().get(j) )
+					return edgesList.get(i);
+			}
+		}
+		System.out.println("No connecting edge");
+		return null;
 	}
 	
-	private void addBall(){
-		
-		hasBall = true ;
+	public float getDistance(){
+		return distance;
 	}
-	
-	private void removeBall(){
-		
-		hasBall = false ;
+	public void setDistance(float distance){
+		this.distance=distance;
 	}
-	
-	//backtracking ability.. incase you run in to dead end when adding fitness++ while expanding AWAY from hole.. (how the nodes will be constructed)
 	
 
 }

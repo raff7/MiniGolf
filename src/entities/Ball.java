@@ -81,7 +81,7 @@ public class Ball extends Entity{
 		for(Entity entity:entitiesList){
 			if(entity!=this){
 				if(!(entity instanceof Ball)){
-					trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+					trianglesList.addAll(entity.getTriangles());
 					//System.out.println("triangles list size: "+trianglesList.size());
 					boxes.add(entity.getBox());
 				}
@@ -113,7 +113,7 @@ public class Ball extends Entity{
 		ArrayList<BoundingBox> boxes = new ArrayList();
 		
 		for(Entity entity:entitiesList){
-		trianglesList.addAll(entity.getModel().getRawModel().getTriangles());
+		trianglesList.addAll(entity.getTriangles());
 	//System.out.println("triangles list size: "+trianglesList.size());
 		boxes.add(entity.getBox());
 		}
@@ -290,17 +290,12 @@ public class Ball extends Entity{
 	}
 	
 	public void simulateShot(ArrayList<Entity> ground){
-		// !(getVelocity().x == 0 && Math.abs(getVelocity().y) < 4 && getVelocity().z ==0)
 		System.out.println("velo length: "+velocity.length());
 		while( Math.abs(velocity.length()) > minimalSpeed+2){
-			//System.out.println(ground.size());
-			//System.out.println("loop");
 			move(ground);
 			System.out.println("position testBall: " +getPosition());
 			if(velocity.x > 100 || velocity.y > 100 || velocity.z > 100)
 				setVelocity(new Vector3f(0,0,0));
-				
-			//System.out.println("velocity: "+velocity);
 		}
 	}
 	
