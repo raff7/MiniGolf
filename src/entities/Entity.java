@@ -20,6 +20,7 @@ public class Entity implements Serializable{
 	private int textureIndex = 0;
 	private BoundingBox box;
 	private ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
+	private Hole hole;
 
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -33,6 +34,8 @@ public class Entity implements Serializable{
 		 * Here we set the coordinates of the vertices from the relative coordinates system
 		 * to the world coordinates system.*/
 		setTrianglesRealCoordinates();
+		if(this.getModel().getRawModel().getHole()!=null)
+			setHoleCoordinates();
 		//update the value of every plane's constant to correspond to the R3 (in game) value
 		upDatePlaneConstant();
 		box = new BoundingBox(model,this);
@@ -123,7 +126,7 @@ public class Entity implements Serializable{
 	public ArrayList<Triangle> getTriangles(){
 		return trianglesList;
 	}
-	public void setTrianglesRealCoordinates(){
+	private void setTrianglesRealCoordinates(){
 		List<Triangle> rwTrianglesList = model.getRawModel().getTriangles();
 		trianglesList = new ArrayList<Triangle>(rwTrianglesList);
 		for(Triangle triangle: trianglesList){
@@ -137,8 +140,28 @@ public class Entity implements Serializable{
 			triangle.setP2(newP2);
 			triangle.setP3(newP3);
 		}
-			
 		/*if(rotX !=0){
+		float[][] rotMatrixX = new float[][]{{1f,	0f,						0f},
+											 {0f,	(float)Math.cos(rotX), (float)-Math.sin(rotX)},
+											 {0f, 	(float)Math.sin(rotX), (float) Math.cos(rotX)}};
+		for(Vector3f vertex: verticesList){	
+			System.out.println("Before: "+vertex);
+			float x = position.x*rotMatrixX[0][0] + position.y*rotMatrixX[1][0] + position.z*rotMatrixX[2][0];
+			float y = position.x*rotMatrixX[0][1] + position.y*rotMatrixX[1][1] + position.z*rotMatrixX[2][1];
+			float z = position.x*rotMatrixX[0][2] + position.y*rotMatrixX[1][2] + position.z*rotMatrixX[2][2];
+			vertex.set(x,y,z);
+			System.out.println("After: "+vertex);
+		}
+	}*/
+	}
+		private void setHoleCoordinates(){
+			Hole hole = model.getRawModel().getHole();
+			ArrayList<Vector3f> newPoints = new ArrayList<Vector3f>();
+			for(Vector3f point: hole.getPoints()){
+				Vector3f newP = new Vector3f( (point.x*getScale()) + getPosition().x, (point.y*getScale()) + getPosition().y, (point.z*getScale()) + getPosition().z );
+				newPoints.add(newP);
+			}
+			/*if(rotX !=0){
 			float[][] rotMatrixX = new float[][]{{1f,	0f,						0f},
 												 {0f,	(float)Math.cos(rotX), (float)-Math.sin(rotX)},
 												 {0f, 	(float)Math.sin(rotX), (float) Math.cos(rotX)}};
@@ -150,9 +173,12 @@ public class Entity implements Serializable{
 				vertex.set(x,y,z);
 				System.out.println("After: "+vertex);
 			}
-		}*/
+		}*/	
+		this.hole = new Hole(newPoints);
 	}
-	
+	public Hole getHole(){
+		return hole;
+	}
 	public void upDatePlaneConstant(){
 		for(Triangle triangle:trianglesList){
 			triangle.upDateEquation(triangle.getP1());
