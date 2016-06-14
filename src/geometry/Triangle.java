@@ -147,12 +147,12 @@ public class Triangle implements Serializable{
 			float deltaX = (point.x - a.x)/(b.x - a.x);
 			float deltaY = (point.y - a.y)/(b.y - a.y);
 			float deltaZ = (point.z - a.z)/(b.z - a.z);
+			System.out.println(deltaX+" "+deltaY+" "+deltaZ);
+
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
+				System.out.println("HELLO MOTHERFUCKER");
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -161,11 +161,8 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -174,12 +171,10 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
+			System.out.println("first not connected");
 			
 			
 			//Second Vertex
@@ -191,11 +186,8 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -204,11 +196,8 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -217,12 +206,10 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
+			System.out.println("second not connected");
 			
 			
 			//Third Vertex
@@ -234,11 +221,8 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p1, B=p3
 			a = p1;
@@ -247,11 +231,8 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
 			//A=p2, B=p3
 			a = p2;
@@ -260,12 +241,10 @@ public class Triangle implements Serializable{
 			deltaY = (point.y - a.y)/(b.y - a.y);
 			deltaZ = (point.z - a.z)/(b.z - a.z);
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				if( ((a.x<point.x && point.x<b.x) || (b.x<point.x && point.x<a.x)) && ((a.y<point.y && point.y<b.y) || (b.y<point.y && point.y<a.y))
-						&& ((a.z<point.z && point.z<b.z) || (b.z<point.z && point.z<a.z)) ){
 				connectedTrianglesIndexes.add(i);
 				continue;
-				}
 			}
+			System.out.println("third not connected");
 		}
 		return connectedTrianglesIndexes;
 	}
@@ -274,9 +253,74 @@ public class Triangle implements Serializable{
 		
 		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
 		for(int i=0; i<trianglesList.size(); i++){
+			Vector3f p1 = trianglesList.get(i).getP1();
+			Vector3f p2 = trianglesList.get(i).getP2();
+			Vector3f p3 = trianglesList.get(i).getP3();
 			
+			Vector3f a = new Vector3f();
+			Vector3f b = new Vector3f();
+			Vector3f point = new Vector3f();
+			
+			Vector3f crossProduct= new Vector3f();
+			float dotProduct;
+			Vector3f bMinusA = new Vector3f();
+			Vector3f pointMinusA = new Vector3f();
+			float epsilon = 0.0001f;
+			
+			//Vertex 1
+			point = this.p1;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			Vector3f.sub(b, a, bMinusA);
+			Vector3f.sub(point, a, pointMinusA);
+			Vector3f.cross(bMinusA, pointMinusA, crossProduct);
+			if(Math.abs( crossProduct.length() ) > epsilon)
+				continue;
+			dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+			if(dotProduct < 0)
+				continue;
+			if(dotProduct > Math.pow(bMinusA.length(), 2) )
+				continue;
+			connectedTrianglesIndexes.add(i);
+			
+			
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
+			
+		
+			point = this.p2;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
+			
+			
+			point = this.p2;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
 		}
 		return connectedTrianglesIndexes;
 		}
 
 }
+
+
+
+
