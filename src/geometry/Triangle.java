@@ -248,5 +248,79 @@ public class Triangle implements Serializable{
 		}
 		return connectedTrianglesIndexes;
 	}
+	
+	public ArrayList<Integer> isConnected3(ArrayList<Triangle> trianglesList){
+		
+		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		for(int i=0; i<trianglesList.size(); i++){
+			Vector3f p1 = trianglesList.get(i).getP1();
+			Vector3f p2 = trianglesList.get(i).getP2();
+			Vector3f p3 = trianglesList.get(i).getP3();
+			
+			Vector3f a = new Vector3f();
+			Vector3f b = new Vector3f();
+			Vector3f point = new Vector3f();
+			
+			Vector3f crossProduct= new Vector3f();
+			float dotProduct;
+			Vector3f bMinusA = new Vector3f();
+			Vector3f pointMinusA = new Vector3f();
+			float epsilon = 0.0001f;
+			
+			//Vertex 1
+			point = this.p1;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			Vector3f.sub(b, a, bMinusA);
+			Vector3f.sub(point, a, pointMinusA);
+			Vector3f.cross(bMinusA, pointMinusA, crossProduct);
+			if(Math.abs( crossProduct.length() ) > epsilon)
+				continue;
+			dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+			if(dotProduct < 0)
+				continue;
+			if(dotProduct > Math.pow(bMinusA.length(), 2) )
+				continue;
+			connectedTrianglesIndexes.add(i);
+			
+			
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
+			
+		
+			point = this.p2;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
+			
+			
+			point = this.p2;
+			//a=p1, b=p2
+			a=p1;
+			b=p2;
+			//a=p1, b=p3
+			a=p1;
+			b=p3;
+			//a=p2, b=p3
+			a=p2;
+			b=p3;
+		}
+		return connectedTrianglesIndexes;
+		}
 
 }
+
+
+
+

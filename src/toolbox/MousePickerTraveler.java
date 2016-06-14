@@ -16,9 +16,9 @@ public class MousePickerTraveler{
 	Vector3f position ;
 	Vector3f direction ;
 	MousePicker picker ;
-	ArrayList<Entity> entitiesList = new ArrayList() ;
-	ArrayList<Terrain> terrains = new ArrayList() ;
-	ArrayList<Triangle> trianglesList = new ArrayList() ;
+	ArrayList<Entity> entitiesList = new ArrayList<Entity>() ;
+	ArrayList<Terrain> terrains = new ArrayList<Terrain>() ;
+	ArrayList<Triangle> trianglesList = new ArrayList<Triangle>() ;
 	Vector3f collisionLocation = new Vector3f() ;
 	public float radius = 1f ;
 	Vector3f progressVector = new Vector3f() ;
@@ -81,6 +81,7 @@ public class MousePickerTraveler{
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
 				hasHit = true ;
+				//System.out.println("Triangle Position : " + triangle.getCentroid()) ;
 				return true ;
 			}
 		}
