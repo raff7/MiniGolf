@@ -88,18 +88,18 @@ public class CourseDesigner implements GameState{
 		//System.out.println("cam CHECK : " + camera.getPosition()) ;
 		//System.out.println("trav CHECK : " + traveler.getPosition()) ;
 		while(traveler.hasHit == false){
+			//System.out.println("Pos1 CHECK : " + traveler.getPosition()) ;
 			traveler.progress();
 			traveler.setPosition(traveler.getProgressVector());
-			//System.out.println(traveler.getPosition()) ;
+			System.out.println("Pos2 CHECK : " + traveler.getPosition()) ;
+			//BELOW HERE SOMEWHERE IS THE PROBLEM
 			if(traveler.collision() == true){
 				collisionLocation = traveler.collisionLocation() ;
-				traveler.hasHit = true ;
 				//System.out.println("Collision !!!!!!!!!") ;
 				//System.out.println("Location : " + collisionLocation) ;
-				collisionLocation = new Vector3f() ;
-			}
+				}
 		}	
-		//System.out.println(collisionLocation) ;
+		System.out.println("collisionLocation : " + collisionLocation) ;
 		ball.moving();
 		camera.move();
 		
