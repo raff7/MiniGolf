@@ -50,7 +50,7 @@ public class CourseDesigner implements GameState{
 	private MousePickerTraveler traveler ;
 	private Matrix4f projection ;
 	ArrayList<Entity> entitiesList = new ArrayList() ;
-	private Vector3f location = null ;
+	private Vector3f location = new Vector3f() ;
 	
 
 	public CourseDesigner(){
@@ -79,24 +79,28 @@ public class CourseDesigner implements GameState{
 		
 	}
 
-
-
 	@Override
 	public void update() {
 		checkImputs();
 		picker.update();
 		traveler = new MousePickerTraveler(camera , picker, course) ;
-		traveler.setPosition(traveler.progress()) ;
-		if(traveler.collision() == true){
-			location = traveler.collisionLocation() ;
-		}
-		System.out.println(location.x + "   " + location.y + "    " + location.z);
+		while(traveler.hasHit == false){
+			traveler.progress();
+			traveler.setPosition(traveler.getProgressVector());
+			//System.out.println(traveler.getPosition()) ;
+			if(traveler.collision() == true){
+				location = traveler.collisionLocation() ;
+				traveler.hasHit = true ;
+			}
+		}	
+		System.out.println(location) ;
 		ball.moving();
 		camera.move();
 		
+		
 	}
 	
-	public void placeObstacle(Entity obstacle, Vector3f location){
+	public void placeObstacle(Entity obs, Vector3f loc){
 		
 		
 	}

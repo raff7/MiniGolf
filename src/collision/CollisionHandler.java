@@ -152,14 +152,12 @@ public class CollisionHandler {
 	
 	public static boolean collide(MousePickerTraveler traveler, Triangle triangle){
 
-		float distance = Vector3f.dot(traveler.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
-		//check collision
-		//step 1, bounding box, TBI
-		if( Math.abs(distance)<= 2){//step 2, plane distance
+		
+		// plane distance
 			if( isInTriangle(traveler, triangle)){//step 3, triangle/ball overlap
 				return true;
 			}
-		}
+		
 		return false;
 	}
 	

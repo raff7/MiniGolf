@@ -19,8 +19,10 @@ public class MousePickerTraveler{
 	ArrayList<Entity> entitiesList = new ArrayList() ;
 	ArrayList<Terrain> terrains = new ArrayList() ;
 	ArrayList<Triangle> trianglesList = new ArrayList() ;
-	Vector3f collisionLocation = null ;
+	Vector3f collisionLocation = new Vector3f() ;
 	public float radius = 1f ;
+	Vector3f progressVector = new Vector3f() ;
+	public boolean hasHit = false ;
 	
 	public MousePickerTraveler(Camera camera, MousePicker picker, Course course){
 		
@@ -59,20 +61,26 @@ public class MousePickerTraveler{
 		direction = newDirection ;
 	}
 	
-	public Vector3f progress(){
+	public void setProgressVector(Vector3f vector){
+		progressVector = vector ;
+	}
 	
-		
-		Vector3f dest = null ;
+	public Vector3f getProgressVector(){
+		return progressVector ;
+	}
+	
+	public void progress(){
+	
 		direction = (Vector3f) direction.normalise() ;
-		Vector3f.add(position, direction, dest) ;
-		return dest ;
+		Vector3f.add(position, direction, progressVector) ;
+		
 	}
 	
 	public boolean collision(){
 		
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
-				
+				hasHit = true ;
 				return true ;
 			}
 		}
@@ -80,11 +88,13 @@ public class MousePickerTraveler{
 		
 	}
 	
+	
+	
 	public Vector3f collisionLocation(){
 			
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
-				collisionLocation = getPosition() ;
+				collisionLocation = triangle.getCentroid() ;
 				return collisionLocation ;
 			}
 		}
@@ -94,5 +104,3 @@ public class MousePickerTraveler{
 	
 }
 
-/* setPosition(progress()) ; should make it travel along the ray.. collision detection should be possible to handeld similar to ball or anything
- * need to add a method which will return the object it impacted with..*/
