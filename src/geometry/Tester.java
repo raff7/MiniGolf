@@ -10,26 +10,31 @@ import renderEngine.OBJLoader;
 
 public class Tester {
 	public static void main(String[] arg){
-//		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-//		for(int i=0;i<20000;i++){
-//			Triangle t = new Triangle(new Vector3f((float)Math.random(),(float)Math.random(),(float)Math.random()), new Vector3f((float)Math.random(),(float)Math.random(),(float)Math.random()),new Vector3f((float)Math.random(),(float)Math.random(),(float)Math.random()));
-//			triangles.add(t);
-//		}
-//		ArrayList<Integer> indexs;
-//		for(Triangle triangle:triangles)
-//			indexs = triangle.isConnected2(triangles);
-//		System.out.println("done");
-		ArrayList<Integer> indexs=new ArrayList<Integer>();
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		Triangle t1 = new Triangle(new Vector3f(0,0,0), new Vector3f(5,0,0), new Vector3f(3,5,0));
-		Triangle t2 = new Triangle(new Vector3f(0,0,0), new Vector3f(-5,0,0), new Vector3f(-3,5,0));
-		Triangle t3 = new Triangle(new Vector3f(1,0,0), new Vector3f(-6,0,0), new Vector3f(-7,5,0));
+		for(int i=0;i<1000;i++){
+			Triangle t = new Triangle(new Vector3f(getNumber(),getNumber(),getNumber()), new Vector3f(getNumber(),getNumber(),getNumber()), new Vector3f(getNumber(),getNumber(),getNumber()));
+			triangles.add(t);
+		}
 	
-		triangles.add(t1);
+		ArrayList<Triangle> indexes=new ArrayList<Triangle>();
+		Triangle t1 = new Triangle(new Vector3f(0.54f,0.65f,0.987f), new Vector3f(5,0,0), new Vector3f(0,5,0));
+		Triangle t2 = new Triangle(new Vector3f(0.54f,0.65f,0.987f), new Vector3f(-5,-10,0), new Vector3f(2,-11,0));
+		//Triangle t3 = new Triangle(new Vector3f(0,3,0), new Vector3f(-6,0,0), new Vector3f(-7,1,0));
 		triangles.add(t2);
-		triangles.add(t3);
-		indexs = t1.isConnected2(triangles);
-		System.out.println(indexs);
+		indexes = t1.getNeighbourTriangles(triangles);
 		
+		for(int i =0; i<triangles.size(); i++)
+			System.out.println(triangles.get(i));
+		System.out.println();
+		System.out.println();
+		System.out.println("number of connections: "+indexes.size());
+		for(Triangle triangle: indexes){
+			System.out.println(triangle);
+		}
+		
+	}
+	public static  float getNumber(){
+		float number = (float) (Math.random()*20);
+		return number;
 	}
 }
