@@ -8,7 +8,7 @@ public abstract class Player {
 	private Ball ball;
 	private Camera camera;
 	protected float power;
-	private final float MAX_POWER = 250;
+	public static final float MAX_POWER = 250;
 	
 	public Ball getBall() {
 		return ball;

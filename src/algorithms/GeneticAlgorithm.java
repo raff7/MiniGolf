@@ -4,14 +4,10 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
-public class GeneticAlgorithm extends BotAlgorithm {
+public class GeneticAlgorithm {
 	private ArrayList<float[]> parentsPool = new ArrayList<float[]>();
 	private final int POPULATION_NUMBER = 10000;
 	private final int GENERATION_NUMBER = 10000;
-	
-	public void execute(){
-		
-	}
 	
 	public void generate(){
 		float x,y,z,power;

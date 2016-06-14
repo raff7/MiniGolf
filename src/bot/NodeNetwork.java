@@ -62,11 +62,13 @@ public class NodeNetwork {
 	public Edge getEdge(Node node1, Node node2){
 		return node1.getConnectionEdge(node2);
 	}
-	
 	public float getDistance(Node node1, Node node2){
 		return Vector3f.sub(node1.getCentroid(), node2.getCentroid(), null).length();	
 	}
 	
+	public void addNode(Node node){
+		nodesList.add(node);
+	}
 	public String toString(){
 		String s =" ";
 		for(Node node: nodesList){
