@@ -147,7 +147,10 @@ public class Triangle implements Serializable{
 			float deltaX = (point.x - a.x)/(b.x - a.x);
 			float deltaY = (point.y - a.y)/(b.y - a.y);
 			float deltaZ = (point.z - a.z)/(b.z - a.z);
+			System.out.println(deltaX+" "+deltaY+" "+deltaZ);
+
 			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon){
+				System.out.println("HELLO MOTHERFUCKER");
 				connectedTrianglesIndexes.add(i);
 				continue;
 			}
