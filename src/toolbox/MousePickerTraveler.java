@@ -34,7 +34,7 @@ public class MousePickerTraveler{
 		for(Entity entity:entitiesList){
 			trianglesList.addAll(entity.getModel().getRawModel().getTriangles()) ;
 		}
-		for(Terrain terrain:terrains){
+		 for(Terrain terrain:terrains){
 			trianglesList.addAll(terrain.getModel().getTriangles()) ;
 		}
 		
@@ -81,7 +81,8 @@ public class MousePickerTraveler{
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
 				hasHit = true ;
-				//System.out.println("Triangle Position : " + triangle.getCentroid()) ;
+				System.out.println("Triangle Position : " + triangle.getCentroid()) ;
+				System.out.println("trvl position : " + getPosition()) ;
 				return true ;
 			}
 		}
@@ -95,7 +96,7 @@ public class MousePickerTraveler{
 			
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
-				collisionLocation = triangle.getCentroid() ;
+				collisionLocation = getPosition() ;
 				return collisionLocation ;
 			}
 		}
