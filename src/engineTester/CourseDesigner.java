@@ -51,6 +51,7 @@ public class CourseDesigner implements GameState{
 	private Matrix4f projection ;
 	ArrayList<Entity> entitiesList = new ArrayList<Entity>() ;
 	private Vector3f collisionLocation = new Vector3f() ;
+	int trvlrCntr = 0 ;
 	
 
 	public CourseDesigner(){
@@ -86,20 +87,29 @@ public class CourseDesigner implements GameState{
 		traveler = new MousePickerTraveler(camera , picker, course) ;
 		//System.out.println("ray CHECK : " + picker.getCurrentRay()) ;
 		//System.out.println("cam CHECK : " + camera.getPosition()) ;
-		//System.out.println("trav CHECK : " + traveler.getPosition()) ;
+		//System.out.println("ray CHECK : " + traveler.getPosition()) ;
 		while(traveler.hasHit == false){
 			//System.out.println("Pos1 CHECK : " + traveler.getPosition()) ;
+			//System.out.println("ray CHECK : " + picker.getCurrentRay()) ;
+			//System.out.println("trvl dir CHECK : " + traveler.getDirection()) ;
 			traveler.progress();
 			traveler.setPosition(traveler.getProgressVector());
-			System.out.println("Pos2 CHECK : " + traveler.getPosition()) ;
+			//System.out.println("Pos2 CHECK : " + traveler.getPosition()) ;
 			//BELOW HERE SOMEWHERE IS THE PROBLEM
 			if(traveler.collision() == true){
 				collisionLocation = traveler.collisionLocation() ;
 				//System.out.println("Collision !!!!!!!!!") ;
 				//System.out.println("Location : " + collisionLocation) ;
+			}
+			else{
+				trvlrCntr++ ;
+				if(trvlrCntr > 1000){
+					trvlrCntr = 0 ;
+					traveler.hasHit = true ;
 				}
-		}	
-		System.out.println("collisionLocation : " + collisionLocation) ;
+			}
+		}
+		//System.out.println("collisionLocation : " + collisionLocation) ;
 		ball.moving();
 		camera.move();
 		
