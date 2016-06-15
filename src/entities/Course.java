@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import bot.Node;
+import bot.NodeNetwork;
 import geometry.Triangle;
 import terrains.Terrain;
 import water.WaterTile;
@@ -12,26 +13,30 @@ import water.WaterTile;
 public class Course implements Serializable{
 	
 	private ArrayList<Entity> entities;
+	private NodeNetwork net;
 	private ArrayList<Light> lights;
 	private ArrayList<Terrain> terrains;
 	private ArrayList<WaterTile> waters;
 	private Vector3f startingPosition;	
-	//might need to add some methods !!
-	//private Node[][][] worldNodes ;
 	
 	public Course(ArrayList<Entity> entities, ArrayList<Light> lights, ArrayList<Terrain> terrains,ArrayList<WaterTile> waters, Ball ball/*, Node[][][] world*/){
 		this.entities = entities;
 		this.lights = lights;
 		this.terrains = terrains;
 		this.waters = waters;
-		//this.worldNodes = world;
+		
+		//get world nodes
+		Hole hole = null;
+		for(Entity entity:entities){
+			if(entity.getHole()!= null)
+				hole = entity.getHole();
+		}//...		
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
 		waters = new ArrayList<WaterTile>();
-		//worldNodes = new Node[x][y][z] ;
 	}
 	public ArrayList<Entity> getEntities() {
 		return entities;
@@ -56,6 +61,10 @@ public class Course implements Serializable{
 	}
 	public void addWater(WaterTile water) {
 		this.waters.add(water);
+	}
+	
+	public ArrayList<Node> getNodes() {
+		return net.getNodesList();
 	}
 	public Vector3f getStartingPosition() {
 		return startingPosition;

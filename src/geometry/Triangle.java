@@ -88,233 +88,86 @@ public class Triangle implements Serializable{
 		return new Vector3f(x,y,z);
 	}
 	
-	public ArrayList<Integer> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
-		int counter;
-		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
-		for(int i=0; i<trianglesList.size(); i++){
-			Triangle triangle = trianglesList.get(i);
-			counter=0;
-			
-				if(triangle.getP1() == p1){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP1() == p2){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP1() == p3){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP2() == p1){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP2() == p2){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP2() == p3){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP3() == p1){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP3() == p2){
-					connectedTrianglesIndexes.add(i);
-				}
-				if(triangle.getP3() == p3){
-					connectedTrianglesIndexes.add(i);
-				}
-		}
-		return connectedTrianglesIndexes;
-	}
-	
-
-	public ArrayList<Integer> isConnected2(ArrayList<Triangle> trianglesList){
+	public ArrayList<Triangle> getNeighbourTriangles(ArrayList<Triangle> trianglesList){
 		
-		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
+		ArrayList<Triangle> connectedTrianglesIndexes = new ArrayList<Triangle>();
+		ArrayList<Vector3f> verticesList = new ArrayList<Vector3f>();
+		verticesList.add(this.p1);
+		verticesList.add(this.p2);
+		verticesList.add(this.p3);
+		Vector3f a = new Vector3f();
+		Vector3f b = new Vector3f();
+		Vector3f point = new Vector3f();
+		Vector3f crossProduct= new Vector3f();
+		float dotProduct=0;
+		Vector3f bMinusA = new Vector3f();
+		Vector3f pointMinusA = new Vector3f();
+		float epsilon = 0.0001f;
+		
 		for(int i=0; i<trianglesList.size(); i++){
 			
 			Vector3f p1 = trianglesList.get(i).getP1();
 			Vector3f p2 = trianglesList.get(i).getP2();
 			Vector3f p3 = trianglesList.get(i).getP3();
-			Vector3f a = new Vector3f();
-			Vector3f b = new Vector3f();
-			float epsilon = 0.0001f;
 			
-			//First Vertex
-			Vector3f point = this.p1;
-			//A=p1, B=p2
-			a = p1;
-			b = p2;
-			float deltaX = (point.x - a.x)/(b.x - a.x);
-			float deltaY = (point.y - a.y)/(b.y - a.y);
-			float deltaZ = (point.z - a.z)/(b.z - a.z);
-			System.out.println(deltaX+" "+deltaY+" "+deltaZ);
-
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon){
-				System.out.println("HELLO MOTHERFUCKER");
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p1, B=p3
-			a = p1;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p2, B=p3
-			a = p2;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			System.out.println("first not connected");
-			
-			
-			//Second Vertex
-			point = this.p2;
-			//A=p1, B=p2
-			a = p1;
-			b = p2;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p1, B=p3
-			a = p1;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p2, B=p3
-			a = p2;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon  ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			System.out.println("second not connected");
-			
-			
-			//Third Vertex
-			point = this.p3;
-			//A=p1, B=p2
-			a = p1;
-			b = p2;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p1, B=p3
-			a = p1;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			//A=p2, B=p3
-			a = p2;
-			b = p3;
-			deltaX = (point.x - a.x)/(b.x - a.x);
-			deltaY = (point.y - a.y)/(b.y - a.y);
-			deltaZ = (point.z - a.z)/(b.z - a.z);
-			if( Math.abs(deltaX-deltaY)<epsilon && Math.abs(deltaX-deltaZ)< epsilon && Math.abs(deltaY-deltaZ)< epsilon ){
-				connectedTrianglesIndexes.add(i);
-				continue;
-			}
-			System.out.println("third not connected");
+			for(int j=0; j<verticesList.size(); j++){
+				point = verticesList.get(j);
+				
+				//a=p1, b=p2
+				a=p1;
+				b=p2;
+				Vector3f.sub(b, a, bMinusA);
+				Vector3f.sub(point, a, pointMinusA);
+				Vector3f.cross(bMinusA, pointMinusA, crossProduct);		
+				if(Math.abs( crossProduct.length() ) < epsilon){
+					dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+					if(dotProduct >= 0){
+						if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
+							connectedTrianglesIndexes.add(trianglesList.get(i));
+							break;
+						}
+					}
+					
+				}else{
+					//a=p1, b=p3
+					a=p1;
+					b=p3;
+					Vector3f.sub(b, a, bMinusA);
+					Vector3f.sub(point, a, pointMinusA);
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
+					Vector3f.sub(b, a, bMinusA);
+					Vector3f.sub(point, a, pointMinusA);
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);			
+					if(Math.abs( crossProduct.length() ) < epsilon){
+						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+						if(dotProduct >= 0){
+							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
+								connectedTrianglesIndexes.add(trianglesList.get(i));
+								break;
+							}
+						}
+				}else{
+					//a=p2, b=p3
+					a=p2;
+					b=p3;
+					Vector3f.sub(b, a, bMinusA);
+					Vector3f.sub(point, a, pointMinusA);
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
+					Vector3f.sub(b, a, bMinusA);
+					Vector3f.sub(point, a, pointMinusA);
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);				
+					if(Math.abs( crossProduct.length() ) < epsilon){
+						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+						if(dotProduct >= 0){
+							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
+								connectedTrianglesIndexes.add(trianglesList.get(i));
+								break;
+							}
+						}
+					}
+					}
+				}
 		}
-		return connectedTrianglesIndexes;
-	}
-	
-	public ArrayList<Integer> isConnected3(ArrayList<Triangle> trianglesList){
-		
-		ArrayList<Integer> connectedTrianglesIndexes = new ArrayList<Integer>();
-		for(int i=0; i<trianglesList.size(); i++){
-			Vector3f p1 = trianglesList.get(i).getP1();
-			Vector3f p2 = trianglesList.get(i).getP2();
-			Vector3f p3 = trianglesList.get(i).getP3();
-			
-			Vector3f a = new Vector3f();
-			Vector3f b = new Vector3f();
-			Vector3f point = new Vector3f();
-			
-			Vector3f crossProduct= new Vector3f();
-			float dotProduct;
-			Vector3f bMinusA = new Vector3f();
-			Vector3f pointMinusA = new Vector3f();
-			float epsilon = 0.0001f;
-			
-			//Vertex 1
-			point = this.p1;
-			//a=p1, b=p2
-			a=p1;
-			b=p2;
-			Vector3f.sub(b, a, bMinusA);
-			Vector3f.sub(point, a, pointMinusA);
-			Vector3f.cross(bMinusA, pointMinusA, crossProduct);
-			if(Math.abs( crossProduct.length() ) > epsilon)
-				continue;
-			dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-			if(dotProduct < 0)
-				continue;
-			if(dotProduct > Math.pow(bMinusA.length(), 2) )
-				continue;
-			connectedTrianglesIndexes.add(i);
-			
-			
-			//a=p1, b=p3
-			a=p1;
-			b=p3;
-			//a=p2, b=p3
-			a=p2;
-			b=p3;
-			
-		
-			point = this.p2;
-			//a=p1, b=p2
-			a=p1;
-			b=p2;
-			//a=p1, b=p3
-			a=p1;
-			b=p3;
-			//a=p2, b=p3
-			a=p2;
-			b=p3;
-			
-			
-			point = this.p2;
-			//a=p1, b=p2
-			a=p1;
-			b=p2;
-			//a=p1, b=p3
-			a=p1;
-			b=p3;
-			//a=p2, b=p3
-			a=p2;
-			b=p3;
 		}
 		return connectedTrianglesIndexes;
 		}
