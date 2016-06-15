@@ -51,6 +51,7 @@ public class CourseDesigner implements GameState{
 	private Matrix4f projection ;
 	ArrayList<Entity> entitiesList = new ArrayList<Entity>() ;
 	private Vector3f collisionLocation = new Vector3f() ;
+	int trvlrCntr = 0 ;
 	
 
 	public CourseDesigner(){
@@ -99,8 +100,15 @@ public class CourseDesigner implements GameState{
 				collisionLocation = traveler.collisionLocation() ;
 				//System.out.println("Collision !!!!!!!!!") ;
 				//System.out.println("Location : " + collisionLocation) ;
+			}
+			else{
+				trvlrCntr++ ;
+				if(trvlrCntr > 1000){
+					trvlrCntr = 0 ;
+					traveler.hasHit = true ;
 				}
-		}	
+			}
+		}
 		//System.out.println("collisionLocation : " + collisionLocation) ;
 		ball.moving();
 		camera.move();
