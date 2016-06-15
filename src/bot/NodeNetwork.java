@@ -10,12 +10,15 @@ import toolbox.Operation;
 public class NodeNetwork {
 	
 	ArrayList<Node> nodesList = new ArrayList<Node>();
+	private Node center;
 	
 	
 	//for testing
 	public NodeNetwork(ArrayList<Node> nodes){
-		nodesList=nodes;
+		nodesList = nodes;
+		center = nodes.get(0);
 	}
+	
 //	//Constructor
 //	public NodeNetwork(ArrayList<Triangle> trianglesList){
 //		for(int i=0; i<trianglesList.size(); i++){
@@ -64,6 +67,10 @@ public class NodeNetwork {
 	}
 	public float getDistance(Node node1, Node node2){
 		return Vector3f.sub(node1.getCentroid(), node2.getCentroid(), null).length();	
+	}
+	
+	public Node getCenter(){
+		return center;
 	}
 	
 	public void addNode(Node node){

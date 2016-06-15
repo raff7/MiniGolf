@@ -25,12 +25,21 @@ public class Course implements Serializable{
 		this.terrains = terrains;
 		this.waters = waters;
 		
+		ArrayList<Node> nodesList = new ArrayList<Node>();
+		
 		//get world nodes
 		Hole hole = null;
 		for(Entity entity:entities){
-			if(entity.getHole()!= null)
+			if(entity.getHole()!= null){
+				for(Triangle triangle: entity.getTriangles())
+					nodesList.add(new Node(triangle));
+				
 				hole = entity.getHole();
-		}//...		
+			}
+		}
+		nodesList = hole.getNodesNetwork(nodesList);
+		net = new NodeNetwork(nodesList);
+		//...		
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
