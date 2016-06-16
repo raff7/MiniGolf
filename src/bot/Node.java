@@ -90,9 +90,12 @@ public class Node extends Triangle {
 		
 		ArrayList<Node> connectedNodes = new ArrayList<Node>();
 		ArrayList<Vector3f> verticesList = new ArrayList<Vector3f>();
+		
 		verticesList.add(this.getP1());
 		verticesList.add(this.getP2());
 		verticesList.add(this.getP3());
+		
+		//Used check if the point is in between the 2 vertices 
 		Vector3f a = new Vector3f();
 		Vector3f b = new Vector3f();
 		Vector3f point = new Vector3f();
@@ -102,114 +105,83 @@ public class Node extends Triangle {
 		Vector3f pointMinusA = new Vector3f();
 		float epsilon = 0.0001f;
 		
-		this.setVisited(true);
 		
-		for(int i=0; i<nodesList.size(); i++){
-			
-			if(nodesList.get(i) == this)
-				continue;
-			Vector3f p1 = nodesList.get(i).getP1();
-			Vector3f p2 = nodesList.get(i).getP2();
-			Vector3f p3 = nodesList.get(i).getP3();
-			
-			for(int j=0; j<verticesList.size(); j++){
-				point = verticesList.get(j);
+		this.setVisited(true);
+		Node node;
+		
+		//Contains all the edges
+		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList();
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
+						
+		//The different possible edges
+		Vector3f[] edge1 = new Vector3f[2];
+		Vector3f[] edge2 = new Vector3f[2];
+		Vector3f[] edge3 = new Vector3f[2];	
 				
-				//a=p1, b=p2
-				a=p1;
-				b=p2;
-				Vector3f.sub(b, a, bMinusA);
-				Vector3f.sub(point, a, pointMinusA);
-				Vector3f.cross(bMinusA, pointMinusA, crossProduct);		
-				if(Math.abs( crossProduct.length() ) < epsilon){
-					dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-					if(dotProduct >= 0){
-						if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-							double squaredDot = Math.pow( Vector3f.dot(getNormal(), new Vector3f(0,1,0)) , 2);
-							if( 0.5<squaredDot && squaredDot<1 ){
-								if( !this.isConnected(nodesList.get(i)) && this != nodesList.get(i) ){
-									distance = Operation.subtract(this.getPosition(), nodesList.get(i).getPosition()).length();
-									distance = Math.abs(distance);
-									Edge edge = new Edge(distance);
-									nodesList.get(i).addEdge(edge);
-									this.addEdge(edge);
-								}
-								if( !nodesList.get(i).isVisited){
-									connectedNodes.add(nodesList.get(i));
-									connectedNodes.addAll(nodesList.get(i).getNeighbourNodes(nodesList));
-								}
-								break;
-							}
-						}
-					}
+		//The current edge
+		Vector3f[] currentEdge = new Vector3f[2];
+		
+		//Going through the vertices of this node
+		for(int i=0; i<verticesList.size(); i++){
+			point = verticesList.get(i);
+				
+			//Going through the nodes of the unordered list
+			for(int j=0; j<nodesList.size(); j++){
 					
-				}else{
-					//a=p1, b=p3
-					a=p1;
-					b=p3;
+				if(nodesList.get(j) == this)
+					continue;
+				
+				Vector3f p1 = nodesList.get(j).getP1();
+				Vector3f p2 = nodesList.get(j).getP2();
+				Vector3f p3 = nodesList.get(j).getP3();
+				
+				edge1[0] = p1; edge1[1] = p2;
+				edge2[0] = p1;  edge2[1] = p3;
+				edge3[0] = p2;  edge3[1] = p3;
+				
+				triangleEdgesList.set(0,edge1);
+				triangleEdgesList.set(1,edge2);
+				triangleEdgesList.set(2,edge3);
+				
+				//Going through the edges of the node(the one coming from the list)
+				for(int k=0; k<triangleEdgesList.size(); k++){
+					currentEdge = triangleEdgesList.get(k);
+				
+					a=currentEdge[0];
+					b=currentEdge[1];
 					Vector3f.sub(b, a, bMinusA);
 					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);			
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);
+					
 					if(Math.abs( crossProduct.length() ) < epsilon){
-						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-						if(dotProduct >= 0){ 
-							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-								double dot = Math.pow(Vector3f.dot(getNormal(), new Vector3f(0,1,0)),2);
-								if( 0.5<dot && dot<1){
-									if( !this.isConnected(nodesList.get(i))){
-										distance = Operation.subtract(this.getPosition(), nodesList.get(i).getPosition()).length();
-										distance = Math.abs(distance);
-										Edge edge = new Edge(distance);
-										nodesList.get(i).addEdge(edge);
-										this.addEdge(edge);
-									}
-									if( !nodesList.get(i).isVisited){
-										connectedNodes.add(nodesList.get(i));
-										connectedNodes.addAll(nodesList.get(i).getNeighbourNodes(nodesList));
-									}
-									break;
-								}
-							}
-						}
-				}else{
-					//a=p2, b=p3
-					a=p2;
-					b=p3;
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);				
-					if(Math.abs( crossProduct.length() ) < epsilon){
-						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+						
+						dotProduct = Vector3f.dot(bMinusA, pointMinusA);		
 						if(dotProduct >= 0){
 							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-								double dot = Math.pow(Vector3f.dot(getNormal(), new Vector3f(0,1,0)),2);
-								if(0.5<dot && dot<1){
-									if( !this.isConnected(nodesList.get(i))){
-										distance = Operation.subtract(this.getPosition(), nodesList.get(i).getPosition()).length();
-										distance = Math.abs(distance);
-										Edge edge = new Edge(distance);
-										nodesList.get(i).addEdge(edge);
-										this.addEdge(edge);
-									}
-									if( !nodesList.get(i).isVisited){
-										connectedNodes.add(nodesList.get(i));
-										connectedNodes.addAll(nodesList.get(i).getNeighbourNodes(nodesList));
-									}
-									break;
+								node = nodesList.get(j);
+								double squaredDot = Math.pow( Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)) , 2);
+								if( 0.5<=squaredDot && squaredDot<=1 ){										
+										if( !this.isConnected(node) && this != node ){
+											distance = Operation.subtract(this.getPosition(), node.getPosition()).length();
+											distance = Math.abs(distance);
+											Edge edge = new Edge(distance);
+											node.addEdge(edge);
+											this.addEdge(edge);
+										}
+										if( !node.isVisited){
+											connectedNodes.add(node);
+											connectedNodes.addAll(node.getNeighbourNodes(nodesList));
+										}
+										break;
 								}
 							}
 						}
 					}
-				}
-		}
-		}
-		}
-		return connectedNodes;
+				}//Loop through the edges of the other node
+			}//Loop through the nodes of the nodesList
+		}//loop through the vertices of that node
+	return connectedNodes;
 	}
 }

@@ -19,26 +19,6 @@ public class NodeNetwork {
 		center = nodes.get(0);
 	}
 	
-//	//Constructor
-//	public NodeNetwork(ArrayList<Triangle> trianglesList){
-//		for(int i=0; i<trianglesList.size(); i++){
-//			nodesList.add(new Node(trianglesList.get(i)));
-//		}
-//		
-//		for(int i=0; i<nodesList.size(); i++){
-//			Node node = nodesList.get(i);
-//			ArrayList<Integer> indexesList = node.getNeighbourTriangles(trianglesList);
-//			
-//			for(int j=0; j < indexesList.size(); j++){
-//				int index = indexesList.get(j);
-//				Node connectedNode = nodesList.get(index);
-//				Edge edge = new Edge(0);
-//				node.addEdge(edge);
-//				connectedNode.addEdge(edge);
-//			}	
-//		}
-//	}
-	
 	public ArrayList<Node> getNodesList(){
 		return nodesList;
 	}
