@@ -111,6 +111,9 @@ public class Node extends Triangle {
 		
 		//Contains all the edges
 		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList();
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
 						
 		//The different possible edges
 		Vector3f[] edge1 = new Vector3f[2];
@@ -157,14 +160,9 @@ public class Node extends Triangle {
 						dotProduct = Vector3f.dot(bMinusA, pointMinusA);		
 						if(dotProduct >= 0){
 							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-								
-								double squaredDot = Math.pow( Vector3f.dot(getNormal(), new Vector3f(0,1,0)) , 2);
-								if( 0.5<squaredDot && squaredDot<1 ){
-									
-									node = nodesList.get(j);
-									double dot = Math.pow(Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)), 2);
-									if(0.5<dot && dot<1){
-										
+								node = nodesList.get(j);
+								double squaredDot = Math.pow( Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)) , 2);
+								if( 0.5<=squaredDot && squaredDot<=1 ){										
 										if( !this.isConnected(node) && this != node ){
 											distance = Operation.subtract(this.getPosition(), node.getPosition()).length();
 											distance = Math.abs(distance);
@@ -177,7 +175,6 @@ public class Node extends Triangle {
 											connectedNodes.addAll(node.getNeighbourNodes(nodesList));
 										}
 										break;
-									}
 								}
 							}
 						}

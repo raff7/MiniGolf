@@ -71,6 +71,9 @@ public class Hole {
 			
 			//Going through the list of unordered nodes
 			for(int j=0; j<nodesList.size(); j++){
+				if(nodesList.get(j)==this.getNode()){
+					continue;
+				}
 				
 				Vector3f p1 = nodesList.get(j).getP1();
 				Vector3f p2 = nodesList.get(j).getP2();
@@ -103,9 +106,10 @@ public class Hole {
 								
 								node = nodesList.get(j);
 								double squaredDot = Math.pow(Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)), 2);
-								if( 0.5<squaredDot && squaredDot<1 ){
+								if( 0.5<=squaredDot && squaredDot<=1 ){
 									
-									if( !center.isConnected(node) && center != node ){
+									if( !center.isConnected(node)){
+										
 										distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
 										distance = Math.abs(distance);
 										Edge edge = new Edge(distance);
