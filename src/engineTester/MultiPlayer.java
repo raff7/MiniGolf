@@ -67,9 +67,9 @@ public class MultiPlayer implements GameState, Observer {
 		Camera camera1 = new Camera(ball1);
 		Camera camera2 = new Camera(ball2);
 
-        players.add(new HumanPlayer(camera1));
+       // players.add(new HumanPlayer(camera1));
        // players.add(new Bot(camera2, course));
-        players.add(new HumanPlayer(camera2));
+       // players.add(new HumanPlayer(camera2));
 		game = new Game(players);
 		for(Ball ball:balls)
 			course.addEntity(ball);

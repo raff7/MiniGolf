@@ -49,7 +49,6 @@ public class Hole {
 		Vector3f pointMinusA = new Vector3f();
 		float epsilon = 0.000001f;
 		
-		//For the transformation of triangles into nodes
 		Node node;
 		float distance;
 		
@@ -145,4 +144,8 @@ public class Hole {
 		
 		return network;
 		}
+	
+	public Node getNode(){
+		return center;
+	}
 }
