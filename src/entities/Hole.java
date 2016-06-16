@@ -27,7 +27,7 @@ public class Hole {
 		x=x/points.size();
 		y=y/points.size();
 		z=z/points.size();
-		center = new Node(new Triangle( new Vector3f(x,y,z), new Vector3f(x,y,z), new Vector3f(x,y,z)));
+		center = new Node(new Triangle( new Vector3f(x,y,z), new Vector3f(x,y,z), new Vector3f(x,y,z)), "name");
 			
 	}
 	public ArrayList<Vector3f> getPoints(){
@@ -49,100 +49,72 @@ public class Hole {
 		Vector3f pointMinusA = new Vector3f();
 		float epsilon = 0.000001f;
 		
-		//For the transformation of triangles into nodes
+		//Contains all the edges
+		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList();
+				
+		//The different possible edges
+		Vector3f[] edge1 = new Vector3f[2];
+		Vector3f[] edge2 = new Vector3f[2];
+		Vector3f[] edge3 = new Vector3f[2];	
+		
+		//The current edge
+		Vector3f[] currentEdge = new Vector3f[2];
+		
 		Node node;
 		float distance;
 		
-		for(int i=0; i<nodesList.size(); i++){
+		//Going through the points forming the center
+		for(int i=0; i<points.size(); i++){
+			point = points.get(i);
 			
-			Vector3f p1 = nodesList.get(i).getP1();
-			Vector3f p2 = nodesList.get(i).getP2();
-			Vector3f p3 = nodesList.get(i).getP3();
-			
-			for(int j=0; j<points.size(); j++){
-				point = points.get(j);
+			//Going through the list of unordered nodes
+			for(int j=0; j<nodesList.size(); j++){
 				
-				//a=p1, b=p2
-				a=p1;
-				b=p2;
-				Vector3f.sub(b, a, bMinusA);
-				Vector3f.sub(point, a, pointMinusA);
-				Vector3f.cross(bMinusA, pointMinusA, crossProduct);		
-				if(Math.abs( crossProduct.length() ) < epsilon){
-					dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-					if(dotProduct >= 0){
-						if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-							//if(//check dot product or normal vector)
-							node = nodesList.get(i);
-							distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
-							distance = Math.abs(distance);
-							Edge edge = new Edge(distance);
-							node.addEdge(edge);
-							center.addEdge(edge);
-							network.add(node);
-							network.addAll(node.getNeighbourNodes(nodesList));
-							continue;
-						}
-					}
-					
-				}else{
-					//a=p1, b=p3
-					a=p1;
-					b=p3;
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);			
-					if(Math.abs( crossProduct.length() ) < epsilon){
-						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-						if(dotProduct >= 0){
-							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-								//if(//check dot product or normal vector)
-								node = nodesList.get(i);
-								distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
-								distance = Math.abs(distance);
-								Edge edge = new Edge(distance);
-								node.addEdge(edge);
-								center.addEdge(edge);
-								network.add(node);
-								network.addAll(node.getNeighbourNodes(nodesList));
-								continue;
-							}
-						}
-				}else{
-					//a=p2, b=p3
-					a=p2;
-					b=p3;
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
-					Vector3f.sub(b, a, bMinusA);
-					Vector3f.sub(point, a, pointMinusA);
-					Vector3f.cross(bMinusA, pointMinusA, crossProduct);				
-					if(Math.abs( crossProduct.length() ) < epsilon){
-						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
-						if(dotProduct >= 0){
-							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-								//if(//check dot product or normal vector)
-								node = nodesList.get(i);
-								distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
-								distance = Math.abs(distance);
-								Edge edge = new Edge(distance);
-								node.addEdge(edge);
-								center.addEdge(edge);
-								network.add(node);
-								network.addAll(node.getNeighbourNodes(nodesList));
-								continue;
-							}
-						}
-					}
-					}
-				}
-			}
-		}
+				Vector3f p1 = nodesList.get(j).getP1();
+				Vector3f p2 = nodesList.get(j).getP2();
+				Vector3f p3 = nodesList.get(j).getP3();
+				
+				edge1[0] = p1; edge1[1] = p2;
+				edge2[0] = p1;  edge2[1] = p3;
+				edge3[0] = p2;  edge3[1] = p3;
+				
+				triangleEdgesList.add(edge1);
+				triangleEdgesList.add(edge2);
+				triangleEdgesList.add(edge3);
+				
+				//Going through the edges of the the nodes's triangle
+				for(int k=0; k<triangleEdgesList.size(); k++){
+					currentEdge = triangleEdgesList.get(k);
+				
 		
+					a=currentEdge[0];
+					b=currentEdge[1];
+					Vector3f.sub(b, a, bMinusA);
+					Vector3f.sub(point, a, pointMinusA);
+					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
+					
+					if(Math.abs( crossProduct.length() ) < epsilon){
+						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
+						if(dotProduct >= 0){
+							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
+								node = nodesList.get(j);
+								double dot = Math.pow(Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)),2);
+								if( 0.5<dot && dot<1 ){
+									distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
+									distance = Math.abs(distance);
+									Edge edge = new Edge(distance);
+									node.addEdge(edge);
+									center.addEdge(edge);
+									network.add(node);
+									network.addAll(node.getNeighbourNodes(nodesList));
+									break;
+								}
+							}
+						}
+					}
+				}//Edges loop
+			}//Nodes loop
+		}//Points loop
 		return network;
-		}
+	}
 }

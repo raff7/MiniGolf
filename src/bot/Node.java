@@ -12,13 +12,15 @@ public class Node extends Triangle {
 	private float distance;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	private boolean isVisited;
+	String name;
 	
 	public Node(){		
 		super(new Vector3f(0,0,0),new Vector3f(0,0,0),new Vector3f(0,0,0));
 	}
 	
-	public Node(Triangle triangle){
+	public Node(Triangle triangle,String name){
 		super(triangle.getP1(), triangle.getP2(), triangle.getP3());
+		this.name = name;
 	}
 	
 	public ArrayList<Edge> getEdgesList(){
@@ -80,6 +82,10 @@ public class Node extends Triangle {
 		return super.getNormal();
 	}
 	
+	public String toString(){
+		return name;
+	}
+	
 	public ArrayList<Node> getNeighbourNodes(ArrayList<Node> nodesList){
 		
 		ArrayList<Node> connectedNodes = new ArrayList<Node>();
@@ -100,8 +106,8 @@ public class Node extends Triangle {
 		
 		for(int i=0; i<nodesList.size(); i++){
 			
-			if(nodesList.get(i)== this)
-				return connectedNodes;
+			if(nodesList.get(i) == this)
+				continue;
 			Vector3f p1 = nodesList.get(i).getP1();
 			Vector3f p2 = nodesList.get(i).getP2();
 			Vector3f p3 = nodesList.get(i).getP3();
@@ -119,9 +125,9 @@ public class Node extends Triangle {
 					dotProduct = Vector3f.dot(bMinusA, pointMinusA);
 					if(dotProduct >= 0){
 						if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
-							double dot = Math.pow(Vector3f.dot(getNormal(), new Vector3f(0,1,0)),2);
-							if( 0.5<dot && dot<1 ){
-								if( !this.isConnected(nodesList.get(i))){
+							double squaredDot = Math.pow( Vector3f.dot(getNormal(), new Vector3f(0,1,0)) , 2);
+							if( 0.5<squaredDot && squaredDot<1 ){
+								if( !this.isConnected(nodesList.get(i)) && this != nodesList.get(i) ){
 									distance = Operation.subtract(this.getPosition(), nodesList.get(i).getPosition()).length();
 									distance = Math.abs(distance);
 									Edge edge = new Edge(distance);
