@@ -51,7 +51,9 @@ public class Hole {
 		
 		//Contains all the edges
 		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList();
-				
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
+		triangleEdgesList.add(null);
 		//The different possible edges
 		Vector3f[] edge1 = new Vector3f[2];
 		Vector3f[] edge2 = new Vector3f[2];
