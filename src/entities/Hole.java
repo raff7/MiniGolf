@@ -78,9 +78,9 @@ public class Hole {
 				edge2[0] = p1;  edge2[1] = p3;
 				edge3[0] = p2;  edge3[1] = p3;
 				
-				triangleEdgesList.add(edge1);
-				triangleEdgesList.add(edge2);
-				triangleEdgesList.add(edge3);
+				triangleEdgesList.set(0,edge1);
+				triangleEdgesList.set(1,edge2);
+				triangleEdgesList.set(2,edge3);
 				
 				//Going through the edges of the the nodes's triangle
 				for(int k=0; k<triangleEdgesList.size(); k++){
@@ -94,27 +94,34 @@ public class Hole {
 					Vector3f.cross(bMinusA, pointMinusA, crossProduct);	
 					
 					if(Math.abs( crossProduct.length() ) < epsilon){
+						
 						dotProduct = Vector3f.dot(bMinusA, pointMinusA);
 						if(dotProduct >= 0){
 							if(dotProduct <= Math.pow(bMinusA.length(), 2) ){
+								
 								node = nodesList.get(j);
-								double dot = Math.pow(Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)),2);
-								if( 0.5<dot && dot<1 ){
-									distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
-									distance = Math.abs(distance);
-									Edge edge = new Edge(distance);
-									node.addEdge(edge);
-									center.addEdge(edge);
-									network.add(node);
-									network.addAll(node.getNeighbourNodes(nodesList));
+								double squaredDot = Math.pow(Vector3f.dot(node.getNormal(), new Vector3f(0,1,0)), 2);
+								if( 0.5<squaredDot && squaredDot<1 ){
+									
+									if( !center.isConnected(node) && center != node ){
+										distance = Operation.subtract(center.getPosition(),node.getPosition()).length();
+										distance = Math.abs(distance);
+										Edge edge = new Edge(distance);
+										node.addEdge(edge);
+										center.addEdge(edge);
+									}
+									if( !node.isVisited()){
+										network.add(node);
+										network.addAll(node.getNeighbourNodes(nodesList));
+									}
 									break;
 								}
 							}
 						}
 					}
-				}//Edges loop
-			}//Nodes loop
-		}//Points loop
-		return network;
+				}//Loops through the edges of the other node
+			}//Loop through the nodes of the nodesList 
+		}//Loops through the points of the center
+	return network;
 	}
 }
