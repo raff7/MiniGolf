@@ -81,8 +81,8 @@ public class MousePickerTraveler{
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
 				hasHit = true ;
-				System.out.println("Triangle Position : " + triangle.getCentroid()) ;
-				System.out.println("trvl position : " + getPosition()) ;
+				//System.out.println("Triangle Position : " + triangle.getCentroid()) ;
+				//System.out.println("trvl position : " + getPosition()) ;
 				return true ;
 			}
 		}

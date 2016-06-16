@@ -3,9 +3,11 @@ package engineTester;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -13,6 +15,7 @@ import entities.Ball;
 import entities.Camera;
 import entities.Course;
 import entities.Entity;
+import gui.Button;
 import gui.GuiRenderer;
 import gui.GuiTexture;
 import models.RawModel;
@@ -53,6 +56,7 @@ public class CourseDesigner implements GameState{
 	private Vector3f collisionLocation = new Vector3f() ;
 	int trvlrCntr = 0 ;
 	
+	
 
 	public CourseDesigner(){
 		loader = new Loader();
@@ -77,13 +81,36 @@ public class CourseDesigner implements GameState{
 		projection = renderer.getProjectionMatrix() ;
 		picker = new MousePicker(camera , projection) ;
 		
+		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.75f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle1) ;
+		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.35f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle2) ;
+		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.05f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle3) ;
+		GuiTexture obstacle4 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.45f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle4) ;
+		GuiTexture obstacle5 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.85f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle5) ;
 		
+		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.75f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle6) ;
+		GuiTexture obstacle7 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle7) ;
+		GuiTexture obstacle8 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.05f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle8) ;
+		GuiTexture obstacle9 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.45f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle9) ;
+		GuiTexture obstacle10 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.85f),new Vector2f(0.3f,0.3f));
+		guis.add(obstacle10) ;
 	}
 
 	@Override
 	public void update() {
 		checkImputs();
 		picker.update();
+		//System.out.print("  x = : " + Mouse.getX()) ;
+		//System.out.print("  y = : " + Mouse.getY()) ;
+		//System.out.println();
 		traveler = new MousePickerTraveler(camera , picker, course) ;
 		//System.out.println("ray CHECK : " + picker.getCurrentRay()) ;
 		//System.out.println("cam CHECK : " + camera.getPosition()) ;
@@ -110,9 +137,76 @@ public class CourseDesigner implements GameState{
 			}
 		}
 		//System.out.println("collisionLocation : " + collisionLocation) ;
-		ball.moving();
-		camera.move();
+		checkButtons() ;
+		ball.moving() ;
+		camera.move() ;
+	}
+	
+	private void checkButtons(){
 		
+		//leftSide
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 330 && Mouse.getY() < 395){
+			//button1
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button1") ;
+			}
+		}
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 250 && Mouse.getY() < 315){
+			//button2
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button2") ;
+			}
+		}
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 170  && Mouse.getY() < 235){
+			//button3
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button3") ;
+			}
+		}
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 90 && Mouse.getY() < 155){
+			//button4
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button4") ;
+			}
+		}
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 10 && Mouse.getY() < 75){
+			//button5
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button5") ;
+			}
+		}
+		
+		//rightSide
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 330 && Mouse.getY() < 395){
+			//button6
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button6") ;
+			}
+		}
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 250 && Mouse.getY() < 315){
+			//button7
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button7") ;
+			}
+		}
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 170  && Mouse.getY() < 235){
+			//button8
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button8") ;
+			}
+		}
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
+			//button9
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button9") ;
+			}
+		}
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 10 && Mouse.getY() < 75){
+			//button10
+			if(Mouse.isButtonDown(0)){
+				System.out.println("button10") ;
+			}
+		}
 		
 	}
 	
