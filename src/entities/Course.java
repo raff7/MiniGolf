@@ -32,14 +32,13 @@ public class Course implements Serializable{
 		for(Entity entity:entities){
 			if(entity.getHole()!= null){
 				for(Triangle triangle: entity.getTriangles())
-					nodesList.add(new Node(triangle));
+					nodesList.add(new Node(triangle, "a"));
 				
 				hole = entity.getHole();
 			}
 		}
 		nodesList = hole.getNodesNetwork(nodesList);
-		net = new NodeNetwork(nodesList);
-		//...		
+		net = new NodeNetwork(nodesList);		
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
@@ -91,5 +90,20 @@ public class Course implements Serializable{
 			}	
 		}
 	}*/
+	
+	public void createNetwork(){
+		ArrayList<Node> nodesList = new ArrayList<Node>();
+		Hole hole = null;
+		for(Entity entity:entities){
+			if(entity.getHole()!= null){
+				for(Triangle triangle: entity.getTriangles())
+					nodesList.add(new Node(triangle, "a"));
+				
+				hole = entity.getHole();
+			}
+		}
+		nodesList = hole.getNodesNetwork(nodesList);
+		net = new NodeNetwork(nodesList);	
+	}
 	
 }

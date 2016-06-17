@@ -8,7 +8,6 @@ import geometry.Triangle;
 import toolbox.Operation;
 
 public class Node extends Triangle {
-	
 	private float distance;
 	private ArrayList<Edge> edgesList = new ArrayList<Edge>();
 	private boolean isVisited;
@@ -87,6 +86,7 @@ public class Node extends Triangle {
 	}
 	
 	public ArrayList<Node> getNeighbourNodes(ArrayList<Node> nodesList){
+		
 		
 		ArrayList<Node> connectedNodes = new ArrayList<Node>();
 		ArrayList<Vector3f> verticesList = new ArrayList<Vector3f>();

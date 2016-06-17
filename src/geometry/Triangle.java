@@ -14,6 +14,7 @@ public class Triangle implements Serializable{
 	private float[] equation = new float[4];
 	public Vector3f origin= new Vector3f();
 	private Vector3f normal=new Vector3f();
+	private Vector3f centroid;
 
 	
 	public Triangle(Vector3f p1, Vector3f p2, Vector3f p3){
@@ -82,10 +83,13 @@ public class Triangle implements Serializable{
 	}
 	
 	public Vector3f getCentroid(){
-		float x = (p1.getX()+p2.getX()+p3.getX()) /3;
-		float y = (p1.getY()+p2.getY()+p3.getY()) /3;
-		float z = (p1.getZ()+p2.getZ()+p3.getZ()) /3;
-		return new Vector3f(x,y,z);
+		if(centroid == null){
+			float x = (p1.getX()+p2.getX()+p3.getX()) /3;
+			float y = (p1.getY()+p2.getY()+p3.getY()) /3;
+			float z = (p1.getZ()+p2.getZ()+p3.getZ()) /3;
+			return new Vector3f(x,y,z);
+		}
+		return centroid;
 	}
 
 }
