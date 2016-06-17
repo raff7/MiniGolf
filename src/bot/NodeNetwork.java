@@ -13,10 +13,10 @@ public class NodeNetwork {
 	private Node center;
 	
 	
-	//for testing
 	public NodeNetwork(ArrayList<Node> nodes){
 		nodesList = nodes;
 		center = nodes.get(0);
+		DijkstrasAlgorithm.dijkstrasAlgorithm(this, center);
 	}
 	
 	public ArrayList<Node> getNodesList(){

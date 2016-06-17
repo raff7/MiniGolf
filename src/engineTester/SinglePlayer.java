@@ -1,5 +1,6 @@
 package engineTester;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -42,6 +43,7 @@ public class SinglePlayer implements GameState, Observer {
 	private WaterRenderer waterRenderer;
 	private WaterShader waterShader;
 	private WaterFrameBuffers buffers;
+	private boolean firstTime=true;
 	
 		
 	public SinglePlayer(){
@@ -51,6 +53,7 @@ public class SinglePlayer implements GameState, Observer {
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
 		
+
 		//CourseLoader courseLoader = new CourseLoader(0);
 		//course = (Course)courseLoader.load();
 		//System.out.println(course);
@@ -90,7 +93,6 @@ public class SinglePlayer implements GameState, Observer {
 				player.setPower(0);
 				}	
 			}
-		
 			ball.move(course.getEntities());
 			camera.move();
 		}
@@ -121,7 +123,12 @@ public class SinglePlayer implements GameState, Observer {
 		renderer.renderScene(course.getEntities(),course.getTerrains(),course.getLights(),camera, new Vector4f(0,-1,0,150000));
 		waterRenderer.render(course.getWaters(), camera);
 		guiRenderer.render(game.getGUIs());
+		if(firstTime){
+			DisplayManager.setLastFrameTime(DisplayManager.getCurrentTime());
+			firstTime=false;
+		}
 		DisplayManager.updateDisplay();
+
 	}		
 
 	@Override
