@@ -109,8 +109,10 @@ public class MinHeap {
 			}		
 		}
 		if(index!=-1){
-			upHeap(index);
-			downHeap(index);
+			if(index !=0)
+				upHeap(index);
+			if(index != heap.size())
+				downHeap(index);
 		}
 		else
 			System.err.println("Node not in the hip");

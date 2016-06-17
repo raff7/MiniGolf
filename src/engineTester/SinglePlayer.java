@@ -1,5 +1,6 @@
 package engineTester;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -42,7 +43,9 @@ public class SinglePlayer implements GameState, Observer {
 	private WaterRenderer waterRenderer;
 	private WaterShader waterShader;
 	private WaterFrameBuffers buffers;
+	private boolean firstTime=true;
 	
+		
 	public SinglePlayer(){
 		
 		loader = new Loader();
@@ -50,9 +53,10 @@ public class SinglePlayer implements GameState, Observer {
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
 		
-//		CourseLoader courseLoader = new CourseLoader(0);
-//		course = courseLoader.load();
-//		System.out.println(course);
+
+		//CourseLoader courseLoader = new CourseLoader(0);
+		//course = (Course)courseLoader.load();
+		//System.out.println(course);
 		course = SampleCourse.getCourse(loader);
 
 		
@@ -71,11 +75,11 @@ public class SinglePlayer implements GameState, Observer {
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
-								
 	}
 	
 	@Override
 	public void update(){
+		System.out.println("position: "+ball.getPosition());
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
@@ -119,7 +123,12 @@ public class SinglePlayer implements GameState, Observer {
 		renderer.renderScene(course.getEntities(),course.getTerrains(),course.getLights(),camera, new Vector4f(0,-1,0,150000));
 		waterRenderer.render(course.getWaters(), camera);
 		guiRenderer.render(game.getGUIs());
+		if(firstTime){
+			DisplayManager.setLastFrameTime(DisplayManager.getCurrentTime());
+			firstTime=false;
+		}
 		DisplayManager.updateDisplay();
+
 	}		
 
 	@Override

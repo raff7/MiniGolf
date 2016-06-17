@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Triangle implements Serializable{
+	
+	private static final long serialVersionUID = 1257577449462019419L;
+
+	
 	private Vector3f p1;
 	private Vector3f p2;
 	private Vector3f p3;
