@@ -109,6 +109,7 @@ public class MinHeap {
 			}		
 		}
 		if(index!=-1){
+			
 			upHeap(index);
 			downHeap(index);
 		}

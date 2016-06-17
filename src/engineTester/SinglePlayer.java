@@ -51,10 +51,10 @@ public class SinglePlayer implements GameState, Observer {
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
 		
-		CourseLoader courseLoader = new CourseLoader(0);
-		course = (Course)courseLoader.load();
-		System.out.println(course);
-//		course = SampleCourse.getCourse(loader);
+		//CourseLoader courseLoader = new CourseLoader(0);
+		//course = (Course)courseLoader.load();
+		//System.out.println(course);
+		course = SampleCourse.getCourse(loader);
 
 		
 		
@@ -76,6 +76,7 @@ public class SinglePlayer implements GameState, Observer {
 	
 	@Override
 	public void update(){
+		System.out.println("position: "+ball.getPosition());
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
