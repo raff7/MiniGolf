@@ -110,10 +110,10 @@ public class CourseDesigner implements GameState{
 		GuiTexture obstacle7 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle7) ;
 		
-		GuiTexture obstacle8 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.05f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle8 = new GuiTexture(loader.loadTexture("clear"),new Vector2f (0.875f,-0.05f),new Vector2f(0.25f,0.25f));
 		guis.add(obstacle8) ;
 		
-		GuiTexture obstacle9 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.45f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle9 = new GuiTexture(loader.loadTexture("save"),new Vector2f (0.87f,-0.45f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle9) ;
 		
 		GuiTexture quitButton = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.85f),new Vector2f(0.3f,0.3f));
@@ -194,7 +194,21 @@ public class CourseDesigner implements GameState{
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 90 && Mouse.getY() < 155){
-			//button4 Cube
+			//button4 StartPiece
+			if(Mouse.isButtonDown(0)){
+				System.out.println("StartPiece");
+			}
+		}
+		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 10 && Mouse.getY() < 75){
+			//button5 Corner Piece
+			if(Mouse.isButtonDown(0)){
+				System.out.println("corner piece") ;
+			}
+		}
+		
+		//rightSide
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 330 && Mouse.getY() < 395){
+			//button6 cube obstacle
 			if(Mouse.isButtonDown(0)){
 				System.out.println("Cube") ;
 				RawModel rw4 = OBJLoader.loadObjModel("cube", loader);
@@ -202,27 +216,10 @@ public class CourseDesigner implements GameState{
 				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,13,-50),0,0,0,10);
 			}
 		}
-		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 10 && Mouse.getY() < 75){
-			//button5 Huuge Cube
-			if(Mouse.isButtonDown(0)){
-				System.out.println("HUGE Cube") ;
-				RawModel rw3 = OBJLoader.loadObjModel("cube", loader);
-				ModelTexture rwModel3 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,-250),0,0,0,100);
-			}
-		}
-		
-		//rightSide
-		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 330 && Mouse.getY() < 395){
-			//button6 corner piece
-			if(Mouse.isButtonDown(0)){
-				System.out.println("button6") ;
-			}
-		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 250 && Mouse.getY() < 315){
-			//button7 some random obstacle
+			//button7 A-Frame Piece/obstacle
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button7") ;
+				System.out.println("A frame piece") ;
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 170  && Mouse.getY() < 235){
@@ -236,6 +233,7 @@ public class CourseDesigner implements GameState{
 			//button9 save course
 			if(Mouse.isButtonDown(0)){
 				System.out.println("saving course...") ;
+				//TODO!!
 				System.out.println("course saved ! ") ;
 			}
 		}
