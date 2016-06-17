@@ -207,34 +207,35 @@ public class CourseDesigner implements GameState{
 				System.out.println("HUGE Cube") ;
 				RawModel rw3 = OBJLoader.loadObjModel("cube", loader);
 				ModelTexture rwModel3 = new ModelTexture(loader.loadTexture("white"));
-				Entity ent3 = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,-250),0,0,0,100);
+				entity = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,-250),0,0,0,100);
 			}
 		}
 		
 		//rightSide
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 330 && Mouse.getY() < 395){
-			//button6
+			//button6 corner piece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("button6") ;
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 250 && Mouse.getY() < 315){
-			//button7
+			//button7 some random obstacle
 			if(Mouse.isButtonDown(0)){
 				System.out.println("button7") ;
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 170  && Mouse.getY() < 235){
-			//button8
-			if(Mouse.isButtonDown(0)){
-				System.out.println("button8") ;
-			}
-		}
-		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
-			//button9 clear obstacle
+			//button8 clear obstacle
 			if(Mouse.isButtonDown(0)){
 				System.out.println("clear selected Obstacle") ;
 				entity = null ;
+			}
+		}
+		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
+			//button9 save course
+			if(Mouse.isButtonDown(0)){
+				System.out.println("saving course...") ;
+				System.out.println("course saved ! ") ;
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 10 && Mouse.getY() < 75){
@@ -253,7 +254,7 @@ public class CourseDesigner implements GameState{
 		entitiesList = course.getEntities() ;
 		entitiesList.add(obs) ;
 		obs.setPosition(loc) ;
-		
+				
 	}
 	
 	public boolean place(){
