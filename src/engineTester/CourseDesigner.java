@@ -175,27 +175,39 @@ public class CourseDesigner implements GameState{
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 250 && Mouse.getY() < 315){
-			//button2
+			//button2 HolePiece
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button2") ;
+				System.out.println("EndPiece") ;
+				RawModel rw = OBJLoader.loadObjModel("finishPoint", loader);
+				ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 170  && Mouse.getY() < 235){
-			//button3
+			//button3 MiddlePiece
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button3") ;
+				System.out.println("MiddlePiece") ;
+				RawModel rw2 = OBJLoader.loadObjModel("middlepiece", loader);
+				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,-89.2f),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 90 && Mouse.getY() < 155){
-			//button4
+			//button4 Cube
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button4") ;
+				System.out.println("Cube") ;
+				RawModel rw4 = OBJLoader.loadObjModel("cube", loader);
+				ModelTexture rwModel4 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,13,-50),0,0,0,10);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 10 && Mouse.getY() < 75){
-			//button5
+			//button5 Huuge Cube
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button5") ;
+				System.out.println("HUGE Cube") ;
+				RawModel rw3 = OBJLoader.loadObjModel("cube", loader);
+				ModelTexture rwModel3 = new ModelTexture(loader.loadTexture("white"));
+				Entity ent3 = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,-250),0,0,0,100);
 			}
 		}
 		
@@ -219,7 +231,7 @@ public class CourseDesigner implements GameState{
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
-			//button9
+			//button9 clear obstacle
 			if(Mouse.isButtonDown(0)){
 				System.out.println("clear selected Obstacle") ;
 				entity = null ;
