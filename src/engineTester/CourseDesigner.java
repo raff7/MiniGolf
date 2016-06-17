@@ -88,7 +88,7 @@ public class CourseDesigner implements GameState{
 		picker = new MousePicker(camera , projection) ;
 		
 		
-		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.75f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.85f,0.75f),new Vector2f(0.15f,0.15f));
 		guis.add(obstacle1) ;
 		
 		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.35f),new Vector2f(0.3f,0.3f));
@@ -154,7 +154,8 @@ public class CourseDesigner implements GameState{
 		}
 		//System.out.println("collisionLocation : " + collisionLocation) ;
 		checkButtons() ;
-		System.out.println(place()) ;
+		checkRotation() ;
+		//System.out.println(place()) ;
 		if(place()){
 			placeObstacle(entity, collisionLocation) ;
 			entity = null ;
@@ -255,6 +256,20 @@ public class CourseDesigner implements GameState{
 		entitiesList.add(obs) ;
 		obs.setPosition(loc) ;
 				
+	}
+	
+	public void checkRotation(){
+		if(entity != null && Keyboard.isKeyDown(Keyboard.KEY_R)){
+			entity.increaseRotation(0f, 90f, 0f);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("rotated") ;
+		}
+		
 	}
 	
 	public boolean place(){
