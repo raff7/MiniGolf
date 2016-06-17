@@ -1,9 +1,15 @@
 package engineTester;
 
+import java.util.ArrayList;
+
 import org.lwjgl.util.vector.Vector3f;
+
+import bot.Node;
+import bot.NodeNetwork;
 import entities.Course;
 import entities.Entity;
 import entities.Light;
+import geometry.Triangle;
 import models.RawModel;
 import models.TexturedModel;
 import renderEngine.Loader;
@@ -17,33 +23,18 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-		course.setStartingPosition(new Vector3f(40,100,40));
+		course.setStartingPosition(new Vector3f(10,100,40));
 		
-		RawModel rw = OBJLoader.loadObjModel("finishPoint", loader);
+		RawModel rw = OBJLoader.loadObjModel("testNode", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
 
-		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,15);
-		
-//Testing cubes
-RawModel rw2 = OBJLoader.loadObjModel("middlepiece", loader);
-ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-Entity ent2 = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,-89.2f),0,0,0,15);
-RawModel rw3 = OBJLoader.loadObjModel("cube", loader);
-ModelTexture rwModel3 = new ModelTexture(loader.loadTexture("white"));
-Entity ent3 = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,-250),0,0,0,100);
-RawModel rw4 = OBJLoader.loadObjModel("cube", loader);
-ModelTexture rwModel4 = new ModelTexture(loader.loadTexture("white"));
-Entity ent4 = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,13,-50),0,0,0,10);
-
-course.addEntity(ent4);
-course.addEntity(ent3);
-course.addEntity(ent2);
-
+		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,4);
+	
 
 	course.addEntity(ent);
-		
+
 
 
 		course.addTerrain(new Terrain(0,0,loader,new ModelTexture(loader.loadTexture("grass")),"heightMap"));
@@ -128,6 +119,8 @@ course.addEntity(ent2);
 		course.addLight(lamp2.getLight());*/
 		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
+		
+		course.createNetwork();
 		
 		
 		return course;
