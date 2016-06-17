@@ -3,6 +3,7 @@ package engineTester;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -56,6 +57,11 @@ public class CourseDesigner implements GameState{
 	private Vector3f collisionLocation = new Vector3f() ;
 	int trvlrCntr = 0 ;
 	
+	private boolean place = false ;
+	Entity entity = null ;
+	
+	RawModel ballModel;
+	
 	
 
 	public CourseDesigner(){
@@ -81,27 +87,37 @@ public class CourseDesigner implements GameState{
 		projection = renderer.getProjectionMatrix() ;
 		picker = new MousePicker(camera , projection) ;
 		
+		
 		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.75f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle1) ;
+		
 		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.35f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle2) ;
+		
 		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.05f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle3) ;
+		
 		GuiTexture obstacle4 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.45f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle4) ;
+		
 		GuiTexture obstacle5 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.85f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle5) ;
 		
+		
 		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.75f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle6) ;
+		
 		GuiTexture obstacle7 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle7) ;
+		
 		GuiTexture obstacle8 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.05f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle8) ;
+		
 		GuiTexture obstacle9 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.45f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle9) ;
-		GuiTexture obstacle10 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.85f),new Vector2f(0.3f,0.3f));
-		guis.add(obstacle10) ;
+		
+		GuiTexture quitButton = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.85f),new Vector2f(0.3f,0.3f));
+		guis.add(quitButton) ;
 	}
 
 	@Override
@@ -138,6 +154,11 @@ public class CourseDesigner implements GameState{
 		}
 		//System.out.println("collisionLocation : " + collisionLocation) ;
 		checkButtons() ;
+		System.out.println(place()) ;
+		if(place()){
+			placeObstacle(entity, collisionLocation) ;
+			entity = null ;
+		}
 		ball.moving() ;
 		camera.move() ;
 	}
@@ -146,9 +167,11 @@ public class CourseDesigner implements GameState{
 		
 		//leftSide
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 330 && Mouse.getY() < 395){
-			//button1
+			//button1 Ball!
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button1") ;
+				System.out.println("Ball") ;
+				RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
+				entity = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(),0,0,0,1);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 250 && Mouse.getY() < 315){
@@ -198,21 +221,38 @@ public class CourseDesigner implements GameState{
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
 			//button9
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button9") ;
+				System.out.println("clear selected Obstacle") ;
+				entity = null ;
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 10 && Mouse.getY() < 75){
-			//button10
+			//button10 back to MainMenu
 			if(Mouse.isButtonDown(0)){
-				System.out.println("button10") ;
+				System.out.println("QUIT") ;
+				changeGameState(new MainMenu()) ;
 			}
 		}
 		
 	}
 	
+	//error somewhere in here
 	public void placeObstacle(Entity obs, Vector3f loc){
 		
+		entitiesList = course.getEntities() ;
+		entitiesList.add(obs) ;
+		obs.setPosition(loc) ;
 		
+	}
+	
+	public boolean place(){
+		if(Keyboard.isKeyDown(Keyboard.KEY_P) && entity != null){
+			place = true ;
+			return place ;
+		}
+		else{
+			place = false ;
+			return place ;
+		}
 	}
 
 
@@ -243,9 +283,10 @@ public class CourseDesigner implements GameState{
 	}
 
 
-	@Override
+	
 	public void changeGameState(GameState newState) {
-		//TODO
+		
+		MainGameLoop.changeGameState(newState);
 	}
 	
 	private void initializeGuis() {
