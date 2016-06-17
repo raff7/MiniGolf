@@ -55,7 +55,7 @@ public class DisplayManager {
 		
 	}
 	
-	private static long getCurrentTime(){
+	public static long getCurrentTime(){
 		return Sys.getTime()*1000/Sys.getTimerResolution();
 	}
 
@@ -73,6 +73,8 @@ public class DisplayManager {
 
 	public static int getHeight() {
 		return HEIGHT;	}
-	
+	public static void setLastFrameTime(long newTime){
+		lastFrameTime = newTime;
+	}
 
 }

@@ -123,6 +123,7 @@ public class Node extends Triangle {
 				
 		//The current edge
 		Vector3f[] currentEdge = new Vector3f[2];
+		float distance = 0;
 		
 		//Going through the vertices of this node
 		for(int i=0; i<verticesList.size(); i++){
