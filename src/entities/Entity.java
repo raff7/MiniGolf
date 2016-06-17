@@ -12,6 +12,8 @@ import collision.BoundingBox;
 import geometry.Triangle;
 
 public class Entity implements Serializable{
+	
+	private static final long serialVersionUID = 5625358789247881883L;
 
 	private TexturedModel model;
 	private Vector3f position;
@@ -50,6 +52,7 @@ public class Entity implements Serializable{
 		this.rotZ = rotZ;
 		this.scale = scale;
 	}
+	
 	public float getTextureXOffset(){
 		int  column = textureIndex%model.getTexture().getNumberOfRows();
 		return (float)column/(float)model.getTexture().getNumberOfRows();

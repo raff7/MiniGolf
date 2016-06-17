@@ -86,6 +86,7 @@ public class Node extends Triangle {
 	}
 	
 	public ArrayList<Node> getNeighbourNodes(ArrayList<Node> nodesList){
+
 		
 		
 		ArrayList<Node> connectedNodes = new ArrayList<Node>();

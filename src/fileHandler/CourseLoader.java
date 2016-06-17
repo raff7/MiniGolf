@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 
 import entities.Course;
 
@@ -23,10 +24,9 @@ public class CourseLoader {
 			e.printStackTrace();
 		}
 	}
-	public Course load(){
-
+	public Serializable load(){
 			try {
-				return (Course) in.readObject();
+				return  (Serializable) in.readObject();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

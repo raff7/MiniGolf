@@ -11,6 +11,9 @@ import geometry.Triangle;
 
 public class RawModel implements Serializable {
 	
+	private static final long serialVersionUID = 6407582114848840977L;
+
+	
 	private int vaoID;
 	private int vertexCount;
 	private List<Vector3f> vertices;

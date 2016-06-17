@@ -19,7 +19,8 @@ public class Course implements Serializable{
 	private ArrayList<WaterTile> waters;
 	private Vector3f startingPosition;	
 	
-	public Course(ArrayList<Entity> entities, ArrayList<Light> lights, ArrayList<Terrain> terrains,ArrayList<WaterTile> waters, Ball ball/*, Node[][][] world*/){
+	private static final long serialVersionUID = 4085508378960573248L;
+	 Course(ArrayList<Entity> entities, ArrayList<Light> lights, ArrayList<Terrain> terrains,ArrayList<WaterTile> waters, Ball ball/*, Node[][][] world*/){
 		this.entities = entities;
 		this.lights = lights;
 		this.terrains = terrains;
@@ -73,6 +74,10 @@ public class Course implements Serializable{
 	
 	public ArrayList<Node> getNodes() {
 		return net.getNodesList();
+	}
+	public NodeNetwork getNetwork()
+	{
+		return net;
 	}
 	public Vector3f getStartingPosition() {
 		return startingPosition;

@@ -24,7 +24,7 @@ public class CourseSaver {
 		}
 
 	}
-	public void salve(Course course){
+	public void save(Course course){
 		try {
 			out.writeObject(course);
 			out.close();

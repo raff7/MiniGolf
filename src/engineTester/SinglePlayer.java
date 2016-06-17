@@ -43,6 +43,7 @@ public class SinglePlayer implements GameState, Observer {
 	private WaterShader waterShader;
 	private WaterFrameBuffers buffers;
 	
+		
 	public SinglePlayer(){
 		
 		loader = new Loader();
@@ -50,10 +51,10 @@ public class SinglePlayer implements GameState, Observer {
 		guiRenderer = new GuiRenderer(loader);
 		//choseCourseLoop();
 		
-//		CourseLoader courseLoader = new CourseLoader(0);
-//		course = courseLoader.load();
-//		System.out.println(course);
-		course = SampleCourse.getCourse(loader);
+		CourseLoader courseLoader = new CourseLoader(0);
+		course = (Course)courseLoader.load();
+		System.out.println(course);
+//		course = SampleCourse.getCourse(loader);
 
 		
 		
@@ -71,7 +72,6 @@ public class SinglePlayer implements GameState, Observer {
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
-								
 	}
 	
 	@Override
@@ -89,6 +89,7 @@ public class SinglePlayer implements GameState, Observer {
 				player.setPower(0);
 				}	
 			}
+		
 			ball.move(course.getEntities());
 			camera.move();
 		}
