@@ -85,6 +85,10 @@ public class MousePickerTraveler{
 				//System.out.println("trvl position : " + getPosition()) ;
 				return true ;
 			}
+			else if(getPosition().getY() < -1f){
+				hasHit = true ;
+				return true ;
+			}
 		}
 		return false ;
 		
@@ -96,6 +100,10 @@ public class MousePickerTraveler{
 			
 		for(Triangle triangle:trianglesList){
 			if(CollisionHandler.collide(this, triangle)){
+				collisionLocation = getPosition() ;
+				return collisionLocation ;
+			}
+			else{
 				collisionLocation = getPosition() ;
 				return collisionLocation ;
 			}
