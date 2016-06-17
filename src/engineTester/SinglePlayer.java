@@ -81,14 +81,14 @@ public class SinglePlayer implements GameState, Observer {
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
 				game.addShotArrow();
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-				player.increasePower();
-				game.getShotPowerGraphics();
-				} else if(player.getPower() != 0){
-				player.shoot();
-				game.removeShotPowerGraphics();
-				player.setPower(0);
-				}	
-			}
+					player.increasePower();
+					game.getShotPowerGraphics();
+				}else if(player.getPower() != 0){
+					player.shoot();
+					game.removeShotPowerGraphics();
+					player.setPower(0);
+					}	
+				}
 			ball.move(course.getEntities());
 			camera.move();
 		}
