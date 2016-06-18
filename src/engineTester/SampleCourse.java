@@ -44,7 +44,7 @@ public class SampleCourse {
 		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
-		course.createNetwork();
+		//course.createNetwork();
 	
 
 		

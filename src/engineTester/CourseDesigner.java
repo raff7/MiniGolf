@@ -88,13 +88,13 @@ public class CourseDesigner implements GameState{
 		picker = new MousePicker(camera , projection) ;
 		
 		
-		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.85f,0.75f),new Vector2f(0.15f,0.15f));
+		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.825f,0.75f),new Vector2f(0.17f,0.15f));
 		guis.add(obstacle1) ;
 		
-		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,0.35f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("endPiece"),new Vector2f (-0.825f,0.35f),new Vector2f(0.2f,0.2f));
 		guis.add(obstacle2) ;
 		
-		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.05f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("editorMidllePiece"),new Vector2f (-0.825f,-0.05f),new Vector2f(0.175f,0.175f));
 		guis.add(obstacle3) ;
 		
 		GuiTexture obstacle4 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.45f),new Vector2f(0.3f,0.3f));
@@ -104,7 +104,7 @@ public class CourseDesigner implements GameState{
 		guis.add(obstacle5) ;
 		
 		
-		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.75f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("editorCube"),new Vector2f (0.95f,0.75f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle6) ;
 		
 		GuiTexture obstacle7 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
