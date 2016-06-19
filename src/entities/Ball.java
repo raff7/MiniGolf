@@ -40,6 +40,8 @@ public class Ball extends Entity{
 
 	private int stopCr;
 	
+	private Triangle lastTriangleHit = null;
+	
 	//private Hole hole;
 
 	//only for testBall
@@ -302,5 +304,14 @@ public class Ball extends Entity{
 	public float getDistanceFromHole(Vector3f hole){
 		return Operation.subtract(hole, getPosition() ).length();
 	}
+	
+	public void setLastTriangleHit(Triangle triangle){
+		lastTriangleHit = triangle;
+	}
+	
+	public Triangle getLastTriangleHit(){
+		return lastTriangleHit;
+	}
+	
 
 }

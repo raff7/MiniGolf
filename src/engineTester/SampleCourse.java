@@ -32,10 +32,7 @@ public class SampleCourse {
 
 		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,4);
 	
-
 		course.addEntity(ent);
-
-
 
 	//	course.addTerrain(new Terrain(0,0,loader,new ModelTexture(loader.loadTexture("grass")),"heightMap"));
 		
@@ -45,9 +42,6 @@ public class SampleCourse {
 		course.addLight(sun);
 		
 		course.createNetwork();
-	
-
-		
 		
 		return course;
 	}

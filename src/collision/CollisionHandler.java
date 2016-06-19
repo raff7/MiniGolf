@@ -63,6 +63,9 @@ public class CollisionHandler {
 				if(Vector3f.dot(ball.getVelocity(),normal) >= 0){
 					return false;
 				}
+				
+///!!!!!!\\\\\	//To be removed
+				ball.setLastTriangleHit(triangle);
 			
 				float dotTimes2 = 2*(Vector3f.dot(normal, ball.getVelocity()));
 			
@@ -84,7 +87,6 @@ public class CollisionHandler {
 					ball.increasePosition(distancePush.x,distancePush.y,distancePush.z);
 					distance = Vector3f.dot(ball.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 				}				
-
 				return true;
 			}
 		}

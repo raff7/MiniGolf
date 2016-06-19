@@ -11,15 +11,17 @@ public class DijkstrasAlgorithm {
 		sourceNode.setDistance(0);
 		MinHeap heap = new MinHeap(nodes);		
 		Node expl=null;
-		ArrayList<Node> adiacentNodes = null;
+		ArrayList<Node> adjacentNodes = null;
 		Edge edge = null;
 		while(heap.size()>0){
-			expl=heap.removeMin();
-			adiacentNodes = net.getAdjacentNodes(expl);
-			for(Node node:adiacentNodes){
+			expl = heap.removeMin();
+			adjacentNodes = net.getAdjacentNodes(expl);
+			for(Node node : adjacentNodes){
 				if(heap.contains(node)){
-					edge = net.getEdge(expl,node);
-					if(node.getDistance()> ( expl.getDistance()+edge.getDistance())){
+					edge = net.getEdge(expl, node);
+					//System.out.println(node.getDistance() +"  "+ (expl.getDistance()+edge.getDistance()) );
+					if(node.getDistance() > ( expl.getDistance()+edge.getDistance())){
+						//System.out.println("changed value to: "+(expl.getDistance()+edge.getDistance()));
 						heap.changeValue(node,expl.getDistance()+edge.getDistance());
 					}
 				}
