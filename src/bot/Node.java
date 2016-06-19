@@ -85,6 +85,14 @@ public class Node extends Triangle {
 		return name;
 	}
 	
+	public boolean isEqual(Triangle triangle){
+		if(triangle.getP1() == getP1() && triangle.getP2() == getP2() && triangle.getP3() == getP3() )
+			return true;
+		else
+			return false;
+		
+	}
+	
 	public ArrayList<Node> getNeighbourNodes(ArrayList<Node> nodesList){
 
 		
