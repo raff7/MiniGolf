@@ -22,7 +22,7 @@ public class MainMenu implements GameState{
 	
 	public MainMenu(){
 		
-		loader = Loader.getLoader();
+		loader = new Loader();
 		guiRenderer = new GuiRenderer(loader);
 
 		menuGuis = new ArrayList<GuiTexture>();

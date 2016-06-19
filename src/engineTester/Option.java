@@ -23,7 +23,7 @@ public class Option implements GameState{
 	
 	public Option(GameState activeGameState){
 
-		loader = Loader.getLoader();
+		loader = new Loader() ;
 		guiRenderer = new GuiRenderer(loader);
 		
 		this.activeGameState = activeGameState;
@@ -61,7 +61,7 @@ public class Option implements GameState{
 		if((y > -160) && (y < -121) && (x > -39) && (x < 39)){
 			menuButtons.get(1).setSel(true);
 			if(Mouse.isButtonDown(0)){
-				changeGameState(null);//go back to main menu
+				changeGameState(new MainMenu());//go back to main menu
 			}
 		}else{
 			menuButtons.get(1).setSel(false);
