@@ -106,7 +106,7 @@ public class Ball extends Entity{
 	
 
 	public void move(ArrayList<Entity> entitiesList){
-		checkTestingInputs();
+		checkingInputs();
 		
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList();
@@ -114,7 +114,6 @@ public class Ball extends Entity{
 		
 		for(Entity entity:entitiesList){
 		trianglesList.addAll(entity.getTriangles());
-	//System.out.println("triangles list size: "+trianglesList.size());
 		boxes.add(entity.getBox());
 		}
 		for(Triangle triangle:trianglesList){
@@ -172,6 +171,10 @@ public class Ball extends Entity{
 			this.velocity.x = (float) (-RUN_SPEED*Math.sin(Math.toRadians(getRotY())));	
 			this.velocity.z = (float) (-RUN_SPEED*Math.cos(Math.toRadians(getRotY())));			
 			}
+		else{
+			this.velocity.x = 0;	
+			this.velocity.z = 0;
+		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			this.currentTurnSpeed = -TURN_SPEED;
 		}
@@ -181,7 +184,11 @@ public class Ball extends Entity{
 			this.currentTurnSpeed = 0;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
-			jump();
+			this.velocity.y = (float) (RUN_SPEED);
+		}else if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+			this.velocity.y = (float) (RUN_SPEED*(-1));
+		}else{
+			this.velocity.y=0;
 		}
 		if(Mouse.isButtonDown(0)){
 		}

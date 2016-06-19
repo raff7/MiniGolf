@@ -25,12 +25,12 @@ public class SampleCourse {
 		
 		course.setStartingPosition(new Vector3f(10,100,40));
 		
-		RawModel rw = OBJLoader.loadObjModel("testNode", loader);
+		RawModel rw = OBJLoader.loadObjModel("concurva", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
 
-		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,4);
+		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,14);
 	
 
 		course.addEntity(ent);
@@ -44,7 +44,7 @@ public class SampleCourse {
 		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);
 		
-		course.createNetwork();
+	//	course.createNetwork();
 	
 
 		

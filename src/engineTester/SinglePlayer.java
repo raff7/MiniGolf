@@ -79,7 +79,7 @@ public class SinglePlayer implements GameState, Observer {
 	
 	@Override
 	public void update(){
-		System.out.println("position: "+ball.getPosition());
+		//System.out.println("position: "+ball.getPosition());
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
