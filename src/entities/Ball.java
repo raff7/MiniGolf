@@ -89,10 +89,12 @@ public class Ball extends Entity{
 				}
 			}
 		}
+		
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
+
 					frictionEffect();
-					break;
+					//break;
 				}
 		}
 		//end of collision
@@ -121,7 +123,6 @@ public class Ball extends Entity{
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
 					frictionEffect();
-					break;
 				}
 		}
 		//end of collision
