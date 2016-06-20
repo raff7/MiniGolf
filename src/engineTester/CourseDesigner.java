@@ -168,7 +168,7 @@ public class CourseDesigner implements GameState{
 			//button5 Corner Piece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("corner piece") ;
-				RawModel rw2 = OBJLoader.loadObjModel("concurva", loader);
+				RawModel rw2 = OBJLoader.loadObjModel("cornerpiece", loader);
 				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
 				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,0),0,0,0,15);
 			}
