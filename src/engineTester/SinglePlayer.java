@@ -82,7 +82,7 @@ public class SinglePlayer implements GameState, Observer {
 	
 	@Override
 	public void update(){
-		System.out.println(ball.getLastTriangleHit());
+	
 		//Print the distance of the node on which the ball lies
 		if(ball.getLastTriangleHit() != null){
 			for(Node node: course.getNodes()){
