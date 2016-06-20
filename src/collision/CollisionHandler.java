@@ -50,19 +50,27 @@ public class CollisionHandler {
 	}*/
 	
 	public static boolean collide(Ball ball, Triangle triangle){
-
+		
+//		//debug
+//		boolean debug=false;
+//		if(Vector3f.dot(triangle.getNormal(), new Vector3f(0,1,0))<0.9){
+//			debug=true;
+//		}
+//		//end debug
 		float distance = Vector3f.dot(ball.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 		//check collision
-		//step 1, bounding box, TBI
 		if( Math.abs(distance)<= ball.getRadius()){//step 2, plane distance
 			if( isInTriangle(ball, triangle)){//step 3, triangle/ball overlap
-
+//				if(debug)System.out.println("collide: "+triangle.getNormal());
 				//do collision
 				Vector3f normal = new Vector3f(triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 			
 				if(Vector3f.dot(ball.getVelocity(),normal) >= 0){
 					return false;
 				}
+				
+///!!!!!!\\\\\	//To be removed
+				ball.setLastTriangleHit(triangle);
 			
 				float dotTimes2 = 2*(Vector3f.dot(normal, ball.getVelocity()));
 			
@@ -84,7 +92,6 @@ public class CollisionHandler {
 					ball.increasePosition(distancePush.x,distancePush.y,distancePush.z);
 					distance = Vector3f.dot(ball.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
 				}				
-
 				return true;
 			}
 		}

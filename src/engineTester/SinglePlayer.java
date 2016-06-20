@@ -4,17 +4,21 @@ import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import GameManager.Bot;
 import GameManager.Game;
 import GameManager.HumanPlayer;
 import GameManager.Player;
+import bot.Node;
+import collision.CollisionHandler;
 import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
 import fileHandler.CourseLoader;
+import geometry.Triangle;
 import gui.GuiRenderer;
 import models.RawModel;
 import models.TexturedModel;
@@ -23,6 +27,7 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import textures.ModelTexture;
+import toolbox.Operation;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
@@ -58,8 +63,6 @@ public class SinglePlayer implements GameState, Observer {
 		//course = (Course)courseLoader.load();
 		//System.out.println(course);
 		course = SampleCourse.getCourse(loader);
-
-		
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 
@@ -79,7 +82,16 @@ public class SinglePlayer implements GameState, Observer {
 	
 	@Override
 	public void update(){
-		System.out.println("position: "+ball.getPosition());
+		System.out.println(ball.getLastTriangleHit());
+		//Print the distance of the node on which the ball lies
+		if(ball.getLastTriangleHit() != null){
+			for(Node node: course.getNodes()){
+				if( node.isEqual(ball.getLastTriangleHit()) ){
+					System.out.println("Distance: "+node.getDistance());
+				}
+			}
+		}
+
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
@@ -156,4 +168,5 @@ public class SinglePlayer implements GameState, Observer {
 		changeGameState(null);
 		
 	}
+
 }

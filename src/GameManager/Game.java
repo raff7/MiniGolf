@@ -18,7 +18,6 @@ public class Game implements Observer {
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 
 	GuiTexture shotPower = null ;
-	GuiTexture shotArrow = null ;
 	public int redID, arrowID ;
 	
 	
@@ -48,11 +47,8 @@ public class Game implements Observer {
 	
 	public void addShotArrow(){
 		Loader load = Loader.getLoader() ;
-		arrowID = load.loadTexture("arrow_up") ;
 		Vector2f position = new Vector2f(0f, -0.2f) ;
 		Vector2f scale = new Vector2f(0.03125f, 0.0625f) ;
-		shotArrow = new GuiTexture(arrowID, position, scale) ;
-		guis.add(shotArrow) ;
 		
 		
 	}
