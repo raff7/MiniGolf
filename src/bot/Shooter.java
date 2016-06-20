@@ -70,7 +70,12 @@ public class Shooter extends BotAlgorithm{
 				endingNode = node;
 			}
 		}
-		float finale=0;
+		float finale = 0;
+		
+		if(endingNode == null){
+			finale = Float.MAX_VALUE;
+			return finale;
+		}
 		
 		//shortestPathDistance
 		finale += endingNode.getDistance()*shortestPathDistance;
