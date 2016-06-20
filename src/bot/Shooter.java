@@ -14,7 +14,7 @@ import toolbox.Operation;
 public class Shooter extends BotAlgorithm{
 	
 	//weights values.
-	private int shortestPathDistance=-1;
+	private int shortestPathDistance=1;
 	
 	
 	private static final int NUMBER_OF_ANGLES = 36;
@@ -33,7 +33,7 @@ public class Shooter extends BotAlgorithm{
 		this.ball = ball;
 		Vector3f bestShot = null;
 		float bestShotValue = Integer.MIN_VALUE;
-		int currentAngle=0;
+		float currentAngle=0;
 		float currentPower=0;
 		Vector3f currentShot;
 		float currentValue;
@@ -41,13 +41,14 @@ public class Shooter extends BotAlgorithm{
 		for(int i=0; i<NUMBER_OF_ANGLES; i++){
 			currentAngle = i*(360/NUMBER_OF_ANGLES);
 			for(int j = 0; j<NUMBER_OF_POWERS; j++){
+				System.out.println(currentAngle);
 				currentPower = (Player.MAX_POWER/NUMBER_OF_POWERS)*(j+1);
 				currentShot = new Vector3f( (float)Math.sin(Math.toRadians(currentAngle)),0, (float)Math.cos(Math.toRadians(currentAngle)));
 				currentShot.normalise();
 				currentShot = Operation.multiplyByScalar(currentPower, currentShot);
 				
 				currentValue = testShot(currentShot);
-				if(currentValue > bestShotValue){
+				if(currentValue >= bestShotValue){
 					bestShotValue=currentValue;
 					bestShot = currentShot;
 				}
@@ -63,23 +64,25 @@ public class Shooter extends BotAlgorithm{
 		Ball ball = new Ball(this.ball.getModel(), position, this.ball.getRotX(), this.ball.getRotY(), this.ball.getRotZ(), this.ball.getScale());
 		ball.setVelocity(shot);
 		
-		while (ball.getVelocity().length()>2){
-			ball.move(course.getEntities());
+		ball.lastSimulationCall = System.nanoTime();
+		while (ball.getVelocity().length()>2 && ball.getPosition().y>-1000){
+			ball.simulateShot(course.getEntities());
 		}
 		for(Node node : course.getNodes()){
-			if(node.isEqual(ball.getLastTriangleHit())){
+			if(ball.getLastTriangleHit()!=null && node.isEqual(ball.getLastTriangleHit())){
 				endingNode = node;
 			}
 		}
 		float finale = 0;
 		
+
 		if(endingNode == null){
 			finale = Float.MAX_VALUE;
 			return finale;
 		}
 		
 		//shortestPathDistance
-		finale += endingNode.getDistance()*shortestPathDistance;
+		finale -= endingNode.getDistance()*shortestPathDistance;
 		
 		return finale;
 	}

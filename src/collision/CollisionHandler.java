@@ -81,8 +81,9 @@ public class CollisionHandler {
 					finalVelocity.y=0;
 				}
 					
-				if(Math.abs(Vector3f.dot(ball.getVelocity(), normal))>2)
+				if(Math.abs(Vector3f.dot(ball.getVelocity(), normal))>2){
 					finalVelocity = Operation.multiplyByScalar(0.8f,(Vector3f)finalVelocity);
+				}
 				ball.setVelocity((Vector3f)finalVelocity.negate());
 				//push it back
 				float pushFactor=ball.getRadius()/150;

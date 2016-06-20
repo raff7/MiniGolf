@@ -25,7 +25,7 @@ public class SampleCourse {
 		
 		course.setStartingPosition(new Vector3f(10,100,40));
 		
-		RawModel rw = OBJLoader.loadObjModel("testNode", loader);
+		RawModel rw = OBJLoader.loadObjModel("course1", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);

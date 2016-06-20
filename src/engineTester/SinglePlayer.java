@@ -71,7 +71,8 @@ public class SinglePlayer implements GameState, Observer {
 		camera = new Camera(ball);
 
 
-        player = new Bot(ball, course);
+        //player = new Bot(ball, course);
+		player = new HumanPlayer(ball);
 
 		game = new Game(player);
 

@@ -155,7 +155,7 @@ public class CourseDesigner implements GameState{
 				System.out.println("MiddlePiece") ;
 				RawModel rw2 = OBJLoader.loadObjModel("middlepiece", loader);
 				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,-89.2f),0,0,0,15);
+				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 90 && Mouse.getY() < 155){
@@ -168,6 +168,9 @@ public class CourseDesigner implements GameState{
 			//button5 Corner Piece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("corner piece") ;
+				RawModel rw2 = OBJLoader.loadObjModel("cornerpiece", loader);
+				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		
@@ -178,7 +181,7 @@ public class CourseDesigner implements GameState{
 				System.out.println("Cube") ;
 				RawModel rw4 = OBJLoader.loadObjModel("cube", loader);
 				ModelTexture rwModel4 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,13,-50),0,0,0,10);
+				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,0,0),0,0,0,10);
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 250 && Mouse.getY() < 315){

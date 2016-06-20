@@ -22,7 +22,6 @@ public class Ball extends Entity{
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
-	private static final float FRICTION = 0.01f;
 	private static final float MAX_RUN_SPEED = 1000;
 	private float currentTurnSpeed = 0;
 		
@@ -30,8 +29,8 @@ public class Ball extends Entity{
 	private final float  RADIUS = 1f;
 	
 	//for friction effect
-	private float friction = 0.99f ;
-	private float minimalSpeed = 1f ;
+	private float friction = 119.5f ;
+	private float minimalSpeed = 0.5f ;
 	
 	//for observer
 	ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -42,11 +41,10 @@ public class Ball extends Entity{
 	
 	private Triangle lastTriangleHit = null;
 	
-	//private Hole hole;
 
 	//only for testBall
-	private ArrayList<Entity> entitiesListTestBall;
-
+	public long lastSimulationCall;
+	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, 0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
@@ -56,7 +54,6 @@ public class Ball extends Entity{
 	public Ball(TexturedModel model, Vector3f position, ArrayList<Entity> entitiesList, float rotX, float rotY, float rotZ, float scale){
 		super(model,0, position, rotX, rotY, rotZ, scale);
 		velocity = new Vector3f(0,0,0);
-		this.entitiesListTestBall = entitiesList;
 	}
 	
 	// move as a free camera
@@ -93,7 +90,7 @@ public class Ball extends Entity{
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
 
-					frictionEffect();
+					frictionEffect(DisplayManager.getFrameTimeSeconds());
 					//break;
 				}
 		}
@@ -111,18 +108,19 @@ public class Ball extends Entity{
 
 	public void move(ArrayList<Entity> entitiesList){
 		checkingInputs();
-		
 		//collision
-		ArrayList<Triangle> trianglesList = new ArrayList();
-		ArrayList<BoundingBox> boxes = new ArrayList();
+		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
+		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
 		
 		for(Entity entity:entitiesList){
-		trianglesList.addAll(entity.getTriangles());
-		boxes.add(entity.getBox());
+			if(!(entity instanceof Ball)){
+				trianglesList.addAll(entity.getTriangles());
+				boxes.add(entity.getBox());
+			}
 		}
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
-					frictionEffect();
+					frictionEffect(DisplayManager.getFrameTimeSeconds());
 				}
 		}
 		//end of collision
@@ -134,6 +132,38 @@ public class Ball extends Entity{
 
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
+	
+	}
+	public void simulateShot(ArrayList<Entity> entitiesList){
+		//collision
+		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
+		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
+		 
+		for(Entity entity:entitiesList){
+			if(!(entity instanceof Ball)){
+				trianglesList.addAll(entity.getTriangles());
+				boxes.add(entity.getBox());
+			}
+		}
+		long currentTime = System.nanoTime();
+		float delta = (currentTime-lastSimulationCall)/1000000000f;
+		for(Triangle triangle:trianglesList){
+				if(CollisionHandler.collide(this, triangle)){
+					frictionEffect(delta);
+				}
+		}
+		//end of collision
+		
+		super.increaseRotation(0, currentTurnSpeed*delta, 0);
+		float dx = velocity.x *delta;
+		float dz = velocity.z *delta;
+
+		velocity.y+= GRAVITY*delta;
+
+		float dy = velocity.y*delta;
+		super.increasePosition(dx, dy, dz);		
+
+		lastSimulationCall = currentTime;
 	
 	}
 	
@@ -265,8 +295,8 @@ public class Ball extends Entity{
 		return RADIUS;
 	}
 
-	private void frictionEffect(){
-		velocity.scale(friction);
+	private void frictionEffect(float delta){
+		velocity.scale(delta*friction);
 		if(Math.abs(velocity.length()) < minimalSpeed){
 			velocity.set(0f, velocity.y, 0f);
 		}
@@ -297,16 +327,6 @@ public class Ball extends Entity{
 
 	public boolean getBallIsInHole() {
 		return ballIsInHole;
-	}
-	
-	public void simulateShot(ArrayList<Entity> ground){
-		System.out.println("velo length: "+velocity.length());
-		while( Math.abs(velocity.length()) > minimalSpeed+2){
-			move(ground);
-			System.out.println("position testBall: " +getPosition());
-			if(velocity.x > 100 || velocity.y > 100 || velocity.z > 100)
-				setVelocity(new Vector3f(0,0,0));
-		}
 	}
 	
 	public float getDistanceFromHole(Vector3f hole){
