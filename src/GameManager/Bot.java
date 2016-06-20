@@ -32,8 +32,11 @@ public class Bot extends Player{
 		//obstaclesList.add(course.getEntities().get(2));
 	}
 	
-	
 	public void shoot(){
+		
+	}
+	
+	/*public void shoot(){
 		System.out.println("shoot");
 		straightShot = new Vector3f();
 		straightShot = Vector3f.sub(hole, super.getBall().getPosition(), straightShot);
@@ -82,12 +85,12 @@ public class Bot extends Player{
 			
 				System.out.println(botPower);
 			}
-			straightShot=Operation.multiplyByScalar(botPower, straightShot);
+			straightShot = Operation.multiplyByScalar(botPower, straightShot);
 			 getBall().setVelocity(straightShot);
 			 
 		}else{
 			System.out.println();
-			System.out.println("path stuck try something else");
+			System.out.println("path stuck, try something else");
 			//try MinX side	
 			System.out.println("colObj "+collisionObject.getPosition());
 			Vector3f newDestination = new Vector3f(collisionObject.getPosition().x+CONSTANT, collisionObject.getPosition().y, collisionObject.getPosition().z);
@@ -96,12 +99,12 @@ public class Bot extends Player{
 			System.out.println("new pos: "+newPosition);
 			
 			 super.getBall().setVelocity(otherShot);
-			/*if(isPathClear(newPosition)){
-				System.out.println("other shot");
-				 super.getBall().setVelocity(otherShot);
-			}*/
+//			if(isPathClear(newPosition)){
+//				System.out.println("other shot");
+//				 super.getBall().setVelocity(otherShot);
+			}
 		}	
-	}
+	}*/
 	
 	
 	public boolean isPathClear(Vector3f position){

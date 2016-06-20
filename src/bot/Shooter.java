@@ -11,7 +11,7 @@ import entities.Ball;
 import entities.Course;
 import toolbox.Operation;
 
-public class shooter extends BotAlgorithm{
+public class Shooter extends BotAlgorithm{
 	
 	//weights values.
 	private int shortestPathDistance=-1;
@@ -22,30 +22,32 @@ public class shooter extends BotAlgorithm{
 	
 	private Ball ball;
 	private Course course;
-	
 
-	public shooter(Course course){
+	
+	public Shooter(Course course){
 		this.course = course;
 	}
 	
 	public Vector3f execute(Ball ball) {
+		
 		this.ball = ball;
 		Vector3f bestShot = null;
-		float bestShotValue=Integer.MIN_VALUE;
+		float bestShotValue = Integer.MIN_VALUE;
 		int currentAngle=0;
 		float currentPower=0;
 		Vector3f currentShot;
 		float currentValue;
-		for(int i=0;i<NUMBER_OF_ANGLES;i++){
-			currentAngle= i*NUMBER_OF_ANGLES/360;
-			for(int j=0;j<NUMBER_OF_POWERS;j++){
+		
+		for(int i=0; i<NUMBER_OF_ANGLES; i++){
+			currentAngle = i*NUMBER_OF_ANGLES/360;
+			for(int j = 0; j<NUMBER_OF_POWERS; j++){
 				currentPower = (Player.MAX_POWER/NUMBER_OF_POWERS)*(j+1);
 				currentShot = new Vector3f((float)Math.sin(Math.toRadians(currentAngle)),0,(float)Math.cos(Math.toRadians(currentAngle)));
 				currentShot.normalise();
 				currentShot = Operation.multiplyByScalar(currentPower, currentShot);
 				
 				currentValue = testShot(currentShot);
-				if(currentValue>bestShotValue){
+				if(currentValue > bestShotValue){
 					bestShotValue=currentValue;
 					bestShot = currentShot;
 				}
@@ -63,7 +65,7 @@ public class shooter extends BotAlgorithm{
 		while (ball.getVelocity().length()>2){
 			ball.move(course.getEntities());
 		}
-		for(Node node:course.getNodes()){
+		for(Node node : course.getNodes()){
 			if(CollisionHandler.collide(ball, node)){
 				endingNode = node;
 			}
