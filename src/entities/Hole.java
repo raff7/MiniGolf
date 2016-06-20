@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -9,7 +10,11 @@ import bot.Node;
 import geometry.Triangle;
 import toolbox.Operation;
 
-public class Hole {
+public class Hole implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Vector3f> points;
 	private Node center;
 	

@@ -2,6 +2,7 @@ package engineTester;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -87,8 +88,6 @@ public class CourseDesigner implements GameState{
 		
 		projection = renderer.getProjectionMatrix() ;
 		picker = new MousePicker(camera , projection) ;
-		
-		saver = new CourseSaver(1);
 		
 		
 		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.825f,0.75f),new Vector2f(0.17f,0.15f));
@@ -198,7 +197,12 @@ public class CourseDesigner implements GameState{
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 90 && Mouse.getY() < 155){
 			//button9 save course
 			if(Mouse.isButtonDown(0)){
+				int x ;
+				System.out.println("enter course name (integer value. chose carefully, might overwrite existing course) ") ;
+				Scanner in = new Scanner(System.in) ;
+				x = in.nextInt() ;
 				System.out.println("saving course...") ;
+				saver = new CourseSaver(x) ;
 				saver.save(course);
 				System.out.println("course saved ! ") ;
 			}

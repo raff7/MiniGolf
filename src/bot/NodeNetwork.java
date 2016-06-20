@@ -1,5 +1,6 @@
 package bot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -7,8 +8,12 @@ import org.lwjgl.util.vector.Vector3f;
 import geometry.Triangle;
 import toolbox.Operation;
 
-public class NodeNetwork {
+public class NodeNetwork implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<Node> nodesList = new ArrayList<Node>();
 	private Node center;
 	
