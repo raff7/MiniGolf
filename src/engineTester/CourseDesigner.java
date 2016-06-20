@@ -16,6 +16,7 @@ import entities.Ball;
 import entities.Camera;
 import entities.Course;
 import entities.Entity;
+import fileHandler.CourseSaver;
 import gui.Button;
 import gui.GuiRenderer;
 import gui.GuiTexture;
@@ -59,8 +60,8 @@ public class CourseDesigner implements GameState{
 	
 	private boolean place = false ;
 	Entity entity = null ;
-	
-	RawModel ballModel;
+	CourseSaver saver ;
+	//RawModel ballModel;
 	
 	
 
@@ -86,6 +87,8 @@ public class CourseDesigner implements GameState{
 		
 		projection = renderer.getProjectionMatrix() ;
 		picker = new MousePicker(camera , projection) ;
+		
+		saver = new CourseSaver(1);
 		
 		
 		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.825f,0.75f),new Vector2f(0.17f,0.15f));
@@ -123,43 +126,6 @@ public class CourseDesigner implements GameState{
 	@Override
 	public void update() {
 		checkImputs();
-		picker.update();
-		//System.out.print("  x = : " + Mouse.getX()) ;
-		//System.out.print("  y = : " + Mouse.getY()) ;
-		//System.out.println();
-		traveler = new MousePickerTraveler(camera , picker, course) ;
-		//System.out.println("ray CHECK : " + picker.getCurrentRay()) ;
-		//System.out.println("cam CHECK : " + camera.getPosition()) ;
-		//System.out.println("ray CHECK : " + traveler.getPosition()) ;
-		while(traveler.hasHit == false){
-			//System.out.println("Pos1 CHECK : " + traveler.getPosition()) ;
-			//System.out.println("ray CHECK : " + picker.getCurrentRay()) ;
-			//System.out.println("trvl dir CHECK : " + traveler.getDirection()) ;
-			traveler.progress();
-			traveler.setPosition(traveler.getProgressVector());
-			//System.out.println("Pos2 CHECK : " + traveler.getPosition()) ;
-			//BELOW HERE SOMEWHERE IS THE PROBLEM
-			if(traveler.collision() == true){
-				collisionLocation = traveler.collisionLocation() ;
-				//System.out.println("Collision !!!!!!!!!") ;
-				//System.out.println("Location : " + collisionLocation) ;
-			}
-			else{
-				trvlrCntr++ ;
-				if(trvlrCntr > 1000){
-					trvlrCntr = 0 ;
-					traveler.hasHit = true ;
-				}
-			}
-		}
-		//System.out.println("collisionLocation : " + collisionLocation) ;
-		checkButtons() ;
-		checkRotation() ;
-		//System.out.println(place()) ;
-		if(place()){
-			placeObstacle(entity, collisionLocation) ;
-			entity = null ;
-		}
 		ball.moving() ;
 		camera.move() ;
 	}
@@ -233,7 +199,7 @@ public class CourseDesigner implements GameState{
 			//button9 save course
 			if(Mouse.isButtonDown(0)){
 				System.out.println("saving course...") ;
-				//TODO!!
+				saver.save(course);
 				System.out.println("course saved ! ") ;
 			}
 		}
@@ -262,7 +228,7 @@ public class CourseDesigner implements GameState{
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				// w
 				e.printStackTrace();
 			}
 			System.out.println("rotated") ;
@@ -321,7 +287,28 @@ public class CourseDesigner implements GameState{
 	}
 	
 	private void checkImputs(){
-		//TODO
+		picker.update();
+		traveler = new MousePickerTraveler(camera , picker, course) ;
+		while(traveler.hasHit == false){
+			traveler.progress();
+			traveler.setPosition(traveler.getProgressVector());
+			if(traveler.collision() == true){
+				collisionLocation = traveler.collisionLocation() ;
+			}
+			else{
+				trvlrCntr++ ;
+				if(trvlrCntr > 1000){
+					trvlrCntr = 0 ;
+					traveler.hasHit = true ;
+				}
+			}
+		}
+		checkButtons() ;
+		checkRotation() ;
+		if(place()){
+			placeObstacle(entity, collisionLocation) ;
+			entity = null ;
+		}
 	}
 	
 	
