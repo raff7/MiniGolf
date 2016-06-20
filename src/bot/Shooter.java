@@ -75,7 +75,6 @@ public class Shooter extends BotAlgorithm{
 		}
 		float finale = 0;
 		
-
 		if(endingNode == null){
 			finale = Float.MAX_VALUE;
 			return finale;
