@@ -12,6 +12,7 @@ import GameManager.Game;
 import GameManager.HumanPlayer;
 import GameManager.Player;
 import bot.Node;
+import bot.Shooter;
 import collision.CollisionHandler;
 import GameManager.Observer;
 import entities.Ball;
@@ -70,7 +71,7 @@ public class SinglePlayer implements GameState, Observer {
 		camera = new Camera(ball);
 
 
-        player = new HumanPlayer(ball);
+        player = new Bot(ball, course);
 
 		game = new Game(player);
 
@@ -78,20 +79,12 @@ public class SinglePlayer implements GameState, Observer {
 		waterShader = new WaterShader();
 		buffers = new WaterFrameBuffers();
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+		
 	}
 	
 	@Override
 	public void update(){
-	
-		//Print the distance of the node on which the ball lies
-		if(ball.getLastTriangleHit() != null){
-			for(Node node: course.getNodes()){
-				if( node.isEqual(ball.getLastTriangleHit()) ){
-					System.out.println("Distance: "+node.getDistance());
-				}
-			}
-		}
-
+		
 		checkImputs();
 		if(!game.isPause()){
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
