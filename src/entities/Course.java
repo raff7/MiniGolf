@@ -12,7 +12,7 @@ import water.WaterTile;
 
 public class Course implements Serializable{
 	
-	private ArrayList<Entity> entities;
+	public ArrayList<Entity> entities;
 	private NodeNetwork net;
 	private ArrayList<Light> lights;
 	private ArrayList<Terrain> terrains;
@@ -80,6 +80,7 @@ public class Course implements Serializable{
 		return net;
 	}
 	public Vector3f getStartingPosition() {
+		Vector3f startingPosition = new Vector3f(this.startingPosition.x,this.startingPosition.y,this.startingPosition.z);
 		return startingPosition;
 	}
 	public void setStartingPosition(Vector3f position){
@@ -109,6 +110,13 @@ public class Course implements Serializable{
 		}
 		nodesList = hole.getNodesNetwork(nodesList);
 		net = new NodeNetwork(nodesList);	
+	}
+	public void removeEntity(Entity entity) {
+		for(int i = 0; i<entities.size(); i++){
+			if(entities.get(i) == entity){
+				entities.remove(i);
+			}
+		}
 	}
 	
 }

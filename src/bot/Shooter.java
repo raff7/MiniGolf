@@ -9,6 +9,7 @@ import algorithms.BotAlgorithm;
 import collision.CollisionHandler;
 import entities.Ball;
 import entities.Course;
+import renderEngine.DisplayManager;
 import toolbox.Operation;
 
 public class Shooter extends BotAlgorithm{
@@ -18,7 +19,7 @@ public class Shooter extends BotAlgorithm{
 	
 	
 	private static final int NUMBER_OF_ANGLES = 36;
-	private static final int NUMBER_OF_POWERS = 5;
+	private static final int NUMBER_OF_POWERS = 8;
 	
 	private Ball ball;
 	private Course course;
@@ -41,17 +42,21 @@ public class Shooter extends BotAlgorithm{
 		for(int i=0; i<NUMBER_OF_ANGLES; i++){
 			currentAngle = i*(360/NUMBER_OF_ANGLES);
 			for(int j = 0; j<NUMBER_OF_POWERS; j++){
-				System.out.println(currentAngle);
 				currentPower = (Player.MAX_POWER/NUMBER_OF_POWERS)*(j+1);
+
 				currentShot = new Vector3f( (float)Math.sin(Math.toRadians(currentAngle)),0, (float)Math.cos(Math.toRadians(currentAngle)));
 				currentShot.normalise();
 				currentShot = Operation.multiplyByScalar(currentPower, currentShot);
 				
 				currentValue = testShot(currentShot);
-				if(currentValue >= bestShotValue){
+
+
+				if(currentValue > bestShotValue){
 					bestShotValue=currentValue;
 					bestShot = currentShot;
-				}
+
+				}				
+
 			}
 		}
 		return bestShot;
@@ -59,27 +64,25 @@ public class Shooter extends BotAlgorithm{
 
 
 	private float testShot(Vector3f shot) {
-		Node endingNode = null;
-		Vector3f position = new Vector3f(this.ball.getPosition().x, this.ball.getPosition().y, this.ball.getPosition().z);
-		Ball ball = new Ball(this.ball.getModel(), position, this.ball.getRotX(), this.ball.getRotY(), this.ball.getRotZ(), this.ball.getScale());
-		ball.setVelocity(shot);
-		
-		ball.lastSimulationCall = System.nanoTime();
-		while (ball.getVelocity().length()>2 && ball.getPosition().y>-1000){
-			ball.simulateShot(course.getEntities());
+		Node endingNode = null;	
+		Ball ballAfterSimulation = this.ball.simulateShot(course.getEntities(),shot);
+		if(ballAfterSimulation.getPosition().y<-1000){
+			return Float.MIN_VALUE;
+
 		}
+
 		for(Node node : course.getNodes()){
-			if(ball.getLastTriangleHit()!=null && node.isEqual(ball.getLastTriangleHit())){
+			if(ballAfterSimulation.getLastTriangleHit()!=null && node.isEqual(ballAfterSimulation.getLastTriangleHit())){
 				endingNode = node;
 			}
 		}
-		float finale = 0;
 		
 		if(endingNode == null){
-			finale = Float.MAX_VALUE;
-			return finale;
+			return 	Float.MAX_VALUE;
+
 		}
-		
+		float finale = 0;
+
 		//shortestPathDistance
 		finale -= endingNode.getDistance()*shortestPathDistance;
 		
