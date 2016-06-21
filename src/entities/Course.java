@@ -12,7 +12,7 @@ import water.WaterTile;
 
 public class Course implements Serializable{
 	
-	private ArrayList<Entity> entities;
+	public ArrayList<Entity> entities;
 	private NodeNetwork net;
 	private ArrayList<Light> lights;
 	private ArrayList<Terrain> terrains;

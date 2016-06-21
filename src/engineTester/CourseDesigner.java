@@ -17,6 +17,7 @@ import entities.Ball;
 import entities.Camera;
 import entities.Course;
 import entities.Entity;
+import entities.Light;
 import fileHandler.CourseSaver;
 import gui.Button;
 import gui.GuiRenderer;
@@ -75,7 +76,11 @@ public class CourseDesigner implements GameState{
 		initializeGuis();
 		
 		//choseCourseLoop();
-		course=SampleCourse.getCourse(loader);//for testing
+		//course=SampleCourse.getCourse(loader);//for testing
+		course = new Course() ;
+		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
+		course.addLight(sun);
+		course.setStartingPosition(new Vector3f());
 		
 		RawModel model = OBJLoader.loadObjModel("grassModel", loader);
 		ball = new Ball(new TexturedModel(model,new ModelTexture(loader.loadTexture("invisible"))),new Vector3f(0,0,0),0,0,0,1);
@@ -90,33 +95,33 @@ public class CourseDesigner implements GameState{
 		picker = new MousePicker(camera , projection) ;
 		
 		
-		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.825f,0.75f),new Vector2f(0.17f,0.15f));
+		GuiTexture ballText = new GuiTexture(loader.loadTexture("editorBall"),new Vector2f (-0.825f,0.75f),new Vector2f(0.17f,0.15f));
+		guis.add(ballText) ;
+		
+		GuiTexture obstacle1 = new GuiTexture(loader.loadTexture("endPiece"),new Vector2f (-0.825f,0.35f),new Vector2f(0.2f,0.2f));
 		guis.add(obstacle1) ;
 		
-		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("endPiece"),new Vector2f (-0.825f,0.35f),new Vector2f(0.2f,0.2f));
+		GuiTexture obstacle2 = new GuiTexture(loader.loadTexture("editorMidllePiece"),new Vector2f (-0.825f,-0.05f),new Vector2f(0.175f,0.175f));
 		guis.add(obstacle2) ;
 		
-		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("editorMidllePiece"),new Vector2f (-0.825f,-0.05f),new Vector2f(0.175f,0.175f));
+		GuiTexture obstacle3 = new GuiTexture(loader.loadTexture("editorStartPiece"),new Vector2f (-0.82f,-0.45f),new Vector2f(0.2f,0.225f));
 		guis.add(obstacle3) ;
 		
-		GuiTexture obstacle4 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.45f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle4 = new GuiTexture(loader.loadTexture("editorCorner"),new Vector2f (-0.825f,-0.85f),new Vector2f(0.25f,0.25f));
 		guis.add(obstacle4) ;
 		
-		GuiTexture obstacle5 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (-0.85f,-0.85f),new Vector2f(0.3f,0.3f));
+		
+		GuiTexture obstacle5 = new GuiTexture(loader.loadTexture("editorCube"),new Vector2f (0.95f,0.75f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle5) ;
 		
-		
-		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("editorCube"),new Vector2f (0.95f,0.75f),new Vector2f(0.3f,0.3f));
+		GuiTexture obstacle6 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
 		guis.add(obstacle6) ;
 		
-		GuiTexture obstacle7 = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,0.35f),new Vector2f(0.3f,0.3f));
-		guis.add(obstacle7) ;
+		GuiTexture clear = new GuiTexture(loader.loadTexture("clear"),new Vector2f (0.875f,-0.05f),new Vector2f(0.25f,0.25f));
+		guis.add(clear) ;
 		
-		GuiTexture obstacle8 = new GuiTexture(loader.loadTexture("clear"),new Vector2f (0.875f,-0.05f),new Vector2f(0.25f,0.25f));
-		guis.add(obstacle8) ;
-		
-		GuiTexture obstacle9 = new GuiTexture(loader.loadTexture("save"),new Vector2f (0.87f,-0.45f),new Vector2f(0.3f,0.3f));
-		guis.add(obstacle9) ;
+		GuiTexture save = new GuiTexture(loader.loadTexture("save"),new Vector2f (0.87f,-0.45f),new Vector2f(0.3f,0.3f));
+		guis.add(save) ;
 		
 		GuiTexture quitButton = new GuiTexture(loader.loadTexture("quit"),new Vector2f (0.9f,-0.85f),new Vector2f(0.3f,0.3f));
 		guis.add(quitButton) ;
@@ -137,40 +142,44 @@ public class CourseDesigner implements GameState{
 			if(Mouse.isButtonDown(0)){
 				System.out.println("Ball") ;
 				RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
-				entity = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(),0,0,0,1);
+				entity = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),traveler.collisionLocation(),0,0,0,1);
+				course.setStartingPosition(entity.getPosition());
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 250 && Mouse.getY() < 315){
 			//button2 HolePiece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("EndPiece") ;
-				RawModel rw = OBJLoader.loadObjModel("finishPoint", loader);
-				ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,15);
+				RawModel rw2 = OBJLoader.loadObjModel("finishPoint", loader);
+				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity (new TexturedModel(rw2,rwModel2),new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 170  && Mouse.getY() < 235){
 			//button3 MiddlePiece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("MiddlePiece") ;
-				RawModel rw2 = OBJLoader.loadObjModel("middlepiece", loader);
-				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,0),0,0,0,15);
+				RawModel rw3 = OBJLoader.loadObjModel("middlepiece", loader);
+				ModelTexture rwModel3 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw3,rwModel3), new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 90 && Mouse.getY() < 155){
 			//button4 StartPiece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("StartPiece");
+				RawModel rw4 = OBJLoader.loadObjModel("starterpiece", loader);
+				ModelTexture rwModel4 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		if(Mouse.getX() > 5 && Mouse.getX() < 65 && Mouse.getY() > 10 && Mouse.getY() < 75){
 			//button5 Corner Piece
 			if(Mouse.isButtonDown(0)){
 				System.out.println("corner piece") ;
-				RawModel rw2 = OBJLoader.loadObjModel("cornerpiece", loader);
-				ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw2,rwModel2), new Vector3f(0,0,0),0,0,0,15);
+				RawModel rw5 = OBJLoader.loadObjModel("cornerpiece", loader);
+				ModelTexture rwModel5 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw5,rwModel5), new Vector3f(0,0,0),0,0,0,15);
 			}
 		}
 		
@@ -179,9 +188,9 @@ public class CourseDesigner implements GameState{
 			//button6 cube obstacle
 			if(Mouse.isButtonDown(0)){
 				System.out.println("Cube") ;
-				RawModel rw4 = OBJLoader.loadObjModel("cube", loader);
-				ModelTexture rwModel4 = new ModelTexture(loader.loadTexture("white"));
-				entity = new Entity(new TexturedModel(rw4,rwModel4), new Vector3f(0,0,0),0,0,0,10);
+				RawModel rw6 = OBJLoader.loadObjModel("cube", loader);
+				ModelTexture rwModel6 = new ModelTexture(loader.loadTexture("white"));
+				entity = new Entity(new TexturedModel(rw6,rwModel6), new Vector3f(0,0,0),0,0,0,10);
 			}
 		}
 		if(Mouse.getX() > 575 && Mouse.getX() < 635 && Mouse.getY() > 250 && Mouse.getY() < 315){
@@ -224,9 +233,9 @@ public class CourseDesigner implements GameState{
 	public void placeObstacle(Entity obs, Vector3f loc){
 		
 		entitiesList = course.getEntities() ;
-		entitiesList.add(obs) ;
 		obs.setPosition(loc) ;
-				
+		entitiesList.add(obs) ;
+		
 	}
 	
 	public void checkRotation(){

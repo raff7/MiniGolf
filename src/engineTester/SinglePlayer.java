@@ -82,6 +82,37 @@ public class SinglePlayer implements GameState, Observer {
 		
 	}
 	
+		public SinglePlayer(Course newCourse){
+		
+		loader = new Loader();
+		renderer = new MasterRenderer(loader);
+		guiRenderer = new GuiRenderer(loader);
+		//choseCourseLoop();
+		
+
+		//CourseLoader courseLoader = new CourseLoader(0);
+		//course = (Course)courseLoader.load();
+		//System.out.println(course);
+		course = newCourse ;
+		course.entities = newCourse.getEntities();
+		
+		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
+
+		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		camera = new Camera(ball);
+
+
+        player = new Bot(ball, course);
+
+		game = new Game(player);
+
+		course.addEntity(ball);
+		waterShader = new WaterShader();
+		buffers = new WaterFrameBuffers();
+		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+		
+	}
+	
 	@Override
 	public void update(){
 		

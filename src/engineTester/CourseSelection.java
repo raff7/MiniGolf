@@ -6,6 +6,8 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
+import entities.Course;
+import fileHandler.CourseLoader;
 import gui.Button;
 import gui.GuiRenderer;
 import gui.GuiTexture;
@@ -18,6 +20,8 @@ public class CourseSelection implements GameState {
 	private static List<GuiTexture> menuGuis;
 	private static List<Button> menuButtons;
 	private static Loader loader;
+	public int x ;
+	public Course course ;
 	
 	public CourseSelection(){
 		
@@ -54,9 +58,11 @@ public class CourseSelection implements GameState {
 
 	@Override
 	public void update() {
-
+		
 		checkButtons() ;
 		checkSelection() ;
+		loadCourse() ;
+		changeGameState(new SinglePlayer(course)) ;
     }
 
 	@Override
@@ -70,6 +76,13 @@ public class CourseSelection implements GameState {
 	public void changeGameState(GameState newState) {
 		
 		MainGameLoop.changeGameState(newState);
+	}
+	
+	public void loadCourse(){
+		x = 1 ; //testing reason
+		CourseLoader courseLoader = new CourseLoader(x);
+		course = (Course) courseLoader.load() ;
+		System.out.println("loading done");
 	}
 
 }
