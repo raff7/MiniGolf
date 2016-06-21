@@ -128,7 +128,7 @@ public class Ball extends Entity{
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
 
-		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
+		velocity.y += GRAVITY*DisplayManager.getFrameTimeSeconds();
 
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);

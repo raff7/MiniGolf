@@ -6,20 +6,20 @@ import bot.BotParameters;
 
 public class GeneticAlgorithm {
 	
-	private final int POPULATION_NUMBER = 10000;
+	private final int POPULATION_NUMBER = 1000;
 	private final int GENERATION_NUMBER = 10000;
-	private BotParameters[] parentsPool = new BotParameters[POPULATION_NUMBER];
+	private BotParameters[] population = new BotParameters[POPULATION_NUMBER];
 	
 	public void generate(){
-		for(int i=0; i<POPULATION_NUMBER; i++){
+		for(int i=0; i<population.length; i++){
 			BotParameters botParameters = new BotParameters();
-			parentsPool[i] = botParameters;	
+			population[i] = botParameters;	
 		}
 	}
 	
 	public void setFitness(){
-		for(int i=0; i<POPULATION_NUMBER; i++){
-			
+		for(int i=0; i<population.length; i++){
+			population[i].getShooter().execute(ball);
 		}
 	}
 	
@@ -28,6 +28,7 @@ public class GeneticAlgorithm {
 	}
 	
 	public void mutate(){
+		int random = Math.random()*4;
 		
 	}
 }

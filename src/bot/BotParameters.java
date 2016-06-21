@@ -23,6 +23,6 @@ public class BotParameters {
 		return shooter;
 	}
 	
-	public void
+	public void 
 	
 }
