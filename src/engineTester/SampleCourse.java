@@ -23,7 +23,7 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-		course.setStartingPosition(new Vector3f(10,100,40));
+		course.setStartingPosition(new Vector3f(70,1,40));
 		
 		RawModel rw = OBJLoader.loadObjModel("course1", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));

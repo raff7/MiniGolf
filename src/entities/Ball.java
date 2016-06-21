@@ -1,6 +1,8 @@
 package entities;
 
 import java.util.ArrayList;
+
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -29,8 +31,8 @@ public class Ball extends Entity{
 	private final float  RADIUS = 1f;
 	
 	//for friction effect
-	private float friction = 119.5f ;
-	private float minimalSpeed = 0.5f ;
+	private float friction =10f ;
+	private float minimalSpeed = 0.4f ;
 	
 	//for observer
 	ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -43,7 +45,7 @@ public class Ball extends Entity{
 	
 
 	//only for testBall
-	public long lastSimulationCall;
+	//public long lastSimulationCall;
 	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, 0, position, rotX, rotY, rotZ, scale);
@@ -134,37 +136,76 @@ public class Ball extends Entity{
 		super.increasePosition(dx, dy, dz);
 	
 	}
-	public void simulateShot(ArrayList<Entity> entitiesList){
+//	public void simulateShot(ArrayList<Entity> entitiesList){
+//		//collision
+//		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
+//		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
+//		 
+//		for(Entity entity:entitiesList){
+//			if(!(entity instanceof Ball)){
+//				trianglesList.addAll(entity.getTriangles());
+//				boxes.add(entity.getBox());
+//			}
+//		}
+//		long currentTime = Sys.getTime()*1000/Sys.getTimerResolution();
+//		float delta = (currentTime-lastSimulationCall)/1000f;
+//		System.out.println(delta);
+//		System.out.println(DisplayManager.getFrameTimeSeconds());
+//		for(Triangle triangle:trianglesList){
+//				if(CollisionHandler.collide(this, triangle)){
+//					frictionEffect(delta);
+//				}
+//		}
+//		//end of collision
+//		
+//		super.increaseRotation(0, currentTurnSpeed*delta, 0);
+//		float dx = velocity.x *delta;
+//		float dz = velocity.z *delta;
+//
+//		velocity.y+= GRAVITY*delta;
+//
+//		float dy = velocity.y*delta;
+//		super.increasePosition(dx, dy, dz);		
+//
+//		lastSimulationCall = currentTime;
+//	
+//	}
+	private void simulateMove(ArrayList<Entity> entitiesList){
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
-		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
-		 
+		
 		for(Entity entity:entitiesList){
 			if(!(entity instanceof Ball)){
 				trianglesList.addAll(entity.getTriangles());
-				boxes.add(entity.getBox());
 			}
 		}
-		long currentTime = System.nanoTime();
-		float delta = (currentTime-lastSimulationCall)/1000000000f;
 		for(Triangle triangle:trianglesList){
 				if(CollisionHandler.collide(this, triangle)){
-					frictionEffect(delta);
+					frictionEffect(0.001f);
 				}
 		}
 		//end of collision
-		
-		super.increaseRotation(0, currentTurnSpeed*delta, 0);
-		float dx = velocity.x *delta;
-		float dz = velocity.z *delta;
+		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
+		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
+		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
 
-		velocity.y+= GRAVITY*delta;
+		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 
-		float dy = velocity.y*delta;
-		super.increasePosition(dx, dy, dz);		
-
-		lastSimulationCall = currentTime;
+		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
+		super.increasePosition(dx, dy, dz);
 	
+	}
+	public Ball simulateShot(ArrayList<Entity>entityList, Vector3f shot){
+//		Vector3f position = new Vector3f(this.getPosition().x,this.getPosition().y,this.getPosition().z);
+//		Ball ball = new Ball(this.getModel(), position , this.getRotX(), this.getRotY(), this.getRotZ(), this.getScale());
+		this.setVelocity(shot);
+		while(this.velocity.y>1||this.velocity.z>0||this.velocity.x>0 && this.getPosition().y>-1000){
+			System.out.println("pos "+this.getPosition());
+			System.out.println("vel "+this.getVelocity());
+
+			this.move(entityList);
+		}		
+		return this;
 	}
 	
 
@@ -296,10 +337,15 @@ public class Ball extends Entity{
 	}
 
 	private void frictionEffect(float delta){
-		velocity.scale(delta*friction);
-		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, velocity.y, 0f);
-		}
+
+		
+//		if(velocity.length()>0){
+//			Vector3f friction = new Vector3f(velocity.x,velocity.y,velocity.z);
+//			friction.negate();
+//			friction.normalise();
+//			friction = Operation.multiplyByScalar(this.friction*delta, friction);
+//			velocity = Operation.add(friction, velocity);
+//			}
 	}
 
 	public float getFriction(){

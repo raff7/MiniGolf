@@ -11,6 +11,7 @@ import GameManager.Bot;
 import GameManager.Game;
 import GameManager.HumanPlayer;
 import GameManager.Player;
+import GameManager.Test;
 import bot.Node;
 import bot.Shooter;
 import collision.CollisionHandler;
@@ -71,8 +72,8 @@ public class SinglePlayer implements GameState, Observer {
 		camera = new Camera(ball);
 
 
-        //player = new Bot(ball, course);
-		player = new HumanPlayer(ball);
+		  //    player = new Bot(ball, course);
+       player = new HumanPlayer(ball);
 
 		game = new Game(player);
 
@@ -91,16 +92,30 @@ public class SinglePlayer implements GameState, Observer {
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
 				game.addShotArrow();
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-				player.increasePower();
-				game.getShotPowerGraphics();
+					player.increasePower();
+					game.getShotPowerGraphics();
 				} else if(player.getPower() != 0){
-				player.shoot();
-				game.removeShotPowerGraphics();
-				player.setPower(0);
-				}	
+					player.shoot();
+					game.removeShotPowerGraphics();
+					player.setPower(0);
+				}
+				if(Keyboard.isKeyDown(Keyboard.KEY_B)){
+					Vector3f position = new Vector3f(ball.getPosition().x,ball.getPosition().y,ball.getPosition().z);
+					Ball testBall = new Ball(ball.getModel(), position , ball.getRotX(), ball.getRotY(), ball.getRotZ(), ball.getScale());
+					course.addEntity(testBall);
+					Vector3f shot = new Vector3f(100,0,10);
+					testBall.simulateShot(course.getEntities(),shot);			
+					ball.setVelocity(shot);
+				}
+				if(Keyboard.isKeyDown(Keyboard.KEY_F)){
+					ball.setPosition(course.getStartingPosition());
+//					ball.setVe
+//					System.out.println("new position "+ball.getPosition());
+				
+				}
 			}
-			ball.move(course.getEntities());
-			camera.move();
+				ball.move(course.getEntities());
+				camera.move();
 		}
 	}
 	
