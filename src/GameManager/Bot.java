@@ -13,33 +13,28 @@ import GameManager.Player;
 import algorithms.BotAlgorithm;
 import bot.Shooter;
 import geometry.Line;
+import renderEngine.DisplayManager;
 import terrains.Terrain;
 import toolbox.Operation;
 
 public class Bot extends Player{
-	ArrayList<Entity> ground = new ArrayList<Entity>();
-	ArrayList<Entity> obstaclesList = new ArrayList<Entity>();
+	ArrayList<Entity> entitiesList = new ArrayList<Entity>();
 	Vector3f hole = new Vector3f(0.81f,10.2f,16.26f);
 	Vector3f straightShot;
 	private final float CONSTANT = 30;
-	public Entity collisionObject;
 	
 	private BotAlgorithm shooter;
 	
 	public Bot(Ball ball, Course course){
 		super.setBall(ball);
 		super.setCamera(new Camera(ball));
-		ground = course.getEntities();
-		obstaclesList = new ArrayList<Entity>();
-		obstaclesList.add(course.getEntities().get(0));
+		entitiesList = course.getEntities();
 		shooter = new Shooter(course);
-	
-		//obstaclesList.add(course.getEntities().get(1));
-		//obstaclesList.add(course.getEntities().get(2));
 	}
 	
 	public void shoot(){
-		shooter.execute(getBall());
+		getBall().setVelocity(shooter.execute(getBall()));
+		DisplayManager.setLastFrameTime(DisplayManager.getCurrentTime());
 	}
 	
 	/*public void shoot(){
@@ -113,7 +108,7 @@ public class Bot extends Player{
 	}*/
 	
 	
-	public boolean isPathClear(Vector3f position){
+/*	public boolean isPathClear(Vector3f position){
 		
 		float[] planeEquation = getPlaneEquation(position);
 		
@@ -222,4 +217,5 @@ public class Bot extends Player{
 		}
 		return velocity;
 	}
+	*/
 }
