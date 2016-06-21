@@ -42,25 +42,20 @@ public class Shooter extends BotAlgorithm{
 		for(int i=0; i<NUMBER_OF_ANGLES; i++){
 			currentAngle = i*(360/NUMBER_OF_ANGLES);
 			for(int j = 0; j<NUMBER_OF_POWERS; j++){
-				System.out.println("angle "+currentAngle);
 				currentPower = (Player.MAX_POWER/NUMBER_OF_POWERS)*(j+1);
-				System.out.println("powa "+currentPower);
 
-				currentShot = new Vector3f((float)Math.sin(Math.toRadians(currentAngle)),0,(float)Math.cos(Math.toRadians(currentAngle)));
+				currentShot = new Vector3f( (float)Math.sin(Math.toRadians(currentAngle)),0, (float)Math.cos(Math.toRadians(currentAngle)));
 				currentShot.normalise();
 				currentShot = Operation.multiplyByScalar(currentPower, currentShot);
 				
 				currentValue = testShot(currentShot);
-				System.out.println("value "+currentValue);
 
 
 				if(currentValue > bestShotValue){
 					bestShotValue=currentValue;
 					bestShot = currentShot;
-					System.out.println("bestshot");
 
 				}				
-				System.out.println();
 
 			}
 		}
@@ -73,6 +68,7 @@ public class Shooter extends BotAlgorithm{
 		Ball ballAfterSimulation = this.ball.simulateShot(course.getEntities(),shot);
 		if(ballAfterSimulation.getPosition().y<-1000){
 			return Float.MIN_VALUE;
+
 		}
 
 		for(Node node : course.getNodes()){
