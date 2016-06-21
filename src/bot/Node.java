@@ -119,7 +119,7 @@ public class Node extends Triangle {
 		Node node;
 		
 		//Contains all the edges
-		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList();
+		ArrayList<Vector3f[]> triangleEdgesList = new ArrayList<Vector3f[]>();
 		triangleEdgesList.add(null);
 		triangleEdgesList.add(null);
 		triangleEdgesList.add(null);

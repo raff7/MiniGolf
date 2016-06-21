@@ -108,7 +108,8 @@ public class OBJLoader {
 		RawModel model = loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 		model.setVertices(vertices);
 		model.setTriangles(triangles);
-		model.setHole((ArrayList<Vector3f>)hole);
+		if(hole.size() >0)
+			model.setHole((ArrayList<Vector3f>)hole);
 		return model;
 
 	}

@@ -6,8 +6,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 import bot.Node;
 import bot.NodeNetwork;
+import collision.CollisionHandler;
 import geometry.Triangle;
+import models.RawModel;
+import models.TexturedModel;
+import renderEngine.Loader;
+import renderEngine.OBJLoader;
 import terrains.Terrain;
+import textures.ModelTexture;
 import water.WaterTile;
 
 public class Course implements Serializable{
@@ -38,8 +44,9 @@ public class Course implements Serializable{
 				hole = entity.getHole();
 			}
 		}
+		
 		nodesList = hole.getNodesNetwork(nodesList);
-		net = new NodeNetwork(nodesList);		
+		net = new NodeNetwork(nodesList);	
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
@@ -86,31 +93,47 @@ public class Course implements Serializable{
 	public void setStartingPosition(Vector3f position){
 		startingPosition=position;
 	}
-	/*public ArrayList<Node> getNodeNetwork(){
-		for(Entity entity: entities){
-			if(entity.hasHole()){
-				
-					if(triangle.getNormal().y ==0 && triangle.getNormal().z==0 ){
-		
-				}
-			}	
-		}
-	}*/
 	
 	public void createNetwork(){
+		
 		ArrayList<Node> nodesList = new ArrayList<Node>();
 		Hole hole = null;
+		//Get all the triangle that are on the ground
 		for(Entity entity:entities){
-			if(entity.getHole()!= null){
+			if(entity.getHole() != null){
 				for(Triangle triangle: entity.getTriangles())
 					nodesList.add(new Node(triangle, "a"));
 				
 				hole = entity.getHole();
 			}
 		}
+		//Remove the ones clogged by obstacles
+		Loader loader = new Loader();
+		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
+		Ball fakeBall = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(0,0,0),0,0,0,1);
+		
+		for(int i=0; i<nodesList.size(); i++){
+			fakeBall.setPosition(nodesList.get(i).getCentroid());//watch out, returns object reference
+			fakeBall.setVelocity(new Vector3f(0.000001f,0,0.000001f));
+			for(int j=0; j<entities.size(); j++){
+				if(entities.get(j).getHole() == null){
+					for(Triangle triangle : entities.get(j).getTriangles()){
+						if(CollisionHandler.isNodeOccupied(fakeBall, triangle)){
+							System.out.println("removed: "+ nodesList.get(i).getPosition());
+							nodesList.remove(i);
+							fakeBall.setPosition(nodesList.get(i).getCentroid());
+							fakeBall.setVelocity(new Vector3f(0.000001f,0,0.000001f));
+							j=0;
+							break;
+						}
+					}
+				}
+			}
+		}
 		nodesList = hole.getNodesNetwork(nodesList);
 		net = new NodeNetwork(nodesList);	
 	}
+	
 	public void removeEntity(Entity entity) {
 		for(int i = 0; i<entities.size(); i++){
 			if(entities.get(i) == entity){

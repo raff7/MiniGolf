@@ -66,6 +66,7 @@ public class CollisionHandler {
 				Vector3f normal = new Vector3f(triangle.getNormal().x, triangle.getNormal().y, triangle.getNormal().z);
 			
 				if(Vector3f.dot(ball.getVelocity(),normal) >= 0){
+					System.out.println("return false: " + normal);
 					return false;
 				}
 				
@@ -225,6 +226,19 @@ public class CollisionHandler {
 			}
 		}
 		
+		return false;
+	}
+	
+	
+public static boolean isNodeOccupied(Ball ball, Triangle triangle){
+		
+		float distance = Vector3f.dot(ball.getPosition(), triangle.getNormal()) + triangle.getEquation()[3];
+		//check collision
+		if( Math.abs(distance)<= ball.getRadius()){//step 2, plane distance
+			if( isInTriangle(ball, triangle)){//step 3, triangle/ball overlap
+				return true;
+			}
+		}
 		return false;
 	}
 }

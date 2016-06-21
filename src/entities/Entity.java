@@ -22,7 +22,7 @@ public class Entity implements Serializable{
 	private int textureIndex = 0;
 	private BoundingBox box;
 	private ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
-	private Hole hole;
+	private Hole hole = null;
 
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -179,9 +179,11 @@ public class Entity implements Serializable{
 		}*/	
 		this.hole = new Hole(newPoints);
 	}
+		
 	public Hole getHole(){
 		return hole;
 	}
+	
 	public void upDatePlaneConstant(){
 		for(Triangle triangle:trianglesList){
 			triangle.upDateEquation(triangle.getP1());
