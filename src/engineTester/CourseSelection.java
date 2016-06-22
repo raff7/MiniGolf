@@ -2,6 +2,7 @@ package engineTester;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -20,8 +21,11 @@ public class CourseSelection implements GameState {
 	private static List<GuiTexture> menuGuis;
 	private static List<Button> menuButtons;
 	private static Loader loader;
-	public int x ;
+	public int courseID ;
+	public int players ;
 	public Course course ;
+	Scanner in = new Scanner(System.in)  ;
+	public boolean selectionDone = false ;
 	
 	public CourseSelection(){
 		
@@ -39,6 +43,8 @@ public class CourseSelection implements GameState {
 		menuGuis.add(backGround) ;
 		menuGuis.add(title) ;
 		menuButtons.add(quit);
+		
+		
 	}
 	
 	public void checkButtons(){
@@ -51,15 +57,26 @@ public class CourseSelection implements GameState {
 		}
 	}
 	
+	public void amountOfPlayers(){
+		
+		System.out.println(" How many players ?") ;
+		players = in.nextInt() ;
+		
+		
+	}
+	
 	public void checkSelection(){
-		//this will load the course
+		
+		System.out.println(" Which course do you want to load ?") ;
+		courseID = in.nextInt();
+		
 		
 	}
 
 	@Override
 	public void update() {
 		
-		checkButtons() ;
+		amountOfPlayers() ;
 		checkSelection() ;
 		loadCourse() ;
 		changeGameState(new SinglePlayer(course)) ;
@@ -79,10 +96,10 @@ public class CourseSelection implements GameState {
 	}
 	
 	public void loadCourse(){
-		x = 1 ; //testing reason
-		CourseLoader courseLoader = new CourseLoader(x);
+		
+		CourseLoader courseLoader = new CourseLoader(courseID) ;
 		course = (Course) courseLoader.load() ;
-		System.out.println("loading done");
+		System.out.println("loading done") ;
 	}
 
 }

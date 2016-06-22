@@ -40,7 +40,7 @@ public class SinglePlayer implements GameState, Observer {
 	private Player player;
 
 	private Course course;
-	private Ball ball;
+	private Ball ball; 
 	private Camera camera;
 	
 	private Loader loader;
@@ -95,7 +95,7 @@ public class SinglePlayer implements GameState, Observer {
 		//course = (Course)courseLoader.load();
 		//System.out.println(course);
 		course = newCourse ;
-		course.entities = newCourse.getEntities();
+		//course.entities = newCourse.getEntities();
 		
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 
@@ -104,6 +104,7 @@ public class SinglePlayer implements GameState, Observer {
 
 
         player = new Bot(ball, course);
+        player = new HumanPlayer(ball) ;
 
 		game = new Game(player);
 
