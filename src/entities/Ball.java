@@ -41,6 +41,7 @@ public class Ball extends Entity{
 	
 	private Triangle lastTriangleHit = null;
 	
+	
 
 	//only for testBall
 	public long lastSimulationCall;

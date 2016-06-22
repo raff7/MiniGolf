@@ -46,6 +46,12 @@ public class Course implements Serializable{
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
 		waters = new ArrayList<WaterTile>();
+		for(Entity entity:entities){
+			if(entity instanceof Ball){
+				entities.remove(entity) ;
+				System.out.println("removing ball") ;
+			}
+		}
 	}
 	public ArrayList<Entity> getEntities() {
 		return entities;
@@ -80,7 +86,8 @@ public class Course implements Serializable{
 		return net;
 	}
 	public Vector3f getStartingPosition() {
-		return startingPosition;
+		Vector3f position = new Vector3f(startingPosition.x, startingPosition.y, startingPosition.z) ;
+		return position ;
 	}
 	public void setStartingPosition(Vector3f position){
 		startingPosition=position;
