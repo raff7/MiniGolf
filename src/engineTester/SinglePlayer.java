@@ -19,6 +19,7 @@ import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import entities.Wind;
 import fileHandler.CourseLoader;
 import geometry.Triangle;
 import gui.GuiRenderer;
@@ -70,10 +71,11 @@ public class SinglePlayer implements GameState, Observer {
 
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
+		ball.addNoises(new Wind(new Vector3f(5,0,5)));
 
 
-		  //    player = new Bot(ball, course);
-       player = new HumanPlayer(ball);
+		//player = new Bot(ball, course);
+		player = new HumanPlayer(ball);
 
 		game = new Game(player);
 
@@ -103,7 +105,6 @@ public class SinglePlayer implements GameState, Observer {
 		ball = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		camera = new Camera(ball);
 
-
         player = new Bot(ball, course);
 
 		game = new Game(player);
@@ -120,6 +121,7 @@ public class SinglePlayer implements GameState, Observer {
 		
 		checkImputs();
 		if(!game.isPause()){
+			//System.out.println("VEl "+ball.getVelocity());
 			if(player.getBall().getVelocity().x ==0 && Math.abs(player.getBall().getVelocity().y) < 2 && player.getBall().getVelocity().z ==0){
 				game.addShotArrow();
 				if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
@@ -129,20 +131,6 @@ public class SinglePlayer implements GameState, Observer {
 					player.shoot();
 					game.removeShotPowerGraphics();
 					player.setPower(0);
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_B)){
-					Vector3f position = new Vector3f(ball.getPosition().x,ball.getPosition().y,ball.getPosition().z);
-					Ball testBall = new Ball(ball.getModel(), position , ball.getRotX(), ball.getRotY(), ball.getRotZ(), ball.getScale());
-					course.addEntity(testBall);
-					Vector3f shot = new Vector3f(100,0,10);
-					testBall.simulateShot(course.getEntities(),shot);			
-					ball.setVelocity(shot);
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_F)){
-					ball.setPosition(course.getStartingPosition());
-//					ball.setVe
-//					System.out.println("new position "+ball.getPosition());
-				
 				}
 			}
 				ball.move(course.getEntities());

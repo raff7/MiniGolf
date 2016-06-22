@@ -8,6 +8,5 @@ import entities.Ball;
 import entities.Entity;
 
 public class Test {
-	public static void test(Ball ball, ArrayList<Entity> entityList){
-	}
+	
 }

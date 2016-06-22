@@ -13,12 +13,12 @@ import renderEngine.MasterRenderer;
 
 public class SkyboxRenderer {
 	
-	private static int skyboxID=0;
+	private static int skyboxID=3;
 	private static int skybox2ID=1;
 
 
 	
-	private static final float SIZE = 1000f;
+	private static final float SIZE = 300f;
 	private static final float[] VERTICES = {        
 		    -SIZE,  SIZE, -SIZE,
 		    -SIZE, -SIZE, -SIZE,

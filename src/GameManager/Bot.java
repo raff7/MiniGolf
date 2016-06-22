@@ -34,7 +34,6 @@ public class Bot extends Player{
 	
 	public void shoot(){
 		getBall().setVelocity(shooter.execute(getBall()));
-		DisplayManager.setLastFrameTime(DisplayManager.getCurrentTime());
 	}
 	
 	/*public void shoot(){

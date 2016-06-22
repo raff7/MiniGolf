@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import gui.GuiTexture;
 import renderEngine.Loader;
 
-public class Game implements Observer {
+public class Game {
 	
 	private ArrayList<Player> players;
 	private ArrayList<Player> donePlayers= new ArrayList<Player>();
@@ -25,9 +25,7 @@ public class Game implements Observer {
 		this.players=players;
 		activePlayer = players.get(playerID);
 
-		for(Player player:players)
-			player.getBall().attach(this);
-
+		
 	}
 	
 	public Game(Player player) {
@@ -55,26 +53,6 @@ public class Game implements Observer {
 	
 	public void removeShotPowerGraphics(){
 		guis.clear();
-	}
-
-	public void updateObserver(){
-		if(activePlayer.getBall().getBallIsInHole()){
-			donePlayers.add(activePlayer);
-			players.remove(activePlayer);
-		}
-		if(players.size()==0){
-			notify();
-		}
-		else if(playerID<players.size()-1){
-			playerID++;
-			activePlayer=players.get(playerID);
-
-		}
-		else{
-			playerID=0;
-			activePlayer=players.get(playerID);
-
-		}
 	}
 	
 	public void notifyObservers(){
