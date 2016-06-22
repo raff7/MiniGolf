@@ -24,6 +24,7 @@ public class SampleCourse {
 		Course course = new Course();
 		
 		course.setStartingPosition(new Vector3f(0,01,0));
+
 		
 		RawModel rw = OBJLoader.loadObjModel("pistatemporanea", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));

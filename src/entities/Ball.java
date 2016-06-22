@@ -1,8 +1,6 @@
 package entities;
 
 import java.util.ArrayList;
-
-import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -35,10 +33,12 @@ public class Ball extends Entity{
 	private ArrayList<Noise> noises = new ArrayList<Noise>();
 	private float friction =10f;
 	private float minimalSpeed = 0.4f ;
+
 	
 	private Triangle lastTriangleHit = null;
 	private boolean isSimulation=false;
 	private ArrayList<Triangle> path;
+
 	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, 0, position, rotX, rotY, rotZ, scale);
@@ -169,33 +169,6 @@ public class Ball extends Entity{
 //		lastSimulationCall = currentTime;
 //	
 //	}
-	public void amove(ArrayList<Entity> entitiesList){
-		checkingInputs();
-		//collision
-		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
-		
-		for(Entity entity:entitiesList){
-			if(!(entity instanceof Ball)){
-				trianglesList.addAll(entity.getTriangles());
-			}
-		}
-		for(Triangle triangle:trianglesList){
-			CollisionHandler.collide(this, triangle);
-				
-		}
-		//end of collision
-
-		super.increaseRotation(0, currentTurnSpeed*0.008f, 0);
-		float dx = velocity.x * 0.008f;
-		float dz = velocity.z * 0.008f;
-
-		velocity.y+= GRAVITY* 0.008f;
-
-		float dy = velocity.y* 0.008f;
-		super.increasePosition(dx, dy, dz);
-		frictionEffect(0.008f);
-	
-	}
 	public Ball simulateShot(ArrayList<Entity>entityList, Vector3f shot){
 		isSimulation = true;
 		path=new ArrayList<Triangle>();
@@ -211,6 +184,7 @@ public class Ball extends Entity{
 		//System.out.println("TIME: "+(time));
 		isSimulation=false;
 		return ball;
+
 	}
 	
 

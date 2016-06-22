@@ -2,6 +2,7 @@ package engineTester;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -20,8 +21,11 @@ public class CourseSelection implements GameState {
 	private static List<GuiTexture> menuGuis;
 	private static List<Button> menuButtons;
 	private static Loader loader;
-	public int x ;
+	public int courseID ;
+	public int players ;
 	public Course course ;
+	Scanner in = new Scanner(System.in)  ;
+	public boolean selectionDone = false ;
 	
 	public CourseSelection(){
 		
@@ -33,12 +37,19 @@ public class CourseSelection implements GameState {
 		
 		GuiTexture backGround = new GuiTexture(loader.loadTexture("backGround"),new Vector2f (0,-1f),new Vector2f(1.35f,2f));
 		GuiTexture title = new GuiTexture(loader.loadTexture("title"),new Vector2f (0,0.75f),new Vector2f(0.75f,0.75f));
+		GuiTexture selection = new GuiTexture(loader.loadTexture("courseSelcetion"),new Vector2f (0.25f,0.1f),new Vector2f(0.6f,0.3f));
+		GuiTexture cmd = new GuiTexture(loader.loadTexture("commandLine"),new Vector2f (0.1f, -0.25f),new Vector2f(0.3f,0.15f));
+		
 		
 		Button quit = new Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.3f,0.15f));
 		
 		menuGuis.add(backGround) ;
 		menuGuis.add(title) ;
+		menuGuis.add(selection) ;
+		menuGuis.add(cmd) ;
 		menuButtons.add(quit);
+		
+		
 	}
 	
 	public void checkButtons(){
@@ -51,18 +62,29 @@ public class CourseSelection implements GameState {
 		}
 	}
 	
+	public void amountOfPlayers(){
+		
+		System.out.println(" How many players ?") ;
+		players = in.nextInt() ;
+		
+		
+	}
+	
 	public void checkSelection(){
-		//this will load the course
+		
+		System.out.println(" Which course do you want to load ?") ;
+		courseID = in.nextInt();
+		
 		
 	}
 
 	@Override
 	public void update() {
 		
-		checkButtons() ;
+		amountOfPlayers() ;
 		checkSelection() ;
 		loadCourse() ;
-		changeGameState(new SinglePlayer(course)) ;
+		changeGameState(new MultiPlayer(course)) ;
     }
 
 	@Override
@@ -79,10 +101,10 @@ public class CourseSelection implements GameState {
 	}
 	
 	public void loadCourse(){
-		x = 1 ; //testing reason
-		CourseLoader courseLoader = new CourseLoader(x);
+		
+		CourseLoader courseLoader = new CourseLoader(courseID) ;
 		course = (Course) courseLoader.load() ;
-		System.out.println("loading done");
+		System.out.println("loading done") ;
 	}
 
 }
