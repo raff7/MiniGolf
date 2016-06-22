@@ -32,10 +32,6 @@ public class SampleCourse {
 
 		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,14);
 		
-		RawModel rw2 = OBJLoader.loadObjModel("parallellepipedo", loader);
-		ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-		Entity ent2 = new Entity (new TexturedModel(rw2,rwModel2), new Vector3f(0,20,100),0,0,0,14);
-		course.addEntity(ent2);
 	
 		course.addEntity(ent);
 

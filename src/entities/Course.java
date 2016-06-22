@@ -119,8 +119,8 @@ public class Course implements Serializable{
 				if(entities.get(j).getHole() == null){
 					for(Triangle triangle : entities.get(j).getTriangles()){
 						if(CollisionHandler.isNodeOccupied(fakeBall, triangle)){
-							System.out.println("removed: "+ nodesList.get(i).getPosition());
 							nodesList.remove(i);
+							i--;
 							fakeBall.setPosition(nodesList.get(i).getCentroid());
 							fakeBall.setVelocity(new Vector3f(0.000001f,0,0.000001f));
 							j=0;
