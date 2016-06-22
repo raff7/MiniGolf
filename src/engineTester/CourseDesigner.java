@@ -236,7 +236,6 @@ public class CourseDesigner implements GameState{
 	//error somewhere in here
 	public void placeObstacle(Entity obs, Vector3f loc){
 		
-		entitiesList = course.getEntities() ;
 		obs.setPosition(loc) ;
 		entitiesList.add(obs) ;
 		if(isBall == true){

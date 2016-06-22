@@ -37,11 +37,16 @@ public class CourseSelection implements GameState {
 		
 		GuiTexture backGround = new GuiTexture(loader.loadTexture("backGround"),new Vector2f (0,-1f),new Vector2f(1.35f,2f));
 		GuiTexture title = new GuiTexture(loader.loadTexture("title"),new Vector2f (0,0.75f),new Vector2f(0.75f,0.75f));
+		GuiTexture selection = new GuiTexture(loader.loadTexture("courseSelcetion"),new Vector2f (0.25f,0.1f),new Vector2f(0.6f,0.3f));
+		GuiTexture cmd = new GuiTexture(loader.loadTexture("commandLine"),new Vector2f (0.1f, -0.25f),new Vector2f(0.3f,0.15f));
+		
 		
 		Button quit = new Button(loader.loadTexture("quit"),loader.loadTexture("quitSel"),new Vector2f (0.035f,-0.7f),new Vector2f(0.3f,0.15f));
 		
 		menuGuis.add(backGround) ;
 		menuGuis.add(title) ;
+		menuGuis.add(selection) ;
+		menuGuis.add(cmd) ;
 		menuButtons.add(quit);
 		
 		
@@ -79,7 +84,7 @@ public class CourseSelection implements GameState {
 		amountOfPlayers() ;
 		checkSelection() ;
 		loadCourse() ;
-		changeGameState(new SinglePlayer(course)) ;
+		changeGameState(new MultiPlayer(course)) ;
     }
 
 	@Override

@@ -59,13 +59,19 @@ public class MultiPlayer implements GameState, Observer {
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
 
 		Ball ball1 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
-		Ball ball2 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),new Vector3f(course.getStartingPosition().x,course.getStartingPosition().y,course.getStartingPosition().z+5),0,0,0,1);
+		Ball ball2 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		Ball ball3 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		Ball ball4 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
 		
 		balls.add(ball1);
 		balls.add(ball2);
+		balls.add(ball3);
+		balls.add(ball4);
 		
 		Camera camera1 = new Camera(ball1);
 		Camera camera2 = new Camera(ball2);
+		Camera camera3 = new Camera(ball3);
+		Camera camera4 = new Camera(ball4);
 
        // players.add(new HumanPlayer(camera1));
        // players.add(new Bot(camera2, course));
@@ -78,6 +84,45 @@ public class MultiPlayer implements GameState, Observer {
 		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
 								
 	}
+	
+	public MultiPlayer(Course newCourse){
+		
+		loader = new Loader();
+		renderer = new MasterRenderer(loader);
+		guiRenderer = new GuiRenderer(loader);
+		//choseCourseLoop();
+		
+		course = newCourse;
+		
+		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
+
+		Ball ball1 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		Ball ball2 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		Ball ball3 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		Ball ball4 = new Ball(new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("white"))),course.getStartingPosition(),0,0,0,1);
+		
+		balls.add(ball1);
+		balls.add(ball2);
+		balls.add(ball3);
+		balls.add(ball4);
+		
+		Camera camera1 = new Camera(ball1);
+		Camera camera2 = new Camera(ball2);
+		Camera camera3 = new Camera(ball3);
+		Camera camera4 = new Camera(ball4);
+
+       // players.add(new HumanPlayer(camera1));
+       // players.add(new Bot(camera2, course));
+       // players.add(new HumanPlayer(camera2));
+		game = new Game(players);
+		for(Ball ball:balls)
+			course.addEntity(ball);
+		waterShader = new WaterShader();
+		buffers = new WaterFrameBuffers();
+		waterRenderer = new WaterRenderer(loader,waterShader,renderer.getProjectionMatrix(),buffers);
+								
+	}
+	
 	@Override
 	public void update() {
 		checkImputs();
