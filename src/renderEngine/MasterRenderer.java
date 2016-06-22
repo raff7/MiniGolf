@@ -25,7 +25,7 @@ public class MasterRenderer {
 	
 	private static final float FOV = 70;
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1700;
+	private static final float FAR_PLANE = 900;
 	
 	private static Vector3f skyColor= new Vector3f(0.1f,0,0.2f);
 	private static  float SKY1_RED=0.5444f;

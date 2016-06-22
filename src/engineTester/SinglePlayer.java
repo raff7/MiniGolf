@@ -1,5 +1,7 @@
 package engineTester;
 
+import java.util.ArrayList;
+
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -18,6 +20,7 @@ import GameManager.Observer;
 import entities.Ball;
 import entities.Camera;
 import entities.Course;
+import entities.Entity;
 import entities.Wind;
 import fileHandler.CourseLoader;
 import geometry.Triangle;
@@ -147,13 +150,14 @@ public class SinglePlayer implements GameState, Observer {
 		for(WaterTile water:course.getWaters()){
 			//render reflection on water texture
 			buffers.bindReflectionFrameBuffer();
-			float distance = 2*(camera.getPosition().y-water.getHeight());
+			float distance = 2 * (camera.getPosition().y - water.getHeight());
 			camera.getPosition().y -= distance;
 			camera.invertPitch();
-			renderer.renderScene(course.getEntities(), course.getTerrains(), course.getLights(), camera, new Vector4f(0,1,0,-water.getHeight()));
+			renderer.renderScene(new ArrayList<Entity>(), course.getTerrains(), course.getLights(), camera, new Vector4f(0, 1, 0, -water.getHeight() + 1));
 			camera.getPosition().y += distance;
 			camera.invertPitch();
 			
+
 			//render refraction on water texture
 			buffers.bindRefractionFrameBuffer();
 			renderer.renderScene(course.getEntities(), course.getTerrains(),  course.getLights(), camera, new Vector4f(0,-1,0,water.getHeight()));
@@ -163,7 +167,7 @@ public class SinglePlayer implements GameState, Observer {
 		GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 		buffers.unbindCurrentFrameBuffer();
 		renderer.renderScene(course.getEntities(),course.getTerrains(),course.getLights(),camera, new Vector4f(0,-1,0,150000));
-		waterRenderer.render(course.getWaters(), camera);
+		waterRenderer.render(course.getWaters(), camera,course.getLights().get(0));
 		guiRenderer.render(game.getGUIs());
 		if(firstTime){
 			DisplayManager.setLastFrameTime(DisplayManager.getCurrentTime());

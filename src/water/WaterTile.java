@@ -1,15 +1,13 @@
 package water;
 
-import java.io.Serializable;
+public class WaterTile {
 
-public class WaterTile implements Serializable{
-	
-	public static final float TILE_SIZE = 300;
-	
+	public static final float TILE_SIZE = 500;
+
 	private float height;
-	private float x,z;
-	
-	public WaterTile(float centerX, float centerZ, float height){
+	private float x, z;
+
+	public WaterTile(float centerX, float centerZ, float height) {
 		this.x = centerX;
 		this.z = centerZ;
 		this.height = height;
@@ -26,7 +24,5 @@ public class WaterTile implements Serializable{
 	public float getZ() {
 		return z;
 	}
-
-
 
 }
