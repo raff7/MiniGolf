@@ -129,17 +129,11 @@ public class SinglePlayer implements GameState, Observer {
 				player.increasePower();
 				game.getShotPowerGraphics();
 				} else if(player.getPower() != 0){
-<<<<<<< HEAD
 					player.shoot();
 					game.removeShotPowerGraphics();
 					player.setPower(0);
 				}
-=======
-				player.shoot();
-				game.removeShotPowerGraphics();
-				player.setPower(0);
-				}	
->>>>>>> 6f7a695da9b290e98dbecef82383c2aab34c0066
+
 			}
 			ball.move(course.getEntities());
 			camera.move();
