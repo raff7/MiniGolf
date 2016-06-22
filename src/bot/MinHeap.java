@@ -34,7 +34,6 @@ public class MinHeap {
 		else
 			parentIndex= (index-1)/2;
 		while( index > 1 && (heap.get(index-1).getDistance())< (heap.get(parentIndex-1).getDistance())){
-			
 			Node temp = heap.get(index-1);
 			heap.set(index-1, heap.get(parentIndex-1));
 			heap.set(parentIndex-1, temp);

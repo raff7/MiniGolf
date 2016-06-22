@@ -6,14 +6,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import bot.Node;
 import bot.NodeNetwork;
-import collision.CollisionHandler;
 import geometry.Triangle;
-import models.RawModel;
-import models.TexturedModel;
-import renderEngine.Loader;
-import renderEngine.OBJLoader;
 import terrains.Terrain;
-import textures.ModelTexture;
 import water.WaterTile;
 
 public class Course implements Serializable{
@@ -44,15 +38,20 @@ public class Course implements Serializable{
 				hole = entity.getHole();
 			}
 		}
-		
 		nodesList = hole.getNodesNetwork(nodesList);
-		net = new NodeNetwork(nodesList);	
+		net = new NodeNetwork(nodesList);		
 	}
 	public Course(){
 		entities = new ArrayList<Entity>();
 		terrains = new ArrayList<Terrain>();
 		lights = new ArrayList<Light>();
 		waters = new ArrayList<WaterTile>();
+		for(Entity entity:entities){
+			if(entity instanceof Ball){
+				entities.remove(entity) ;
+				System.out.println("removing ball") ;
+			}
+		}
 	}
 	public ArrayList<Entity> getEntities() {
 		return entities;
@@ -87,26 +86,35 @@ public class Course implements Serializable{
 		return net;
 	}
 	public Vector3f getStartingPosition() {
-		Vector3f startingPosition = new Vector3f(this.startingPosition.x,this.startingPosition.y,this.startingPosition.z);
-		return startingPosition;
+		Vector3f position = new Vector3f(startingPosition.x, startingPosition.y, startingPosition.z) ;
+		return position ;
 	}
 	public void setStartingPosition(Vector3f position){
 		startingPosition=position;
 	}
+	/*public ArrayList<Node> getNodeNetwork(){
+		for(Entity entity: entities){
+			if(entity.hasHole()){
+				
+					if(triangle.getNormal().y ==0 && triangle.getNormal().z==0 ){
+		
+				}
+			}	
+		}
+	}*/
 	
 	public void createNetwork(){
-		
 		ArrayList<Node> nodesList = new ArrayList<Node>();
 		Hole hole = null;
-		//Get all the triangle that are on the ground
 		for(Entity entity:entities){
-			if(entity.getHole() != null){
+			if(entity.getHole()!= null){
 				for(Triangle triangle: entity.getTriangles())
 					nodesList.add(new Node(triangle, "a"));
 				
 				hole = entity.getHole();
 			}
 		}
+
 		//Remove the ones clogged by obstacles
 		Loader loader = new Loader();
 		RawModel ballModel = OBJLoader.loadObjModel("golfBall", loader);
@@ -132,14 +140,6 @@ public class Course implements Serializable{
 		}
 		nodesList = hole.getNodesNetwork(nodesList);
 		net = new NodeNetwork(nodesList);	
-	}
-	
-	public void removeEntity(Entity entity) {
-		for(int i = 0; i<entities.size(); i++){
-			if(entities.get(i) == entity){
-				entities.remove(i);
-			}
-		}
 	}
 	
 }

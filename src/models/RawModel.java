@@ -18,7 +18,7 @@ public class RawModel implements Serializable {
 	private int vertexCount;
 	private List<Vector3f> vertices;
 	private ArrayList<Triangle> triangles=new ArrayList<Triangle>();
-	private Hole hole = null;
+	private Hole hole;
 	
 	public RawModel(int vaoID, int vertexCount){
 		this.vaoID = vaoID;

@@ -23,15 +23,14 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-		course.setStartingPosition(new Vector3f(70,20,40));
+		course.setStartingPosition(new Vector3f(10,100,40));
 		
-		RawModel rw = OBJLoader.loadObjModel("testNode", loader);
+		RawModel rw = OBJLoader.loadObjModel("course1", loader);
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
 
 		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,14);
-		
 	
 		course.addEntity(ent);
 
@@ -43,7 +42,6 @@ public class SampleCourse {
 		course.addLight(sun);
 
 		course.createNetwork();
-		System.out.println("net size: "+course.getNetwork().getNodesList().size());
 		
 		return course;
 	}

@@ -2,24 +2,27 @@ package algorithms;
 
 import java.util.ArrayList;
 
-import bot.BotParameters;
+import org.lwjgl.util.vector.Vector3f;
 
 public class GeneticAlgorithm {
-	
-	private final int POPULATION_NUMBER = 1000;
+	private ArrayList<float[]> parentsPool = new ArrayList<float[]>();
+	private final int POPULATION_NUMBER = 10000;
 	private final int GENERATION_NUMBER = 10000;
-	private BotParameters[] population = new BotParameters[POPULATION_NUMBER];
 	
 	public void generate(){
-		for(int i=0; i<population.length; i++){
-			BotParameters botParameters = new BotParameters();
-			population[i] = botParameters;	
+		float x,y,z,power;
+		for(int i=0; i<POPULATION_NUMBER/10; i++){
+			x = (float) (Math.random()*100);
+			y = (float) (Math.random()*100);
+			z = (float) (Math.random()*100);
+			power = (float) (Math.random()*100);
+			parentsPool.add(new float[]{x,y,z,power,0});	
 		}
 	}
 	
 	public void setFitness(){
-		for(int i=0; i<population.length; i++){
-			population[i].getShooter().execute(ball);
+		for(int i=0; i < POPULATION_NUMBER; i++){
+			
 		}
 	}
 	
@@ -28,7 +31,6 @@ public class GeneticAlgorithm {
 	}
 	
 	public void mutate(){
-		int random = Math.random()*4;
 		
 	}
 }
