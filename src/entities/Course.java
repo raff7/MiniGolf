@@ -132,7 +132,7 @@ public class Course implements Serializable{
 			for(int j=0; j<entities.size(); j++){
 				if(entities.get(j).getHole() == null){
 					for(Triangle triangle : entities.get(j).getTriangles()){
-						if(CollisionHandler.isNodeOccupied(fakeBall, triangle)){
+						if(CollisionHandler.collide(fakeBall, triangle)){
 							nodesList.remove(i);
 							i--;
 							fakeBall.setPosition(nodesList.get(i).getCentroid());
