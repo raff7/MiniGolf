@@ -29,6 +29,7 @@ public class Camera {
 			float verticalDistance = calculateVerticalDistance();
 			calculateCameraPosition(horizontalDistance,verticalDistance);
 			this.yaw = 180-(ball.getRotY()+angleAroundBall);
+			yaw %= 360;
 		
 	}
 
@@ -59,10 +60,10 @@ public class Camera {
 		position.y= ball.getPosition().y +verticalDistance+Y_OFFSET;
 	}
 	private float calculateHorizontalDistance(){
-		return (float) ( distanceFromBall*Math.cos((Math.toRadians(pitch))));
+		return (float) ( distanceFromBall*Math.cos((Math.toRadians(pitch+Y_OFFSET))));
 	}
 	private float calculateVerticalDistance(){
-		return (float) ( distanceFromBall*Math.sin((Math.toRadians(pitch))));
+		return (float) ( distanceFromBall*Math.sin((Math.toRadians(pitch+Y_OFFSET))));
 	}
 	
 	private void calculateZoom(){

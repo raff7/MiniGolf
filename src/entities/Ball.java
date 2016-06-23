@@ -6,6 +6,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import GameManager.Observer;
+import GameManager.Test;
+import bot.Node;
 import collision.BoundingBox;
 import collision.CollisionHandler;
 import geometry.Line;
@@ -22,29 +24,21 @@ public class Ball extends Entity{
 	private static final float 	TURN_SPEED = 100;
 	private static final float GRAVITY = -100;
 	private static final float JUMP_POWER=30;
-	private static final float MAX_RUN_SPEED = 1000;
 	private float currentTurnSpeed = 0;
 		
 	private Vector3f velocity;
 	private final float  RADIUS = 1f;
 	
-	//for friction effect
-	private float friction = 119.5f ;
-	private float minimalSpeed = 0.5f ;
-	
-	//for observer
-	ArrayList<Observer> observers = new ArrayList<Observer>();
-	private boolean ballIsInHole=false;
-	private boolean isShoted = false;
+	//for friction effect and noise
+	private ArrayList<Noise> noises = new ArrayList<Noise>();
+	private float friction =10f;
+	private float minimalSpeed = 0.4f ;
 
-	private int stopCr;
 	
 	private Triangle lastTriangleHit = null;
-	
-	
+	private boolean isSimulation=false;
+	private ArrayList<Triangle> path;
 
-	//only for testBall
-	public long lastSimulationCall;
 	
 	public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale){
 		super(model, 0, position, rotX, rotY, rotZ, scale);
@@ -89,13 +83,11 @@ public class Ball extends Entity{
 		}
 		
 		for(Triangle triangle:trianglesList){
-				if(CollisionHandler.collide(this, triangle)){
+				CollisionHandler.collide(this, triangle);
 
-					frictionEffect(DisplayManager.getFrameTimeSeconds());
-					//break;
-				}
 		}
 		//end of collision
+
 		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
 		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
 		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
@@ -104,10 +96,13 @@ public class Ball extends Entity{
 
 		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
 		super.increasePosition(dx, dy, dz);
+		frictionEffect(DisplayManager.getFrameTimeSeconds());
+
 	}
 	
 
 	public void move(ArrayList<Entity> entitiesList){
+		long generalTime=System.nanoTime();
 		checkingInputs();
 		//collision
 		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
@@ -119,53 +114,77 @@ public class Ball extends Entity{
 				boxes.add(entity.getBox());
 			}
 		}
+		long time = System.nanoTime();
 		for(Triangle triangle:trianglesList){
-				if(CollisionHandler.collide(this, triangle)){
-					frictionEffect(DisplayManager.getFrameTimeSeconds());
-				}
+			if(CollisionHandler.collide(this, triangle) && isSimulation)
+					path.add(triangle);		
 		}
-		//end of collision
-		super.increaseRotation(0, currentTurnSpeed*DisplayManager.getFrameTimeSeconds(), 0);
-		float dx = velocity.x * DisplayManager.getFrameTimeSeconds();
-		float dz = velocity.z * DisplayManager.getFrameTimeSeconds();
 
-		velocity.y+= GRAVITY*DisplayManager.getFrameTimeSeconds();
 
-		float dy = velocity.y*DisplayManager.getFrameTimeSeconds();
-		super.increasePosition(dx, dy, dz);
-	
-	}
-	public void simulateShot(ArrayList<Entity> entitiesList){
-		//collision
-		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
-		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
-		 
-		for(Entity entity:entitiesList){
-			if(!(entity instanceof Ball)){
-				trianglesList.addAll(entity.getTriangles());
-				boxes.add(entity.getBox());
-			}
-		}
-		long currentTime = System.nanoTime();
-		float delta = (currentTime-lastSimulationCall)/1000000000f;
-		for(Triangle triangle:trianglesList){
-				if(CollisionHandler.collide(this, triangle)){
-					frictionEffect(delta);
-				}
-		}
 		//end of collision
+
+		super.increaseRotation(0, currentTurnSpeed*0.009f, 0);
+		float dx = velocity.x * 0.009f;
+		float dz = velocity.z * 0.009f;
+
+		velocity.y+= GRAVITY*0.009f;
+
+		float dy = velocity.y*0.009f;
 		
-		super.increaseRotation(0, currentTurnSpeed*delta, 0);
-		float dx = velocity.x *delta;
-		float dz = velocity.z *delta;
+		super.increasePosition(dx, dy, dz);
+		frictionEffect(0.009f);
 
-		velocity.y+= GRAVITY*delta;
+	}
+//	public void simulateShot(ArrayList<Entity> entitiesList){
+//		//collision
+//		ArrayList<Triangle> trianglesList = new ArrayList<Triangle>();
+//		ArrayList<BoundingBox> boxes = new ArrayList<BoundingBox>();
+//		 
+//		for(Entity entity:entitiesList){
+//			if(!(entity instanceof Ball)){
+//				trianglesList.addAll(entity.getTriangles());
+//				boxes.add(entity.getBox());
+//			}
+//		}
+//		long currentTime = Sys.getTime()*1000/Sys.getTimerResolution();
+//		float delta = (currentTime-lastSimulationCall)/1000f;
+//		System.out.println(delta);
+//		System.out.println(DisplayManager.getFrameTimeSeconds());
+//		for(Triangle triangle:trianglesList){
+//				if(CollisionHandler.collide(this, triangle)){
+//					frictionEffect(delta);
+//				}
+//		}
+//		//end of collision
+//		
+//		super.increaseRotation(0, currentTurnSpeed*delta, 0);
+//		float dx = velocity.x *delta;
+//		float dz = velocity.z *delta;
+//
+//		velocity.y+= GRAVITY*delta;
+//
+//		float dy = velocity.y*delta;
+//		super.increasePosition(dx, dy, dz);		
+//
+//		lastSimulationCall = currentTime;
+//	
+//	}
+	public Ball simulateShot(ArrayList<Entity>entityList, Vector3f shot){
+		isSimulation = true;
+		path=new ArrayList<Triangle>();
+		Vector3f position = new Vector3f(this.getPosition().x,this.getPosition().y,this.getPosition().z);
+		Ball ball = new Ball(this.getModel(), position , this.getRotX(), this.getRotY(), this.getRotZ(), this.getScale());
+		ball.setVelocity(shot);
+		//long time = 0;//Sys.getTime();
+		while((Math.abs(ball.velocity.x)>=011 || Math.abs(ball.velocity.z)>=0.01 || Math.abs(ball.velocity.y)>=Math.abs(0.8+0.01))  && ball.getPosition().y>-1000){
+			ball.move(entityList);
+			//time++;
+			
+		}
+		//System.out.println("TIME: "+(time));
+		isSimulation=false;
+		return ball;
 
-		float dy = velocity.y*delta;
-		super.increasePosition(dx, dy, dz);		
-
-		lastSimulationCall = currentTime;
-	
 	}
 	
 
@@ -297,10 +316,23 @@ public class Ball extends Entity{
 	}
 
 	private void frictionEffect(float delta){
-		velocity.scale(delta*friction);
-		if(Math.abs(velocity.length()) < minimalSpeed){
-			velocity.set(0f, velocity.y, 0f);
-		}
+		if(velocity.length()>0.1){
+			//add noise
+//			for(Noise noise:noises){
+//				noise.apply(this);
+//			}
+			//add friction
+			Vector3f friction = new Vector3f(velocity.x,velocity.y,velocity.z);
+			friction.negate();
+			friction.normalise();
+			friction = Operation.multiplyByScalar(this.friction*delta, friction);
+			velocity = Operation.add(friction, velocity);
+			}if(Math.abs(velocity.x)<=0.01&& Math.abs(velocity.z)<=0.01 && Math.abs(velocity.y)<=Math.abs(GRAVITY*delta+0.01)){
+				velocity.y=GRAVITY*delta;
+				velocity.x=0;
+				velocity.z=0;
+			}
+
 	}
 
 	public float getFriction(){
@@ -310,26 +342,7 @@ public class Ball extends Entity{
 	public float getMinimalSpeed() {
 		return minimalSpeed;
 	}
-	
-	//observer: game
-	public void Notify(){
-		for(Observer observer:observers){
-			observer.updateObserver();
-		}
-	}
-	
-	public void attach(Observer observer){
-		observers.add(observer);
-	}
-	
-	public void detach(Observer observer){
-		observers.remove(observer);
-	}
 
-	public boolean getBallIsInHole() {
-		return ballIsInHole;
-	}
-	
 	public float getDistanceFromHole(Vector3f hole){
 		return Operation.subtract(hole, getPosition() ).length();
 	}
@@ -340,6 +353,18 @@ public class Ball extends Entity{
 	
 	public Triangle getLastTriangleHit(){
 		return lastTriangleHit;
+	}
+
+	public ArrayList<Triangle> getPath() {
+		return path;
+	}
+
+	public ArrayList<Noise> getNoises() {
+		return noises;
+	}
+
+	public void addNoises(Noise noise) {
+		this.noises.add(noise);
 	}
 	
 

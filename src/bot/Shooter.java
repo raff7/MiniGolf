@@ -62,12 +62,8 @@ public class Shooter extends BotAlgorithm{
 		Node endingNode = null;
 		Vector3f position = new Vector3f(this.ball.getPosition().x, this.ball.getPosition().y, this.ball.getPosition().z);
 		Ball ball = new Ball(this.ball.getModel(), position, this.ball.getRotX(), this.ball.getRotY(), this.ball.getRotZ(), this.ball.getScale());
-		ball.setVelocity(shot);
+		ball.simulateShot(course.getEntities(),shot);
 		
-		ball.lastSimulationCall = System.nanoTime();
-		while (ball.getVelocity().length()>2 && ball.getPosition().y>-1000){
-			ball.simulateShot(course.getEntities());
-		}
 		for(Node node : course.getNodes()){
 			if(ball.getLastTriangleHit()!=null && node.isEqual(ball.getLastTriangleHit())){
 				endingNode = node;
@@ -87,3 +83,4 @@ public class Shooter extends BotAlgorithm{
 		return finale;
 	}
 }
+

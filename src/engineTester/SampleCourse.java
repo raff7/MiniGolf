@@ -23,25 +23,32 @@ public class SampleCourse {
 		
 		Course course = new Course();
 		
-		course.setStartingPosition(new Vector3f(10,100,40));
-		
-		RawModel rw = OBJLoader.loadObjModel("testNode", loader);
+		course.setStartingPosition(new Vector3f(0,01,0));
+
+	
+		RawModel rw = OBJLoader.loadObjModel("pistatemporanea", loader);
+
 		ModelTexture rwModel = new ModelTexture(loader.loadTexture("white"));
 		rwModel.setUseFakeLight(false);
 		rwModel.setHasTransparency(true);
 
-		RawModel rw2 = OBJLoader.loadObjModel("cube", loader);
-		ModelTexture rwModel2 = new ModelTexture(loader.loadTexture("white"));
-		Entity ent2 = new Entity (new TexturedModel(rw2,rwModel2),new Vector3f(0,20,30),0,0,0,5);
-		course.addEntity(ent2);
-		
 		Entity ent = new Entity (new TexturedModel(rw,rwModel),new Vector3f(0,0,0),0,0,0,14);
+
 	
 		course.addEntity(ent);
 
 	//	course.addTerrain(new Terrain(0,0,loader,new ModelTexture(loader.loadTexture("grass")),"heightMap"));
-		
-	//	course.addWater(new WaterTile(400,360,-5));
+		int waterHeight=-5;	
+		course.addWater(new WaterTile(0,0,waterHeight));
+
+
+//		course.addWater(new WaterTile(0,0,waterHeight));
+//		course.addWater(new WaterTile(0,60,waterHeight));
+//		course.addWater(new WaterTile(60,60,waterHeight));
+
+
+
+
 		
 		Light sun = new Light(new Vector3f(0,100000,100000),new Vector3f(1f,1f,1f));
 		course.addLight(sun);

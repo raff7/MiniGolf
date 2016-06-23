@@ -292,7 +292,7 @@ public class CourseDesigner implements GameState{
 		GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 		buffers.unbindCurrentFrameBuffer();
 		renderer.renderScene(course.getEntities(),course.getTerrains(),course.getLights(),camera, new Vector4f(0,-1,0,150000));
-		waterRenderer.render(course.getWaters(), camera);
+		waterRenderer.render(course.getWaters(), camera,course.getLights().get(0));
 		guiRenderer.render(guis);
 		DisplayManager.updateDisplay();
 		

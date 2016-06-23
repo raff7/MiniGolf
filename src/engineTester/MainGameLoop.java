@@ -17,9 +17,8 @@ public class MainGameLoop{
 		
 		
 		while(!Display.isCloseRequested() && actualState !=null){
-			
-			actualState.render();
 			actualState.update();
+			actualState.render();
 			
 		}
 		DisplayManager.closeDisplay();
